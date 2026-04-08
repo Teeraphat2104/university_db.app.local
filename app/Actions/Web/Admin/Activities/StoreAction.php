@@ -3,19 +3,25 @@
 namespace App\Actions\Web\Admin\Activities;
 
 use App\Models\Activity;
-use App\Models\ActivityDocument;
-use App\Models\User;
+use App\Support\ActivityDocumentStorage;
+use App\Support\ApiResponse;
+use App\Support\JsonRequest;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class StoreAction
 {
-    public function __invoke(Request $request): RedirectResponse
+    use ApiResponse;
+
+    public function __construct(
+        private readonly ActivityDocumentStorage $documentStorage
+    ) {
+    }
+
+    public function __invoke(Request $request): JsonResponse|RedirectResponse
     {
         $validated = validator($request->all(), [
             'title' => ['required', 'string', 'max:255'],
@@ -44,35 +50,21 @@ class StoreAction
             ]);
 
             if ($request->hasFile('document')) {
-                $this->storeDocument($activity, $request->file('document'), $user);
+                $this->documentStorage->store($activity, $request->file('document'), $user);
             }
 
-            return $activity;
+            return $activity->fresh(['category', 'creator', 'document.uploader']);
         });
+
+        if (JsonRequest::wantsJson($request)) {
+            return $this->successResponse([
+                'activity' => $activity->toArray(),
+                'redirect_url' => route('admin.activities.show', $activity->id),
+            ], 'Activity created successfully.', 201);
+        }
 
         return redirect()
             ->route('admin.activities.show', $activity->id)
-            ->with('success', 'Activity created successfully.');
-    }
-
-    private function storeDocument(Activity $activity, UploadedFile $file, User $user): void
-    {
-        Storage::disk('public')->makeDirectory('activities/pdf');
-
-        $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        $sanitizedName = Str::slug($originalName) ?: 'activity-document';
-        $filename = now()->format('YmdHis').'-'.$activity->id.'-'.Str::random(6).'-'.$sanitizedName.'.'.$file->extension();
-        $path = $file->storeAs('activities/pdf', $filename, 'public');
-
-        ActivityDocument::query()->updateOrCreate(
-            ['activity_id' => $activity->id],
-            [
-                'file_name' => $file->getClientOriginalName(),
-                'file_path' => $path,
-                'file_type' => $file->getClientMimeType() ?? 'application/pdf',
-                'file_size' => $file->getSize(),
-                'uploaded_by' => $user->id,
-            ]
-        );
+            ->with('success', 'สร้างกิจกรรมเรียบร้อยแล้ว');
     }
 }

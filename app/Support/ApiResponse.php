@@ -12,7 +12,7 @@ trait ApiResponse
         int $statusCode = 200
     ): JsonResponse {
         return response()->json([
-            'status' => 'success',
+            'status' => $statusCode,
             'message' => $message,
             'data' => $data,
         ], $statusCode);
@@ -24,9 +24,21 @@ trait ApiResponse
         int $statusCode = 400
     ): JsonResponse {
         return response()->json([
-            'status' => 'error',
+            'status' => $statusCode,
             'message' => $message,
             'error' => $error,
+        ], $statusCode);
+    }
+
+    protected function validationErrorResponse(
+        mixed $errors,
+        string $message = 'The given data was invalid.',
+        int $statusCode = 422
+    ): JsonResponse {
+        return response()->json([
+            'status' => $statusCode,
+            'message' => $message,
+            'errors' => $errors,
         ], $statusCode);
     }
 }

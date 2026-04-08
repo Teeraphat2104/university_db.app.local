@@ -3,20 +3,21 @@
 namespace App\Actions\Api\V1\Activities;
 
 use App\Models\Activity;
-use App\Models\ActivityDocument;
-use App\Models\User;
+use App\Support\ActivityDocumentStorage;
 use App\Support\ApiResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class StoreAction
 {
     use ApiResponse;
+
+    public function __construct(
+        private readonly ActivityDocumentStorage $documentStorage
+    ) {
+    }
 
     public function __invoke(Request $request): JsonResponse
     {
@@ -47,33 +48,12 @@ class StoreAction
             ]);
 
             if ($request->hasFile('document')) {
-                $this->storeDocument($activity, $request->file('document'), $user);
+                $this->documentStorage->store($activity, $request->file('document'), $user);
             }
 
             return $activity->fresh(['category', 'creator', 'document.uploader']);
         });
 
         return $this->successResponse($activity->toArray(), 'Activity created successfully.', 201);
-    }
-
-    private function storeDocument(Activity $activity, UploadedFile $file, User $user): void
-    {
-        Storage::disk('public')->makeDirectory('activities/pdf');
-
-        $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        $sanitizedName = Str::slug($originalName) ?: 'activity-document';
-        $filename = now()->format('YmdHis').'-'.$activity->id.'-'.Str::random(6).'-'.$sanitizedName.'.'.$file->extension();
-        $path = $file->storeAs('activities/pdf', $filename, 'public');
-
-        ActivityDocument::query()->updateOrCreate(
-            ['activity_id' => $activity->id],
-            [
-                'file_name' => $file->getClientOriginalName(),
-                'file_path' => $path,
-                'file_type' => $file->getClientMimeType() ?? 'application/pdf',
-                'file_size' => $file->getSize(),
-                'uploaded_by' => $user->id,
-            ]
-        );
     }
 }

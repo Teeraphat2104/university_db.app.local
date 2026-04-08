@@ -18,7 +18,7 @@ class DeleteAction
             return $this->errorResponse(
                 'Category deletion failed.',
                 'Cannot delete a category that still has activities.',
-                422
+                409
             );
         }
 

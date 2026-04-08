@@ -1,16 +1,17 @@
 @extends('layouts.admin')
 
-@section('title', 'Admin Dashboard')
+@section('title', 'แดชบอร์ดผู้ดูแล')
 
 @section('content')
-    <div class="topbar">
-        <div class="headline">
-            <h1>Dashboard</h1>
-            <p>ภาพรวมกิจกรรมที่เผยแพร่ กิจกรรมทั้งหมด และหมวดหมู่ภายในระบบ</p>
+    <div class="page-head">
+        <div>
+            <h1>แดชบอร์ด</h1>
+            <p>ภาพรวมของกิจกรรม หมวดหมู่ และรายการล่าสุดภายในระบบ</p>
         </div>
-        <div class="button-row">
-            <a href="{{ route('admin.activities.create') }}" class="primary">สร้างกิจกรรมใหม่</a>
-            <a href="{{ route('home') }}" class="secondary">ดูหน้า Public</a>
+
+        <div class="button-group">
+            <a href="{{ route('admin.activities.create') }}" class="button">สร้างกิจกรรมใหม่</a>
+            <a href="{{ route('admin.categories.create') }}" class="button secondary">สร้างหมวดหมู่</a>
         </div>
     </div>
 
@@ -33,46 +34,48 @@
         </article>
     </section>
 
-    <section class="table-shell">
-        <div class="toolbar">
+    <section class="table-wrap">
+        <div class="panel-head">
             <div>
-                <h2 style="margin:0;">รายการล่าสุด</h2>
-                <p class="meta">กิจกรรมที่ถูกสร้างหรือแก้ไขล่าสุด</p>
+                <h2>กิจกรรมล่าสุด</h2>
+                <p>รายการที่เพิ่งถูกสร้างหรือแก้ไขล่าสุด</p>
             </div>
         </div>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>ชื่อกิจกรรม</th>
-                    <th>หมวดหมู่</th>
-                    <th>วันที่</th>
-                    <th>สถานะ</th>
-                    <th>ผู้สร้าง</th>
-                    <th>จัดการ</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($recentActivities as $activity)
+        <div class="table-scroll">
+            <table>
+                <thead>
                     <tr>
-                        <td data-label="ชื่อกิจกรรม">{{ $activity->title }}</td>
-                        <td data-label="หมวดหมู่">{{ $activity->category->category_name }}</td>
-                        <td data-label="วันที่">{{ $activity->activity_date->format('d M Y') }}</td>
-                        <td data-label="สถานะ"><span class="badge status">{{ ucfirst($activity->status) }}</span></td>
-                        <td data-label="ผู้สร้าง">{{ $activity->creator->name }}</td>
-                        <td data-label="จัดการ">
-                            <div class="button-row">
-                                <a href="{{ route('admin.activities.show', $activity->id) }}" class="secondary">ดู</a>
-                                <a href="{{ route('admin.activities.edit', $activity->id) }}" class="primary">แก้ไข</a>
-                            </div>
-                        </td>
+                        <th>ชื่อกิจกรรม</th>
+                        <th>หมวดหมู่</th>
+                        <th>วันที่จัด</th>
+                        <th>สถานะ</th>
+                        <th>ผู้สร้าง</th>
+                        <th>การจัดการ</th>
                     </tr>
-                @empty
-                    <tr>
-                        <td colspan="6">ยังไม่มีกิจกรรมในระบบ</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @forelse ($recentActivities as $activity)
+                        <tr>
+                            <td data-label="ชื่อกิจกรรม">{{ $activity->title }}</td>
+                            <td data-label="หมวดหมู่">{{ $activity->category->category_name }}</td>
+                            <td data-label="วันที่จัด">{{ $activity->activity_date->format('d M Y') }}</td>
+                            <td data-label="สถานะ"><span class="badge neutral">{{ ucfirst($activity->status) }}</span></td>
+                            <td data-label="ผู้สร้าง">{{ $activity->creator->name }}</td>
+                            <td data-label="การจัดการ">
+                                <div class="button-group">
+                                    <a href="{{ route('admin.activities.show', $activity->id) }}" class="button secondary">ดู</a>
+                                    <a href="{{ route('admin.activities.edit', $activity->id) }}" class="button button-sm">แก้ไข</a>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="6">ยังไม่มีกิจกรรมในระบบ</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </section>
 @endsection

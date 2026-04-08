@@ -4,58 +4,51 @@ namespace App\Actions\Web\Public\Activities;
 
 use App\Models\Activity;
 use App\Models\Category;
+use App\Support\ApiResponse;
+use App\Support\JsonRequest;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class IndexAction
 {
-    public function __invoke(Request $request): View
+    use ApiResponse;
+
+    public function __invoke(Request $request): View|JsonResponse
     {
-        $validated = validator($request->all(), [
-            'search' => ['nullable', 'string', 'max:255'],
-            'category_id' => ['nullable', 'integer', 'exists:categories,id'],
-            'status' => ['nullable', 'in:'.implode(',', Activity::STATUSES)],
-            'activity_date_from' => ['nullable', 'date'],
-            'activity_date_to' => ['nullable', 'date', 'after_or_equal:activity_date_from'],
-            'per_page' => ['nullable', 'integer', 'min:1', 'max:50'],
-        ])->validate();
+        $validated = validator($request->all(), Activity::filterRules())->validate();
 
-        $query = Activity::query()
-            ->with(['category', 'creator', 'document'])
-            ->where('status', 'published')
-            ->orderBy('activity_date');
+        $activities = Activity::query()
+            ->withPublicRelations()
+            ->published()
+            ->orderBy('activity_date')
+            ->applyFilters($validated)
+            ->paginate((int) ($validated['per_page'] ?? 9))
+            ->withQueryString();
 
-        if (! empty($validated['search'])) {
-            $search = $validated['search'];
-
-            $query->where(function ($builder) use ($search): void {
-                $builder
-                    ->where('title', 'like', "%{$search}%")
-                    ->orWhere('description', 'like', "%{$search}%")
-                    ->orWhere('location', 'like', "%{$search}%")
-                    ->orWhere('organizer', 'like', "%{$search}%");
-            });
-        }
-
-        if (! empty($validated['category_id'])) {
-            $query->where('category_id', $validated['category_id']);
-        }
-
-        if (! empty($validated['activity_date_from'])) {
-            $query->whereDate('activity_date', '>=', $validated['activity_date_from']);
-        }
-
-        if (! empty($validated['activity_date_to'])) {
-            $query->whereDate('activity_date', '<=', $validated['activity_date_to']);
+        if (JsonRequest::wantsJson($request)) {
+            return $this->successResponse([
+                'items' => collect($activities->items())
+                    ->map(fn (Activity $activity) => $activity->toArray())
+                    ->values(),
+                'pagination' => [
+                    'current_page' => $activities->currentPage(),
+                    'last_page' => $activities->lastPage(),
+                    'per_page' => $activities->perPage(),
+                    'total' => $activities->total(),
+                    'next_page_url' => $activities->nextPageUrl(),
+                    'previous_page_url' => $activities->previousPageUrl(),
+                ],
+                'filters' => $validated,
+            ], 'Activities fetched successfully.');
         }
 
         return view('public.activities.index', [
-            'activities' => $query->paginate((int) ($validated['per_page'] ?? 9))->withQueryString(),
+            'activities' => $activities,
             'categories' => Category::query()->orderBy('category_name')->get(),
             'filters' => $validated,
             'pageTitle' => 'กิจกรรมนักศึกษา',
             'pageSubtitle' => 'รวมกิจกรรมที่เปิดรับสมัครและกิจกรรมที่กำลังจะเกิดขึ้น',
-            'statuses' => Activity::STATUSES,
         ]);
     }
 }

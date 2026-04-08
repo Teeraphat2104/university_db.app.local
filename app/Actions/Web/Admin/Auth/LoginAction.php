@@ -2,6 +2,9 @@
 
 namespace App\Actions\Web\Admin\Auth;
 
+use App\Support\ApiResponse;
+use App\Support\JsonRequest;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -9,7 +12,9 @@ use Illuminate\Validation\ValidationException;
 
 class LoginAction
 {
-    public function __invoke(Request $request): RedirectResponse
+    use ApiResponse;
+
+    public function __invoke(Request $request): RedirectResponse|JsonResponse
     {
         $validated = validator($request->all(), [
             'email' => ['required', 'email'],
@@ -40,6 +45,13 @@ class LoginAction
         }
 
         $request->session()->regenerate();
+
+        if (JsonRequest::wantsJson($request)) {
+            return $this->successResponse([
+                'user' => $user->toArray(),
+                'redirect_url' => route('admin.dashboard'),
+            ], 'Signed in successfully.');
+        }
 
         return redirect()
             ->intended(route('admin.dashboard'))

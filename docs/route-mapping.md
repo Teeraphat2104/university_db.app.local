@@ -2,6 +2,18 @@
 
 Current application structure uses one invokable action file per route for both Web and API layers.
 
+## Response Rules
+
+- Browser requests render normal HTML pages or redirect with flash messages.
+- Requests that send `Accept: application/json` or hit `/api/*` return the shared JSON envelope.
+- JSON response shape is standardized in `app/Support/ApiResponse.php`:
+  - success: `{ status, message, data }`
+  - error: `{ status, message, error }`
+  - validation only: `{ status: 422, message, errors }`
+- Shared JSON detection lives in `app/Support/JsonRequest.php`.
+- Shared JSON exception rendering lives in `bootstrap/app.php`.
+- Admin authorization uses the same JSON rule in `app/Http/Middleware/EnsureAdmin.php`.
+
 ## Web Routes
 
 | Method | URI | Name | Middleware | Action File |
@@ -9,7 +21,7 @@ Current application structure uses one invokable action file per route for both 
 | GET | `/` | `home` | `web` | `app/Actions/Web/Public/HomeAction.php` |
 | GET | `/activities` | `activities.index` | `web` | `app/Actions/Web/Public/Activities/IndexAction.php` |
 | GET | `/activities/{activity}` | `activities.show` | `web` | `app/Actions/Web/Public/Activities/ShowAction.php` |
-| GET | `/search` | `activities.search` | `web` | `app/Actions/Web/Public/Activities/SearchAction.php` |
+| GET | `/search` | `activities.search` | `web` | `app/Actions/Web/Public/Activities/IndexAction.php` |
 | GET | `/admin/login` | `admin.login` | `web, guest` | `app/Actions/Web/Admin/Auth/ShowLoginAction.php` |
 | POST | `/admin/login` | `admin.login.store` | `web, guest` | `app/Actions/Web/Admin/Auth/LoginAction.php` |
 | POST | `/admin/logout` | `admin.logout` | `web, auth, admin` | `app/Actions/Web/Admin/Auth/LogoutAction.php` |
@@ -21,6 +33,12 @@ Current application structure uses one invokable action file per route for both 
 | GET | `/admin/activities/{activity}/edit` | `admin.activities.edit` | `web, auth, admin` | `app/Actions/Web/Admin/Activities/EditAction.php` |
 | PUT | `/admin/activities/{activity}` | `admin.activities.update` | `web, auth, admin` | `app/Actions/Web/Admin/Activities/UpdateAction.php` |
 | DELETE | `/admin/activities/{activity}` | `admin.activities.destroy` | `web, auth, admin` | `app/Actions/Web/Admin/Activities/DeleteAction.php` |
+| GET | `/admin/categories` | `admin.categories.index` | `web, auth, admin` | `app/Actions/Web/Admin/Categories/IndexAction.php` |
+| GET | `/admin/categories/create` | `admin.categories.create` | `web, auth, admin` | `app/Actions/Web/Admin/Categories/CreateAction.php` |
+| POST | `/admin/categories` | `admin.categories.store` | `web, auth, admin` | `app/Actions/Web/Admin/Categories/StoreAction.php` |
+| GET | `/admin/categories/{category}/edit` | `admin.categories.edit` | `web, auth, admin` | `app/Actions/Web/Admin/Categories/EditAction.php` |
+| PUT | `/admin/categories/{category}` | `admin.categories.update` | `web, auth, admin` | `app/Actions/Web/Admin/Categories/UpdateAction.php` |
+| DELETE | `/admin/categories/{category}` | `admin.categories.destroy` | `web, auth, admin` | `app/Actions/Web/Admin/Categories/DeleteAction.php` |
 
 ## API Routes
 
@@ -42,8 +60,9 @@ Base prefix: `/api/v1`
 | POST | `/api/v1/activities/{id}/documents` | `api.v1.documents.store` | `api, auth, admin` | `app/Actions/Api/V1/Activities/UploadDocumentAction.php` |
 | DELETE | `/api/v1/documents/{id}` | `api.v1.documents.destroy` | `api, auth, admin` | `app/Actions/Api/V1/Documents/DeleteAction.php` |
 
-## Notes
+## Shared Patterns
 
-- Shared API JSON response format lives in `app/Support/ApiResponse.php`.
-- Web and API route registration live in `routes/web.php` and `routes/api.php`.
-- Admin access control still uses `app/Http/Middleware/EnsureAdmin.php`.
+- Activity filtering is centralized in `app/Models/Activity.php` via `filterRules()` and `scopeApplyFilters()`.
+- Public home search and `/activities` now use the same activity filtering rules.
+- Activity PDF storage is centralized in `app/Support/ActivityDocumentStorage.php`.
+- Admin category management is separate from activity management and feeds the category selector on activity create/edit pages.

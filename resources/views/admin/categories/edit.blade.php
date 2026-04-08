@@ -1,31 +1,30 @@
 @extends('layouts.admin')
 
-@section('title', 'แก้ไขกิจกรรม')
+@section('title', 'แก้ไขหมวดหมู่')
 
 @section('content')
     <div class="page-head">
         <div>
-            <h1>แก้ไขกิจกรรม</h1>
-            <p>ปรับข้อมูลกิจกรรมและอัปเดตเอกสารแนบตามต้องการ</p>
+            <h1>แก้ไขหมวดหมู่</h1>
+            <p>อัปเดตชื่อหมวดหมู่สำหรับใช้งานในระบบกิจกรรม</p>
         </div>
 
         <div class="button-group">
-            <a href="{{ route('admin.categories.index') }}" class="button secondary">จัดการหมวดหมู่</a>
-            <a href="{{ route('admin.activities.show', $activity->id) }}" class="button secondary">ดูรายละเอียด</a>
+            <a href="{{ route('admin.categories.index') }}" class="button secondary">กลับไปหน้ารายการ</a>
         </div>
     </div>
 
-    <div id="activity-edit-feedback" class="flash" hidden></div>
+    <div id="category-edit-feedback" class="flash" hidden></div>
 
     <section class="form-card">
-        <form action="{{ route('admin.activities.update', $activity->id) }}" method="POST" enctype="multipart/form-data" id="activity-edit-form" novalidate>
+        <form action="{{ route('admin.categories.update', $category->id) }}" method="POST" id="category-edit-form" novalidate>
             @csrf
             @method('PUT')
-            @include('admin.activities._form', ['activity' => $activity])
+            @include('admin.categories._form', ['category' => $category])
 
             <div class="button-group" style="margin-top: 1.25rem;">
-                <button type="submit" id="activity-edit-submit-button">บันทึกการเปลี่ยนแปลง</button>
-                <a href="{{ route('admin.activities.show', $activity->id) }}" class="button secondary">ยกเลิก</a>
+                <button type="submit" id="category-edit-submit-button">บันทึกการเปลี่ยนแปลง</button>
+                <a href="{{ route('admin.categories.index') }}" class="button secondary">ยกเลิก</a>
             </div>
         </form>
     </section>
@@ -34,8 +33,8 @@
 @push('scripts')
     <script>
         $(function () {
-            const formSelector = '#activity-edit-form';
-            const $submitButton = $('#activity-edit-submit-button');
+            const formSelector = '#category-edit-form';
+            const $submitButton = $('#category-edit-submit-button');
 
             $(formSelector).on('submit', function (event) {
                 event.preventDefault();
@@ -46,9 +45,7 @@
                 $.ajax({
                     url: this.action,
                     method: 'POST',
-                    data: new FormData(this),
-                    processData: false,
-                    contentType: false,
+                    data: $(this).serialize(),
                     headers: {
                         Accept: 'application/json',
                         'X-Requested-With': 'XMLHttpRequest'
@@ -60,14 +57,14 @@
 
                     if (xhr.status === 422) {
                         const messages = AppUi.applyFieldErrors(formSelector, payload.errors || {});
-                        AppUi.showFeedback('#activity-edit-feedback', 'error', payload.message || 'ไม่สามารถบันทึกข้อมูลได้', messages);
+                        AppUi.showFeedback('#category-edit-feedback', 'error', payload.message || 'ไม่สามารถบันทึกหมวดหมู่ได้', messages);
                         return;
                     }
 
                     AppUi.showFeedback(
-                        '#activity-edit-feedback',
+                        '#category-edit-feedback',
                         'error',
-                        payload.message || 'ไม่สามารถบันทึกข้อมูลได้',
+                        payload.message || 'ไม่สามารถบันทึกหมวดหมู่ได้',
                         payload.error ? [payload.error] : []
                     );
                 }).always(function () {

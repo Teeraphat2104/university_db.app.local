@@ -6,7 +6,6 @@ use App\Models\Activity;
 use App\Support\ApiResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 
 class IndexAction
 {
@@ -14,52 +13,19 @@ class IndexAction
 
     public function __invoke(Request $request): JsonResponse
     {
-        $validated = validator($request->all(), [
-            'search' => ['nullable', 'string', 'max:255'],
-            'category_id' => ['nullable', 'integer', 'exists:categories,id'],
-            'status' => ['nullable', Rule::in(Activity::STATUSES)],
-            'activity_date_from' => ['nullable', 'date'],
-            'activity_date_to' => ['nullable', 'date', 'after_or_equal:activity_date_from'],
-            'per_page' => ['nullable', 'integer', 'min:1', 'max:50'],
-        ])->validate();
+        $validated = validator($request->all(), Activity::filterRules(true))->validate();
 
         $isAdmin = $request->user()?->isAdmin() ?? false;
 
         $query = Activity::query()
-            ->with(['category', 'creator', 'document.uploader'])
+            ->withApiRelations()
             ->orderBy('activity_date');
 
         if (! $isAdmin) {
-            $query->where('status', 'published');
+            $query->published();
         }
 
-        if (! empty($validated['search'])) {
-            $search = $validated['search'];
-
-            $query->where(function ($builder) use ($search): void {
-                $builder
-                    ->where('title', 'like', "%{$search}%")
-                    ->orWhere('description', 'like', "%{$search}%")
-                    ->orWhere('location', 'like', "%{$search}%")
-                    ->orWhere('organizer', 'like', "%{$search}%");
-            });
-        }
-
-        if (! empty($validated['category_id'])) {
-            $query->where('category_id', $validated['category_id']);
-        }
-
-        if ($isAdmin && ! empty($validated['status'])) {
-            $query->where('status', $validated['status']);
-        }
-
-        if (! empty($validated['activity_date_from'])) {
-            $query->whereDate('activity_date', '>=', $validated['activity_date_from']);
-        }
-
-        if (! empty($validated['activity_date_to'])) {
-            $query->whereDate('activity_date', '<=', $validated['activity_date_to']);
-        }
+        $query->applyFilters($validated, $isAdmin);
 
         $activities = $query->paginate((int) ($validated['per_page'] ?? 10))->withQueryString();
 

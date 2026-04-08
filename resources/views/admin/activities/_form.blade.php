@@ -18,6 +18,10 @@
                 </option>
             @endforeach
         </select>
+        <span class="help-text">
+            หากยังไม่มีหมวดหมู่ที่ต้องการ
+            <a href="{{ route('admin.categories.create') }}" style="color: var(--accent);">เพิ่มหมวดหมู่ใหม่</a>
+        </span>
     </div>
 
     <div class="field">
@@ -49,6 +53,7 @@
     <div class="field">
         <label for="document">เอกสาร PDF</label>
         <input type="file" id="document" name="document" accept="application/pdf">
+        <span class="help-text">รองรับไฟล์ PDF ขนาดไม่เกิน 10 MB</span>
     </div>
 
     <div class="field span-4">
@@ -58,12 +63,14 @@
 
     @if ($activityModel?->document)
         <div class="field span-4">
-            <div class="panel">
+            <div class="panel" style="padding: 1rem;">
                 <strong>เอกสารปัจจุบัน</strong>
-                <p class="meta">{{ $activityModel->document->file_name }}</p>
-                <a href="{{ asset('storage/' . $activityModel->document->file_path) }}" class="secondary" target="_blank" rel="noopener">
-                    เปิดไฟล์ PDF
-                </a>
+                <p class="muted" style="margin-top: 0.5rem;">{{ $activityModel->document->file_name }}</p>
+                <div class="button-group" style="margin-top: 0.75rem;">
+                    <a href="{{ asset('storage/' . $activityModel->document->file_path) }}" class="button secondary" target="_blank" rel="noopener">
+                        เปิดไฟล์ PDF
+                    </a>
+                </div>
             </div>
         </div>
     @endif

@@ -13,10 +13,10 @@ class ShowAction
 
     public function __invoke(Request $request, int $id): JsonResponse
     {
-        $query = Activity::query()->with(['category', 'creator', 'document.uploader']);
+        $query = Activity::query()->withApiRelations();
 
         if (! ($request->user()?->isAdmin() ?? false)) {
-            $query->where('status', 'published');
+            $query->published();
         }
 
         $activity = $query->findOrFail($id);

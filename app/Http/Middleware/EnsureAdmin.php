@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Support\JsonRequest;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,9 +17,9 @@ class EnsureAdmin
     public function handle(Request $request, Closure $next): Response
     {
         if (! $request->user()?->isAdmin()) {
-            if ($request->is('api/*')) {
+            if (JsonRequest::wantsJson($request)) {
                 return response()->json([
-                    'status' => 'error',
+                    'status' => 403,
                     'message' => 'Forbidden.',
                     'error' => 'Admin access only.',
                 ], 403);
