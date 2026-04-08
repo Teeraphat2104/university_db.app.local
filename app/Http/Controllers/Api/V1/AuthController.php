@@ -1,18 +1,19 @@
 <?php
 
-namespace App\Actions\Api\V1\Auth;
+namespace App\Http\Controllers\Api\V1;
 
 use App\Support\ApiResponse;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
-class LoginAction
+class AuthController extends Controller
 {
     use ApiResponse;
 
-    public function __invoke(Request $request): JsonResponse
+    public function login(Request $request): JsonResponse
     {
         $validated = validator($request->all(), [
             'email' => ['required', 'email'],
@@ -31,7 +32,6 @@ class LoginAction
             ]);
         }
 
-        /** @var \App\Models\User|null $user */
         $user = Auth::guard('web')->user();
 
         if (! $user || ! $user->isAdmin()) {
@@ -45,5 +45,15 @@ class LoginAction
         $request->session()->regenerate();
 
         return $this->successResponse($user->toArray(), 'Admin login successful.');
+    }
+
+    public function logout(Request $request): JsonResponse
+    {
+        Auth::guard('web')->logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return $this->successResponse(null, 'Admin logout successful.');
     }
 }

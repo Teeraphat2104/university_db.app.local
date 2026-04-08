@@ -1,46 +1,37 @@
 <?php
 
-use App\Actions\Api\V1\Activities\DeleteAction as DeleteActivityAction;
-use App\Actions\Api\V1\Activities\IndexAction as ListActivitiesAction;
-use App\Actions\Api\V1\Activities\ShowAction as ShowActivityAction;
-use App\Actions\Api\V1\Activities\StoreAction as StoreActivityAction;
-use App\Actions\Api\V1\Activities\UpdateAction as UpdateActivityAction;
-use App\Actions\Api\V1\Activities\UploadDocumentAction;
-use App\Actions\Api\V1\Auth\LoginAction;
-use App\Actions\Api\V1\Auth\LogoutAction;
-use App\Actions\Api\V1\Categories\DeleteAction as DeleteCategoryAction;
-use App\Actions\Api\V1\Categories\IndexAction as ListCategoriesAction;
-use App\Actions\Api\V1\Categories\StoreAction as StoreCategoryAction;
-use App\Actions\Api\V1\Categories\UpdateAction as UpdateCategoryAction;
-use App\Actions\Api\V1\Documents\DeleteAction as DeleteDocumentAction;
+use App\Http\Controllers\Api\V1\ActivitiesController;
+use App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Controllers\Api\V1\CategoriesController;
+use App\Http\Controllers\Api\V1\DocumentsController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('auth')->group(function (): void {
-    Route::post('/login', LoginAction::class)->name('api.v1.auth.login');
+    Route::post('/login', [AuthController::class, 'login'])->name('api.v1.auth.login');
 
-    Route::post('/logout', LogoutAction::class)
+    Route::post('/logout', [AuthController::class, 'logout'])
         ->middleware(['auth', 'admin'])
         ->name('api.v1.auth.logout');
 });
 
-Route::get('/activities', ListActivitiesAction::class)->name('api.v1.activities.index');
-Route::get('/activities/{id}', ShowActivityAction::class)->whereNumber('id')->name('api.v1.activities.show');
-Route::get('/categories', ListCategoriesAction::class)->name('api.v1.categories.index');
+Route::get('/activities', [ActivitiesController::class, 'index'])->name('api.v1.activities.index');
+Route::get('/activities/{id}', [ActivitiesController::class, 'show'])->whereNumber('id')->name('api.v1.activities.show');
+Route::get('/categories', [CategoriesController::class, 'index'])->name('api.v1.categories.index');
 
 Route::middleware(['auth', 'admin'])->group(function (): void {
-    Route::post('/activities', StoreActivityAction::class)->name('api.v1.activities.store');
-    Route::put('/activities/{id}', UpdateActivityAction::class)->whereNumber('id')->name('api.v1.activities.update');
-    Route::delete('/activities/{id}', DeleteActivityAction::class)->whereNumber('id')->name('api.v1.activities.destroy');
+    Route::post('/activities', [ActivitiesController::class, 'store'])->name('api.v1.activities.store');
+    Route::put('/activities/{id}', [ActivitiesController::class, 'update'])->whereNumber('id')->name('api.v1.activities.update');
+    Route::delete('/activities/{id}', [ActivitiesController::class, 'destroy'])->whereNumber('id')->name('api.v1.activities.destroy');
 
-    Route::post('/categories', StoreCategoryAction::class)->name('api.v1.categories.store');
-    Route::put('/categories/{id}', UpdateCategoryAction::class)->whereNumber('id')->name('api.v1.categories.update');
-    Route::delete('/categories/{id}', DeleteCategoryAction::class)->whereNumber('id')->name('api.v1.categories.destroy');
+    Route::post('/categories', [CategoriesController::class, 'store'])->name('api.v1.categories.store');
+    Route::put('/categories/{id}', [CategoriesController::class, 'update'])->whereNumber('id')->name('api.v1.categories.update');
+    Route::delete('/categories/{id}', [CategoriesController::class, 'destroy'])->whereNumber('id')->name('api.v1.categories.destroy');
 
-    Route::post('/activities/{id}/documents', UploadDocumentAction::class)
+    Route::post('/activities/{id}/documents', [ActivitiesController::class, 'uploadDocument'])
         ->whereNumber('id')
         ->name('api.v1.documents.store');
 
-    Route::delete('/documents/{id}', DeleteDocumentAction::class)
+    Route::delete('/documents/{id}', [DocumentsController::class, 'destroy'])
         ->whereNumber('id')
         ->name('api.v1.documents.destroy');
 });

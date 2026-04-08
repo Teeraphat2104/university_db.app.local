@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Actions\Api\V1\Documents;
+namespace App\Http\Controllers\Api\V1;
 
 use App\Models\ActivityDocument;
 use App\Support\ActivityDocumentStorage;
 use App\Support\ApiResponse;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 
-class DeleteAction
+class DocumentsController extends Controller
 {
     use ApiResponse;
 
@@ -16,7 +17,7 @@ class DeleteAction
     ) {
     }
 
-    public function __invoke(int $id): JsonResponse
+    public function destroy(int $id): JsonResponse
     {
         $document = ActivityDocument::query()->findOrFail($id);
 

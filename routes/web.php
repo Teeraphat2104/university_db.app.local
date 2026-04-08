@@ -1,70 +1,56 @@
 <?php
 
-use App\Actions\Web\Admin\Activities\CreateAction as CreateAdminActivityAction;
-use App\Actions\Web\Admin\Activities\DeleteAction as DeleteAdminActivityAction;
-use App\Actions\Web\Admin\Activities\EditAction as EditAdminActivityAction;
-use App\Actions\Web\Admin\Activities\IndexAction as ListAdminActivitiesAction;
-use App\Actions\Web\Admin\Activities\ShowAction as ShowAdminActivityAction;
-use App\Actions\Web\Admin\Activities\StoreAction as StoreAdminActivityAction;
-use App\Actions\Web\Admin\Activities\UpdateAction as UpdateAdminActivityAction;
-use App\Actions\Web\Admin\Categories\CreateAction as CreateAdminCategoryAction;
-use App\Actions\Web\Admin\Categories\DeleteAction as DeleteAdminCategoryAction;
-use App\Actions\Web\Admin\Categories\EditAction as EditAdminCategoryAction;
-use App\Actions\Web\Admin\Categories\IndexAction as ListAdminCategoriesAction;
-use App\Actions\Web\Admin\Categories\StoreAction as StoreAdminCategoryAction;
-use App\Actions\Web\Admin\Categories\UpdateAction as UpdateAdminCategoryAction;
-use App\Actions\Web\Admin\Auth\LoginAction as AdminLoginAction;
-use App\Actions\Web\Admin\Auth\LogoutAction as AdminLogoutAction;
-use App\Actions\Web\Admin\Auth\ShowLoginAction;
-use App\Actions\Web\Admin\Dashboard\IndexAction as AdminDashboardAction;
-use App\Actions\Web\Public\Activities\IndexAction as ListPublicActivitiesAction;
-use App\Actions\Web\Public\Activities\ShowAction as ShowPublicActivityAction;
-use App\Actions\Web\Public\HomeAction;
+use App\Http\Controllers\Web\HomeController;
+use App\Http\Controllers\Web\Public\ActivitiesController as PublicActivitiesController;
+use App\Http\Controllers\Web\Admin\AuthController as AdminAuthController;
+use App\Http\Controllers\Web\Admin\DashboardController;
+use App\Http\Controllers\Web\Admin\ActivitiesController as AdminActivitiesController;
+use App\Http\Controllers\Web\Admin\CategoriesController as AdminCategoriesController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', HomeAction::class)->name('home');
-Route::get('/activities', ListPublicActivitiesAction::class)->name('activities.index');
-Route::get('/activities/{activity}', ShowPublicActivityAction::class)
+Route::get('/', [HomeController::class, '__invoke'])->name('home');
+Route::get('/activities', [PublicActivitiesController::class, 'index'])->name('activities.index');
+Route::get('/activities/{activity}', [PublicActivitiesController::class, 'show'])
     ->whereNumber('activity')
     ->name('activities.show');
-Route::get('/search', ListPublicActivitiesAction::class)->name('activities.search');
+Route::get('/search', [PublicActivitiesController::class, 'index'])->name('activities.search');
 
 Route::prefix('admin')->name('admin.')->group(function (): void {
     Route::middleware('guest')->group(function (): void {
-        Route::get('/login', ShowLoginAction::class)->name('login');
-        Route::post('/login', AdminLoginAction::class)->name('login.store');
+        Route::get('/login', [AdminAuthController::class, 'showLogin'])->name('login');
+        Route::post('/login', [AdminAuthController::class, 'login'])->name('login.store');
     });
 
     Route::middleware(['auth', 'admin'])->group(function (): void {
-        Route::post('/logout', AdminLogoutAction::class)->name('logout');
-        Route::get('/dashboard', AdminDashboardAction::class)->name('dashboard');
+        Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-        Route::get('/activities', ListAdminActivitiesAction::class)->name('activities.index');
-        Route::get('/activities/create', CreateAdminActivityAction::class)->name('activities.create');
-        Route::post('/activities', StoreAdminActivityAction::class)->name('activities.store');
-        Route::get('/activities/{activity}', ShowAdminActivityAction::class)
+        Route::get('/activities', [AdminActivitiesController::class, 'index'])->name('activities.index');
+        Route::get('/activities/create', [AdminActivitiesController::class, 'create'])->name('activities.create');
+        Route::post('/activities', [AdminActivitiesController::class, 'store'])->name('activities.store');
+        Route::get('/activities/{activity}', [AdminActivitiesController::class, 'show'])
             ->whereNumber('activity')
             ->name('activities.show');
-        Route::get('/activities/{activity}/edit', EditAdminActivityAction::class)
+        Route::get('/activities/{activity}/edit', [AdminActivitiesController::class, 'edit'])
             ->whereNumber('activity')
             ->name('activities.edit');
-        Route::put('/activities/{activity}', UpdateAdminActivityAction::class)
+        Route::put('/activities/{activity}', [AdminActivitiesController::class, 'update'])
             ->whereNumber('activity')
             ->name('activities.update');
-        Route::delete('/activities/{activity}', DeleteAdminActivityAction::class)
+        Route::delete('/activities/{activity}', [AdminActivitiesController::class, 'destroy'])
             ->whereNumber('activity')
             ->name('activities.destroy');
 
-        Route::get('/categories', ListAdminCategoriesAction::class)->name('categories.index');
-        Route::get('/categories/create', CreateAdminCategoryAction::class)->name('categories.create');
-        Route::post('/categories', StoreAdminCategoryAction::class)->name('categories.store');
-        Route::get('/categories/{category}/edit', EditAdminCategoryAction::class)
+        Route::get('/categories', [AdminCategoriesController::class, 'index'])->name('categories.index');
+        Route::get('/categories/create', [AdminCategoriesController::class, 'create'])->name('categories.create');
+        Route::post('/categories', [AdminCategoriesController::class, 'store'])->name('categories.store');
+        Route::get('/categories/{category}/edit', [AdminCategoriesController::class, 'edit'])
             ->whereNumber('category')
             ->name('categories.edit');
-        Route::put('/categories/{category}', UpdateAdminCategoryAction::class)
+        Route::put('/categories/{category}', [AdminCategoriesController::class, 'update'])
             ->whereNumber('category')
             ->name('categories.update');
-        Route::delete('/categories/{category}', DeleteAdminCategoryAction::class)
+        Route::delete('/categories/{category}', [AdminCategoriesController::class, 'destroy'])
             ->whereNumber('category')
             ->name('categories.destroy');
     });
