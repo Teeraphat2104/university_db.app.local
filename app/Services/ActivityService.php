@@ -34,7 +34,6 @@ class ActivityService
         $payload = [
             'category_id'   => $data['category_id'],
             'title'         => $data['title'],
-            'slug'          => Str::slug($data['title']),
             'description'   => $data['description'] ?? null,
             'activity_date' => $data['activity_date'] ?? null,
             'location'      => $data['location'] ?? null,
@@ -57,7 +56,6 @@ class ActivityService
         $payload = [
             'category_id'   => $data['category_id'],
             'title'         => $data['title'],
-            'slug'          => Str::slug($data['title']),
             'description'   => $data['description'] ?? $activity->description,
             'activity_date' => $data['activity_date'] ?? $activity->activity_date,
             'location'      => $data['location'] ?? $activity->location,

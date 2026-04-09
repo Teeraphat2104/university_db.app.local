@@ -13,7 +13,6 @@ class Activity extends Model
     protected $fillable = [
         'category_id',
         'title',
-        'slug',
         'description',
         'cover_image',
         'pdf_file',

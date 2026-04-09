@@ -16,7 +16,6 @@ class CategoryService
     {
         return Category::create([
             'name'   => $data['name'],
-            'slug'   => Str::slug($data['name']),
             'status' => $data['status'] ?? 1,
         ]);
     }
@@ -25,7 +24,6 @@ class CategoryService
     {
         $category->update([
             'name'   => $data['name'],
-            'slug'   => Str::slug($data['name']),
             'status' => $data['status'] ?? $category->status,
         ]);
 
