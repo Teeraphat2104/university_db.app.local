@@ -12,7 +12,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('category_id')->constrained('categories')->onDelete('restrict');
             $table->string('title');
-            $table->string('slug')->unique();
             $table->longText('description')->nullable();
             $table->string('cover_image')->nullable();
             $table->string('pdf_file')->nullable();

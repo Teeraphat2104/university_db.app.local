@@ -1,12 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\Public\HomeController;
-use App\Http\Controllers\Api\Public\CategoryController as PublicCategoryController;
-use App\Http\Controllers\Api\Public\ActivityController as PublicActivityController;
-use App\Http\Controllers\Api\Admin\AuthController;
-use App\Http\Controllers\Api\Admin\CategoryController as AdminCategoryController;
-use App\Http\Controllers\Api\Admin\ActivityController as AdminActivityController;
+use App\Http\Controllers\PublicController;
+use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ActivityController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,10 +12,10 @@ use App\Http\Controllers\Api\Admin\ActivityController as AdminActivityController
 |--------------------------------------------------------------------------
 */
 Route::prefix('public')->group(function () {
-    Route::get('/home', [HomeController::class, 'index']);
-    Route::get('/categories', [PublicCategoryController::class, 'index']);
-    Route::get('/activities', [PublicActivityController::class, 'index']);
-    Route::get('/activities/{id}', [PublicActivityController::class, 'show']);
+    Route::get('/home',            [PublicController::class, 'home']);
+    Route::get('/categories',      [PublicController::class, 'categories']);
+    Route::get('/activities',      [PublicController::class, 'activities']);
+    Route::get('/activities/{id}', [PublicController::class, 'activityDetail']);
 });
 
 /*
@@ -27,16 +25,14 @@ Route::prefix('public')->group(function () {
 */
 Route::prefix('admin')->group(function () {
     // Public admin route — login only
-    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/login', [AdminAuthController::class, 'login']);
 
     // Protected admin routes — require Sanctum token + Admin model check
     Route::middleware(['auth:sanctum', 'admin'])->group(function () {
-        Route::post('/logout', [AuthController::class, 'logout']);
-        Route::get('/profile', [AuthController::class, 'profile']);
+        Route::post('/logout',  [AdminAuthController::class, 'logout']);
+        Route::get('/profile',  [AdminAuthController::class, 'profile']);
 
-        Route::apiResource('categories', AdminCategoryController::class);
-
-        // Activities: support both PUT and POST+_method=PUT for file uploads
-        Route::apiResource('activities', AdminActivityController::class);
+        Route::apiResource('categories', CategoryController::class);
+        Route::apiResource('activities', ActivityController::class);
     });
 });
