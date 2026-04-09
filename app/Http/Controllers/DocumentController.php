@@ -12,25 +12,16 @@ class DocumentController extends Controller
 {
     public function index(Request $request)
     {
-        $params = $request->all();
-        \Illuminate\Support\Facades\Log::info('Document index request params types:', array_map(function($v) { return gettype($v); }, $params));
-        \Illuminate\Support\Facades\Log::info('Document index request values:', $params);
-        
-        try {
-            $validated = $request->validate([
-                'keyword' => 'nullable',
-                'year' => 'nullable',
-                'category_id' => 'nullable',
-            ]);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            \Illuminate\Support\Facades\Log::error('Validation failed details:', $e->errors());
-            throw $e;
-        }
+        $validated = $request->validate([
+            'keyword' => 'nullable|string',
+            'year' => 'nullable|integer',
+            'category_id' => 'nullable|integer',
+        ]);
 
         $response = (object) [];
 
         try {
-            $query = Document::query()->with('category');
+            $query = Document::with('category');
 
             if (!empty($validated['keyword'])) {
                 $query->where('title', 'like', '%' . $validated['keyword'] . '%');
@@ -58,7 +49,6 @@ class DocumentController extends Controller
                 'last_page' => $documents->lastPage(),
                 'total' => $documents->total(),
             ];
-
         } catch (\Exception $e) {
             $response->status = 500;
             $response->message = 'Failed to retrieve documents';
@@ -70,18 +60,20 @@ class DocumentController extends Controller
 
     public function store(Request $request)
     {
-        \Illuminate\Support\Facades\Log::info('Document store request:', $request->all());
-        try {
-            $validated = $request->validate([
-                'title' => 'required|string|max:255',
-                'category_id' => 'required|integer|exists:categories,id',
-                'year' => 'required|integer',
-                'file' => 'required|file|max:10240',
-            ]);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            \Illuminate\Support\Facades\Log::error('Store validation failed:', $e->errors());
-            throw $e;
-        }
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'category_id' => 'required|integer|exists:categories,id',
+            'year' => 'required|integer',
+            'file' => 'required|file|mimes:pdf,xlsx,docx|max:10240',
+        ], [
+            'title.required' => 'กรุณากรอกชื่อเอกสาร',
+            'category_id.required' => 'กรุณาเลือกหมวดหมู่',
+            'category_id.exists' => 'หมวดหมู่ไม่ถูกต้อง',
+            'year.required' => 'กรุณากรอกปี',
+            'file.required' => 'กรุณาเลือกไฟล์',
+            'file.mimes' => 'รองรับไฟล์ PDF, Excel, Word เท่านั้น',
+            'file.max' => 'ขนาดไฟล์ต้องไม่เกิน 10MB',
+        ]);
 
         $response = (object) [];
 
@@ -93,13 +85,12 @@ class DocumentController extends Controller
                 'category_id' => $validated['category_id'],
                 'year' => $validated['year'],
                 'file_path' => $filePath,
-                'created_by' => Auth::id() ?? 1, // Fallback for now
+                'created_by' => Auth::id() ?? 1,
             ]);
 
             $response->status = 200;
             $response->message = 'Document created successfully';
             $response->data = $this->formatDocument($document);
-
         } catch (\Exception $e) {
             $response->status = 500;
             $response->message = 'Failed to create document';
@@ -111,18 +102,19 @@ class DocumentController extends Controller
 
     public function update(Request $request, $id)
     {
-        \Illuminate\Support\Facades\Log::info('Document update request for ID ' . $id, $request->all());
-        try {
-            $validated = $request->validate([
-                'title' => 'required|string|max:255',
-                'category_id' => 'required|integer|exists:categories,id',
-                'year' => 'required|integer',
-                'file' => 'nullable|file|max:10240',
-            ]);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            \Illuminate\Support\Facades\Log::error('Update validation failed for ID ' . $id, $e->errors());
-            throw $e;
-        }
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'category_id' => 'required|integer|exists:categories,id',
+            'year' => 'required|integer',
+            'file' => 'nullable|file|mimes:pdf,xlsx,docx|max:10240',
+        ], [
+            'title.required' => 'กรุณากรอกชื่อเอกสาร',
+            'category_id.required' => 'กรุณาเลือกหมวดหมู่',
+            'category_id.exists' => 'หมวดหมู่ไม่ถูกต้อง',
+            'year.required' => 'กรุณากรอกปี',
+            'file.mimes' => 'รองรับไฟล์ PDF, Excel, Word เท่านั้น',
+            'file.max' => 'ขนาดไฟล์ต้องไม่เกิน 10MB',
+        ]);
 
         $response = (object) [];
 
@@ -130,7 +122,6 @@ class DocumentController extends Controller
             $document = Document::findOrFail($id);
 
             if ($request->hasFile('file')) {
-                // Delete old file if exists
                 if ($document->file_path) {
                     Storage::disk('public')->delete($document->file_path);
                 }
@@ -147,7 +138,6 @@ class DocumentController extends Controller
             $response->status = 200;
             $response->message = 'Document updated successfully';
             $response->data = $this->formatDocument($document);
-
         } catch (\Exception $e) {
             $response->status = 500;
             $response->message = 'Failed to update document';
@@ -170,7 +160,6 @@ class DocumentController extends Controller
 
             $response->status = 200;
             $response->message = 'Document deleted successfully';
-
         } catch (\Exception $e) {
             $response->status = 500;
             $response->message = 'Failed to delete document';
@@ -178,6 +167,15 @@ class DocumentController extends Controller
         }
 
         return response()->json($response, $response->status);
+    }
+
+    public function getCategories()
+    {
+        $categories = Category::all();
+        return response()->json([
+            'status' => 200,
+            'data' => $categories
+        ]);
     }
 
     private function formatDocument($doc)
@@ -191,14 +189,5 @@ class DocumentController extends Controller
             'file_url' => asset('storage/' . $doc->file_path),
             'created_at' => $doc->created_at->format('Y-m-d H:i:s'),
         ];
-    }
-
-    public function getCategories()
-    {
-        $categories = Category::all();
-        return response()->json([
-            'status' => 200,
-            'data' => $categories
-        ]);
     }
 }
