@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\ApiResponse;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
@@ -18,13 +19,7 @@ class CategoryController extends Controller
 
         return ApiResponse::success(
             'Categories fetched successfully',
-            $categories->map(fn ($cat) => [
-                'id'         => $cat->id,
-                'name'       => $cat->name,
-                'status'     => (int) $cat->status,
-                'created_at' => $cat->created_at?->format('Y-m-d H:i:s'),
-                'updated_at' => $cat->updated_at?->format('Y-m-d H:i:s'),
-            ])
+            $categories->map(fn ($cat) => $this->formatCategory($cat))
         );
     }
 
@@ -34,8 +29,9 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name'   => 'required|string|max:255',
-            'status' => 'nullable|boolean',
+            'name'        => 'required|string|max:255',
+            'cover_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+            'status'      => 'nullable|boolean',
         ]);
 
         if ($validator->fails()) {
@@ -44,18 +40,18 @@ class CategoryController extends Controller
 
         $data = $validator->validated();
 
-        $category = Category::create([
+        $payload = [
             'name'   => $data['name'],
             'status' => $data['status'] ?? 1,
-        ]);
+        ];
 
-        return ApiResponse::success('Category created successfully', [
-            'id'         => $category->id,
-            'name'       => $category->name,
-            'status'     => (int) $category->status,
-            'created_at' => $category->created_at?->format('Y-m-d H:i:s'),
-            'updated_at' => $category->updated_at?->format('Y-m-d H:i:s'),
-        ], 201);
+        if ($request->hasFile('cover_image')) {
+            $payload['cover_image'] = $request->file('cover_image')->store('categories', 'public');
+        }
+
+        $category = Category::create($payload);
+
+        return ApiResponse::success('Category created successfully', $this->formatCategory($category), 201);
     }
 
     /**
@@ -65,25 +61,21 @@ class CategoryController extends Controller
     {
         $category = Category::findOrFail($id);
 
-        return ApiResponse::success('Category fetched successfully', [
-            'id'         => $category->id,
-            'name'       => $category->name,
-            'status'     => (int) $category->status,
-            'created_at' => $category->created_at?->format('Y-m-d H:i:s'),
-            'updated_at' => $category->updated_at?->format('Y-m-d H:i:s'),
-        ]);
+        return ApiResponse::success('Category fetched successfully', $this->formatCategory($category));
     }
 
     /**
      * PUT /api/admin/categories/{id}
+     * Also handles POST with _method=PUT (multipart form-data)
      */
     public function update(Request $request, string $id)
     {
         $category = Category::findOrFail($id);
 
         $validator = Validator::make($request->all(), [
-            'name'   => 'required|string|max:255',
-            'status' => 'nullable|boolean',
+            'name'        => 'required|string|max:255',
+            'cover_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+            'status'      => 'nullable|boolean',
         ]);
 
         if ($validator->fails()) {
@@ -92,20 +84,23 @@ class CategoryController extends Controller
 
         $data = $validator->validated();
 
-        $category->update([
+        $payload = [
             'name'   => $data['name'],
             'status' => $data['status'] ?? $category->status,
-        ]);
+        ];
 
+        // Handle cover image upload (delete old file if exists)
+        if ($request->hasFile('cover_image')) {
+            if ($category->cover_image) {
+                Storage::disk('public')->delete($category->cover_image);
+            }
+            $payload['cover_image'] = $request->file('cover_image')->store('categories', 'public');
+        }
+
+        $category->update($payload);
         $category->refresh();
 
-        return ApiResponse::success('Category updated successfully', [
-            'id'         => $category->id,
-            'name'       => $category->name,
-            'status'     => (int) $category->status,
-            'created_at' => $category->created_at?->format('Y-m-d H:i:s'),
-            'updated_at' => $category->updated_at?->format('Y-m-d H:i:s'),
-        ]);
+        return ApiResponse::success('Category updated successfully', $this->formatCategory($category));
     }
 
     /**
@@ -123,8 +118,28 @@ class CategoryController extends Controller
             );
         }
 
+        // Delete cover image from storage
+        if ($category->cover_image) {
+            Storage::disk('public')->delete($category->cover_image);
+        }
+
         $category->delete();
 
         return ApiResponse::success('Category deleted successfully');
+    }
+
+    /**
+     * Format category data for JSON response.
+     */
+    private function formatCategory(Category $category): array
+    {
+        return [
+            'id'              => $category->id,
+            'name'            => $category->name,
+            'cover_image_url' => $category->cover_image_url,
+            'status'          => (int) $category->status,
+            'created_at'      => $category->created_at?->format('Y-m-d H:i:s'),
+            'updated_at'      => $category->updated_at?->format('Y-m-d H:i:s'),
+        ];
     }
 }

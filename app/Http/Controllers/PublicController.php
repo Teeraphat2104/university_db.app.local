@@ -25,9 +25,10 @@ class PublicController extends Controller
 
         return ApiResponse::success('Home data fetched successfully', [
             'categories'        => $categories->map(fn ($cat) => [
-                'id'     => $cat->id,
-                'name'   => $cat->name,
-                'status' => (int) $cat->status,
+                'id'              => $cat->id,
+                'name'            => $cat->name,
+                'cover_image_url' => $cat->cover_image_url,
+                'status'          => (int) $cat->status,
             ]),
             'latest_activities' => $latestActivities->map(fn ($a) => $this->formatActivity($a)),
         ]);
@@ -44,9 +45,10 @@ class PublicController extends Controller
         return ApiResponse::success(
             'Categories fetched successfully',
             $categories->map(fn ($cat) => [
-                'id'     => $cat->id,
-                'name'   => $cat->name,
-                'status' => (int) $cat->status,
+                'id'              => $cat->id,
+                'name'            => $cat->name,
+                'cover_image_url' => $cat->cover_image_url,
+                'status'          => (int) $cat->status,
             ])
         );
     }
