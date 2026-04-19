@@ -1,50 +1,90 @@
-{{-- Public: Category browsing + Activity list section --}}
-<section id="public-view" class="bg-white border border-line/75 rounded-2xl shadow-card p-5 md:p-6">
+<div id="public-view-inner">
 
-    {{-- ═══ Category browsing view ═══ --}}
+    {{-- Categories view --}}
     <div id="public-categories-view">
-        <x-section-head
-            title="หมวดหมู่กิจกรรม"
-            description="เลือกหมวดหมู่เพื่อดูกิจกรรมที่สนใจ"
-        />
-
-        <div id="public-category-grid" class="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-4">
-            <p class="text-muted text-sm col-span-full">กำลังโหลดหมวดหมู่...</p>
+        <div class="acts-toolbar">
+            <div class="acts-toolbar-info">
+                <h2>กิจกรรมทั้งหมด</h2>
+                <p>เลือกหมวดหมู่เพื่อดูกิจกรรมที่สนใจ</p>
+            </div>
+        </div>
+        <div id="public-category-grid" class="cat-grid">
+            <p style="color:var(--color-gray-400);font-size:.875rem">กำลังโหลด...</p>
         </div>
     </div>
 
-    {{-- ═══ Activity list view (shown after clicking a category) ═══ --}}
+    {{-- Activities view --}}
     <div id="public-activities-view" class="hidden">
-        {{-- Title + Back button --}}
-        <div class="flex items-start md:items-center justify-between gap-4 mb-4">
-            <div>
-                <h2 id="public-activities-title" class="m-0 font-display text-[clamp(1.1rem,1.9vw,1.3rem)] font-bold"></h2>
-                <p id="public-activities-subtitle" class="m-0 text-muted text-[0.94rem]"></p>
+        <div class="acts-toolbar">
+            <div class="acts-toolbar-info">
+                <h2 id="public-activities-title"></h2>
+                <p id="public-activities-subtitle"></p>
             </div>
-            <button id="public-back-to-categories" type="button" class="btn btn-muted text-sm whitespace-nowrap">
-                กลับหมวดหมู่
+            <div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap">
+                <div class="acts-search">
+                    <input id="public-keyword" type="text" placeholder="ค้นหากิจกรรม..." style="width:200px">
+                    <button id="public-search" type="button" class="btn btn-primary btn-sm">ค้นหา</button>
+                    <button id="public-reset" type="button" class="btn btn-muted btn-sm">ล้าง</button>
+                </div>
+
+                {{-- View toggle --}}
+                <div class="view-toggle">
+                    <button id="view-card-btn" type="button" class="view-toggle-btn is-active" aria-label="Card view" title="มุมมองการ์ด">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+                            <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+                        </svg>
+                    </button>
+                    <button id="view-table-btn" type="button" class="view-toggle-btn" aria-label="Table view" title="มุมมองตาราง">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/>
+                            <line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <button id="public-back-to-categories" type="button" class="btn btn-muted btn-sm">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"/>
+                    </svg>
+                    กลับ
+                </button>
+            </div>
+        </div>
+
+        <p id="public-summary" style="font-size:.82rem;color:var(--color-gray-400);margin-bottom:1rem">กำลังโหลด...</p>
+
+        {{-- Card view --}}
+        <div id="public-activity-grid" class="act-grid"></div>
+
+        {{-- Table view --}}
+        <div id="public-activity-table-wrap" class="table-wrap hidden">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width:52px">รูป</th>
+                        <th>ชื่อกิจกรรม</th>
+                        <th>หมวดหมู่</th>
+                        <th>วันที่</th>
+                        <th>สถานที่</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="public-activity-table-body"></tbody>
+            </table>
+        </div>
+
+        <div class="pagination">
+            <button id="public-prev" type="button" class="btn btn-muted btn-sm">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                ก่อนหน้า
+            </button>
+            <span id="public-page" class="pagination-info">หน้า 1 / 1</span>
+            <button id="public-next" type="button" class="btn btn-muted btn-sm">
+                ถัดไป
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
             </button>
         </div>
-
-        {{-- Filters --}}
-        <div class="grid gap-2.5 md:flex md:flex-wrap md:items-end md:gap-3 mb-4">
-            <label class="grid gap-1.5 min-w-0 md:min-w-[180px] md:flex-1 md:basis-[280px]" for="public-keyword">
-                <span class="text-[13px] text-muted">ค้นหาชื่อกิจกรรม</span>
-                <input id="public-keyword" type="text" placeholder="พิมพ์คำค้นหา...">
-            </label>
-            <div class="flex flex-wrap items-center gap-2 w-full md:w-auto md:inline-flex">
-                <button id="public-search" type="button" class="btn btn-primary flex-1 md:flex-none">ค้นหา</button>
-                <button id="public-reset" type="button" class="btn btn-muted flex-1 md:flex-none">ล้างตัวกรอง</button>
-            </div>
-        </div>
-
-        {{-- Summary --}}
-        <p id="public-summary" class="my-1 mb-4 text-muted text-sm">กำลังโหลดรายการกิจกรรม...</p>
-
-        {{-- Activity grid (rendered by JS) --}}
-        <div id="public-activity-grid" class="grid grid-cols-[repeat(auto-fill,minmax(258px,1fr))] gap-3.5"></div>
-
-        {{-- Pagination --}}
-        <x-pagination prevId="public-prev" pageId="public-page" nextId="public-next" />
     </div>
-</section>
+
+</div>

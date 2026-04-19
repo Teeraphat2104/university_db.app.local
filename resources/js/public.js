@@ -7,16 +7,56 @@ import { state, defaultMeta } from './state';
 import { api, buildQuery, resolveAssetUrl, errorToMessage } from './api';
 import { el, showToast, escapeHtml, escapeAttr, formatDate, truncate, setPublicLoading } from './ui';
 
+/* ── View type: 'card' | 'table' ── */
+let publicViewType = 'card';
+
+function setPublicViewType(type) {
+    publicViewType = type;
+    const grid  = document.getElementById('public-activity-grid');
+    const table = document.getElementById('public-activity-table-wrap');
+    const cardBtn  = document.getElementById('view-card-btn');
+    const tableBtn = document.getElementById('view-table-btn');
+
+    if (type === 'table') {
+        grid?.classList.add('hidden');
+        table?.classList.remove('hidden');
+        cardBtn?.classList.remove('is-active');
+        tableBtn?.classList.add('is-active');
+    } else {
+        grid?.classList.remove('hidden');
+        table?.classList.add('hidden');
+        cardBtn?.classList.add('is-active');
+        tableBtn?.classList.remove('is-active');
+    }
+
+    renderPublicActivities();
+}
+
 /* ── Data loading ── */
 
 export async function loadPublicCategories() {
     try {
-        const response = await api('/public/categories');
-        state.public.categories = response.data || [];
+        const response = await api('/public/home');
+        state.public.categories = response.data?.categories || [];
         renderPublicCategoryGrid();
+        // Update stats from server
+        const stats = response.data?.stats || {};
+        updateStatsFromServer(stats, state.public.categories.length);
     } catch (error) {
         showToast(errorToMessage(error), 'error');
     }
+}
+
+function updateStatsFromServer(stats, categoryCount) {
+    const statActivities = document.getElementById('stat-activities');
+    const statCategories = document.getElementById('stat-categories');
+    const statDocuments  = document.getElementById('stat-documents');
+    const statRegistered = document.getElementById('stat-registered');
+
+    if (statActivities) animateNumber(statActivities, stats.total_activities || 0);
+    if (statCategories) animateNumber(statCategories, categoryCount);
+    if (statDocuments)  animateNumber(statDocuments, stats.total_documents || 0);
+    if (statRegistered) animateNumber(statRegistered, 0);
 }
 
 export async function loadPublicActivities() {
@@ -70,28 +110,77 @@ function renderPublicCategoryGrid() {
     const categories = state.public.categories;
 
     if (!categories.length) {
-        el.publicCategoryGrid.innerHTML = `
-            <div class="border border-dashed border-line rounded-xl bg-slate-50 p-6 text-center col-span-full">
-                <h4 class="m-0 mb-1 font-semibold">ไม่พบหมวดหมู่</h4>
-                <p class="m-0 text-muted">ยังไม่มีหมวดหมู่กิจกรรมในระบบ</p>
-            </div>
-        `;
+        el.publicCategoryGrid.innerHTML = `<p style="color:var(--color-gray-400);font-size:.875rem;padding:2rem 0">ยังไม่มีหมวดหมู่กิจกรรม</p>`;
         return;
     }
 
     el.publicCategoryGrid.innerHTML = categories.map((cat) => categoryCard(cat)).join('');
+    updateStats(categories.length);
+}
+
+function updateStats(categoryCount) {
+    const statActivities = document.getElementById('stat-activities');
+    const statCategories = document.getElementById('stat-categories');
+    const statRegistered = document.getElementById('stat-registered');
+    const statDocuments = document.getElementById('stat-documents');
+
+    if (statCategories) {
+        animateNumber(statCategories, categoryCount);
+    }
+
+    if (statActivities) {
+        const totalActivities = state.public.activities.length;
+        animateNumber(statActivities, totalActivities || 0);
+    }
+
+    if (statRegistered) {
+        animateNumber(statRegistered, 0);
+    }
+
+    if (statDocuments) {
+        animateNumber(statDocuments, 0);
+    }
+}
+
+function animateNumber(element, target) {
+    if (!element) return;
+
+    const duration = 1000;
+    const start = 0;
+    const startTime = performance.now();
+
+    function update(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const easeOut = 1 - Math.pow(1 - progress, 3);
+        const current = Math.floor(start + (target - start) * easeOut);
+        element.textContent = current.toLocaleString('th-TH');
+
+        if (progress < 1) {
+            requestAnimationFrame(update);
+        }
+    }
+
+    requestAnimationFrame(update);
 }
 
 function categoryCard(category) {
-    const cover = category.cover_image_url
-        ? `<img src="${escapeAttr(resolveAssetUrl(category.cover_image_url))}" alt="${escapeAttr(category.name)}" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">`
-        : `<div class="w-full h-full grid place-items-center font-display text-4xl text-primary/60 bg-gradient-to-br from-teal-50 to-emerald-100">${escapeHtml(category.name.slice(0, 1).toUpperCase())}</div>`;
+    const colors = [
+        ['#EEF2FF','#6366F1'], ['#F0FDF4','#10B981'], ['#FFFBEB','#F59E0B'],
+        ['#FAF5FF','#8B5CF6'], ['#FFF1F2','#F43F5E'], ['#ECFEFF','#06B6D4'],
+    ];
+    const [bg, fg] = colors[category.id % colors.length];
+
+    const thumbnail = category.cover_image_url
+        ? `<div class="cat-card-img"><img src="${escapeAttr(resolveAssetUrl(category.cover_image_url))}" alt="${escapeAttr(category.name)}"></div>`
+        : `<div class="cat-card-placeholder" style="background:${bg};color:${fg}">${escapeHtml(category.name.slice(0, 1).toUpperCase())}</div>`;
 
     return `
-        <button type="button" class="group grid grid-rows-[140px_auto] border border-line rounded-xl bg-white overflow-hidden text-left cursor-pointer hover:shadow-card transition-all duration-200" data-action="browse" data-id="${category.id}" data-name="${escapeAttr(category.name)}">
-            <div class="overflow-hidden">${cover}</div>
-            <div class="p-3.5">
-                <h3 class="m-0 text-base font-semibold group-hover:text-primary transition-colors">${escapeHtml(category.name)}</h3>
+        <button type="button" class="cat-card" data-action="browse" data-id="${category.id}" data-name="${escapeAttr(category.name)}">
+            ${thumbnail}
+            <div class="cat-card-body">
+                <p class="cat-card-name">${escapeHtml(category.name)}</p>
+                <p class="cat-card-hint">ดูกิจกรรม →</p>
             </div>
         </button>
     `;
@@ -102,48 +191,81 @@ function categoryCard(category) {
 function renderPublicActivities() {
     const { activities, meta } = state.public;
 
-    if (!activities.length) {
-        el.publicGrid.innerHTML = `
-            <article class="border border-dashed border-line rounded-xl bg-slate-50 p-6 text-center col-span-full">
-                <h4 class="m-0 mb-1 font-semibold">ไม่พบกิจกรรม</h4>
-                <p class="m-0 text-muted">ลองเปลี่ยนคำค้นหา หรือยังไม่มีกิจกรรมในหมวดนี้</p>
-            </article>
-        `;
+    if (publicViewType === 'table') {
+        renderPublicActivitiesTable(activities);
     } else {
-        el.publicGrid.innerHTML = activities.map((activity) => publicActivityCard(activity)).join('');
+        if (!activities.length) {
+            el.publicGrid.innerHTML = `<p style="color:var(--color-gray-400);font-size:.875rem;padding:2rem 0">ไม่พบกิจกรรม</p>`;
+        } else {
+            el.publicGrid.innerHTML = activities.map((activity) => publicActivityCard(activity)).join('');
+        }
     }
 
     el.publicSummary.textContent = `แสดง ${activities.length} รายการ จากทั้งหมด ${meta.total ?? 0} รายการ`;
     el.publicPage.textContent = `หน้า ${meta.current_page ?? 1} / ${meta.last_page ?? 1}`;
     el.publicPrev.disabled = (meta.current_page ?? 1) <= 1;
     el.publicNext.disabled = (meta.current_page ?? 1) >= (meta.last_page ?? 1);
+
+    updateStats(state.public.categories.length);
+}
+
+function renderPublicActivitiesTable(activities) {
+    const tbody = document.getElementById('public-activity-table-body');
+    if (!tbody) return;
+
+    if (!activities.length) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--color-gray-400);padding:2rem">ไม่พบกิจกรรม</td></tr>`;
+        return;
+    }
+
+    tbody.innerHTML = activities.map((activity) => {
+        const thumb = activity.cover_image_url
+            ? `<img class="table-thumb" src="${escapeAttr(resolveAssetUrl(activity.cover_image_url))}" alt="">`
+            : `<div class="table-thumb-ph" style="background:#EEF2FF;color:#6366F1">${escapeHtml((activity.title || '?').slice(0, 1).toUpperCase())}</div>`;
+
+        const catName = activity.category?.name || '';
+        const catBadge = catName ? `<span class="pill" style="background:#EEF2FF;color:#4338CA">${escapeHtml(catName)}</span>` : '—';
+
+        return `
+            <tr>
+                <td style="width:52px">${thumb}</td>
+                <td>
+                    <div style="font-weight:600;color:var(--color-gray-800)">${escapeHtml(activity.title || '-')}</div>
+                    ${activity.location ? `<div style="font-size:.75rem;color:var(--color-gray-400);margin-top:.15rem">${escapeHtml(activity.location)}</div>` : ''}
+                </td>
+                <td>${catBadge}</td>
+                <td style="white-space:nowrap;font-size:.82rem">${activity.activity_date ? formatDate(activity.activity_date) : '—'}</td>
+                <td>
+                    <button type="button" class="btn btn-primary btn-sm" data-action="detail" data-id="${activity.id}">ดูรายละเอียด</button>
+                </td>
+            </tr>
+        `;
+    }).join('');
 }
 
 function publicActivityCard(activity) {
     const cover = activity.cover_image_url
-        ? `<img src="${escapeAttr(resolveAssetUrl(activity.cover_image_url))}" alt="${escapeAttr(activity.title)}" class="w-full h-full object-cover">`
-        : `<div class="w-full h-full grid place-items-center font-display text-3xl text-primary">${escapeHtml((activity.title || 'A').slice(0, 1).toUpperCase())}</div>`;
+        ? `<img src="${escapeAttr(resolveAssetUrl(activity.cover_image_url))}" alt="${escapeAttr(activity.title)}">`
+        : `<div class="act-card-img-ph">📋</div>`;
 
-    const categoryName = activity.category?.name || 'ไม่ระบุหมวดหมู่';
-    const shortDescription = truncate(activity.description || 'ไม่มีรายละเอียดเพิ่มเติม', 140);
-    const openPdfButton = activity.pdf_url
-        ? `<a class="btn btn-muted" href="${escapeAttr(resolveAssetUrl(activity.pdf_url))}" target="_blank" rel="noopener">เปิด PDF</a>`
+    const categoryName = activity.category?.name || '';
+    const shortDescription = truncate(activity.description || 'ไม่มีรายละเอียด', 90);
+    const pdfLink = activity.pdf_url
+        ? `<a style="font-size:.8rem;color:var(--color-primary)" href="${escapeAttr(resolveAssetUrl(activity.pdf_url))}" target="_blank" rel="noopener">PDF</a>`
         : '';
-    const downloadPdfButton = activity.pdf_url
-        ? `<a class="btn btn-muted" href="${escapeAttr(resolveAssetUrl(activity.pdf_url))}" target="_blank" rel="noopener" download>ดาวน์โหลด PDF</a>`
-        : '';
+    const catBadge = categoryName
+        ? `<span class="act-card-cat">${escapeHtml(categoryName)}</span>` : '';
 
     return `
-        <article class="grid grid-rows-[156px_1fr] border border-line rounded-xl bg-white overflow-hidden hover:shadow-card transition-shadow duration-200">
-            <div class="bg-gradient-to-br from-teal-100 to-emerald-50">${cover}</div>
-            <div class="p-3.5 grid gap-2">
-                <p class="text-xs text-muted m-0">${escapeHtml(categoryName)}${activity.activity_date ? ` • ${formatDate(activity.activity_date)}` : ''}</p>
-                <h3 class="m-0 text-base font-semibold">${escapeHtml(activity.title || '-')}</h3>
-                <p class="m-0 text-sm text-gray-600">${escapeHtml(shortDescription)}</p>
-                <div class="inline-flex flex-wrap items-center gap-2 mt-1">
-                    <button type="button" class="btn btn-primary" data-action="detail" data-id="${activity.id}">ดูรายละเอียด</button>
-                    ${openPdfButton}
-                    ${downloadPdfButton}
+        <article class="act-card">
+            <div class="act-card-img">${cover}${catBadge}</div>
+            <div class="act-card-body">
+                <p class="act-card-meta">${activity.activity_date ? formatDate(activity.activity_date) : ''}${activity.location ? ` • ${escapeHtml(activity.location)}` : ''}</p>
+                <h3 class="act-card-title">${escapeHtml(activity.title || '-')}</h3>
+                <p class="act-card-desc">${escapeHtml(shortDescription)}</p>
+                <div class="act-card-foot">
+                    <button type="button" class="btn btn-primary btn-sm" data-action="detail" data-id="${activity.id}">ดูรายละเอียด</button>
+                    ${pdfLink}
                 </div>
             </div>
         </article>
@@ -249,12 +371,21 @@ export function bindPublicEvents() {
         void loadPublicActivities();
     });
 
-    /* ── Activity detail ── */
+    /* ── View toggle ── */
+    document.getElementById('view-card-btn')?.addEventListener('click', () => setPublicViewType('card'));
+    document.getElementById('view-table-btn')?.addEventListener('click', () => setPublicViewType('table'));
+
+    /* ── Activity detail (card view) ── */
     el.publicGrid.addEventListener('click', (event) => {
         const detailButton = event.target.closest('[data-action="detail"]');
-        if (!detailButton) {
-            return;
-        }
+        if (!detailButton) return;
+        void openPublicDetail(detailButton.dataset.id);
+    });
+
+    /* ── Activity detail (table view) ── */
+    document.getElementById('public-activity-table-body')?.addEventListener('click', (event) => {
+        const detailButton = event.target.closest('[data-action="detail"]');
+        if (!detailButton) return;
         void openPublicDetail(detailButton.dataset.id);
     });
 }

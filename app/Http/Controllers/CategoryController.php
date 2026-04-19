@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\ApiResponse;
+use App\Http\Requests\StoreCategoryRequest;
+use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
@@ -26,19 +26,9 @@ class CategoryController extends Controller
     /**
      * POST /api/admin/categories
      */
-    public function store(Request $request)
+    public function store(StoreCategoryRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name'        => 'required|string|max:255',
-            'cover_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
-            'status'      => 'nullable|boolean',
-        ]);
-
-        if ($validator->fails()) {
-            return ApiResponse::error('Validation failed', $validator->errors(), 422);
-        }
-
-        $data = $validator->validated();
+        $data = $request->validated();
 
         $payload = [
             'name'   => $data['name'],
@@ -68,21 +58,11 @@ class CategoryController extends Controller
      * PUT /api/admin/categories/{id}
      * Also handles POST with _method=PUT (multipart form-data)
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateCategoryRequest $request, string $id)
     {
         $category = Category::findOrFail($id);
 
-        $validator = Validator::make($request->all(), [
-            'name'        => 'required|string|max:255',
-            'cover_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
-            'status'      => 'nullable|boolean',
-        ]);
-
-        if ($validator->fails()) {
-            return ApiResponse::error('Validation failed', $validator->errors(), 422);
-        }
-
-        $data = $validator->validated();
+        $data = $request->validated();
 
         $payload = [
             'name'   => $data['name'],

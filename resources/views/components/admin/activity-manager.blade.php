@@ -1,33 +1,36 @@
-{{-- Admin: Activity manager (filter + table + pagination — form is in dialog) --}}
-<section class="bg-white border border-line/75 rounded-2xl shadow-card p-5 mb-3.5">
-    <x-section-head
-        title="จัดการกิจกรรม"
-        description="เพิ่ม แก้ไข ลบกิจกรรม และอัปโหลดไฟล์แนบ"
-        tag="h3"
-    >
-        <button id="activity-add-btn" type="button" class="btn btn-primary shrink-0">+ เพิ่มกิจกรรม</button>
-    </x-section-head>
+<div class="panel admin-section hidden" id="admin-section-activities">
+    <div class="panel-header">
+        <div>
+            <h3 class="panel-title">กิจกรรม</h3>
+            <p class="panel-desc">เพิ่ม แก้ไข ลบกิจกรรม และอัปโหลดไฟล์แนบ</p>
+        </div>
+        <button id="activity-add-btn" type="button" class="btn btn-primary btn-sm">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+            เพิ่มกิจกรรม
+        </button>
+    </div>
 
     {{-- Filters --}}
-    <div class="grid gap-2.5 md:flex md:flex-wrap md:items-end md:gap-3 mb-4">
-        <label class="grid gap-1.5 min-w-0 md:min-w-[180px] md:flex-1 md:basis-[280px]" for="admin-activity-keyword">
-            <span class="text-[13px] text-muted">ค้นหากิจกรรม</span>
-            <input id="admin-activity-keyword" type="text" placeholder="ค้นหาจากชื่อกิจกรรม">
+    <div class="panel-toolbar">
+        <label style="display:grid;gap:.3rem;flex:1;min-width:180px;max-width:280px">
+            <span class="tf-label">ค้นหากิจกรรม</span>
+            <input id="admin-activity-keyword" type="text" placeholder="ชื่อกิจกรรม...">
         </label>
-        <label class="grid gap-1.5 min-w-0 md:min-w-[180px]" for="admin-activity-filter-category">
-            <span class="text-[13px] text-muted">กรองหมวดหมู่</span>
+        <label style="display:grid;gap:.3rem;min-width:160px">
+            <span class="tf-label">หมวดหมู่</span>
             <select id="admin-activity-filter-category">
                 <option value="">ทั้งหมด</option>
             </select>
         </label>
-        <div class="flex flex-wrap items-center gap-2 w-full md:w-auto md:inline-flex">
-            <button id="admin-activity-search" type="button" class="btn btn-primary flex-1 md:flex-none">ค้นหา</button>
-            <button id="admin-activity-reset" type="button" class="btn btn-muted flex-1 md:flex-none">ล้างตัวกรอง</button>
+        <div style="display:flex;gap:.5rem;align-items:flex-end">
+            <button id="admin-activity-search" type="button" class="btn btn-primary btn-sm">ค้นหา</button>
+            <button id="admin-activity-reset" type="button" class="btn btn-muted btn-sm">ล้าง</button>
         </div>
     </div>
 
-    {{-- Activity table --}}
-    <div class="w-full overflow-x-auto border border-line rounded-xl">
+    <div class="table-wrap">
         <table>
             <thead>
                 <tr>
@@ -39,10 +42,21 @@
                     <th>จัดการ</th>
                 </tr>
             </thead>
-            <tbody id="admin-activity-list"></tbody>
+            <tbody id="admin-activity-list">
+                <tr><td colspan="6" style="text-align:center;color:var(--color-gray-400);padding:2rem">กำลังโหลด...</td></tr>
+            </tbody>
         </table>
     </div>
 
-    {{-- Pagination --}}
-    <x-pagination prevId="admin-activity-prev" pageId="admin-activity-page" nextId="admin-activity-next" />
-</section>
+    <div style="padding:.875rem 1.5rem;border-top:1px solid var(--color-gray-100);display:flex;justify-content:flex-end;align-items:center;gap:.75rem">
+        <button id="admin-activity-prev" type="button" class="btn btn-muted btn-sm">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            ก่อนหน้า
+        </button>
+        <span id="admin-activity-page" style="font-size:.82rem;color:var(--color-gray-500)">หน้า 1 / 1</span>
+        <button id="admin-activity-next" type="button" class="btn btn-muted btn-sm">
+            ถัดไป
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+    </div>
+</div>

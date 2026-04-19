@@ -1,16 +1,14 @@
-{{-- Reusable section heading --}}
 @props(['title', 'description' => '', 'tag' => 'h2'])
 
-<div class="flex items-start justify-between gap-3.5 mb-4">
+<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:1rem">
     <div>
         @if($tag === 'h3')
-            <h3 class="m-0 mb-1 font-display text-[clamp(1.1rem,1.9vw,1.3rem)] font-bold">{{ $title }}</h3>
+            <h3 style="margin:0 0 .2rem;font-size:.95rem;font-weight:700;color:var(--color-gray-900)">{{ $title }}</h3>
         @else
-            <h2 class="m-0 mb-1 font-display text-[clamp(1.1rem,1.9vw,1.3rem)] font-bold">{{ $title }}</h2>
+            <h2 style="margin:0 0 .2rem;font-size:1rem;font-weight:700;color:var(--color-gray-900)">{{ $title }}</h2>
         @endif
-
         @if($description)
-            <p class="m-0 text-muted text-[0.94rem]">{{ $description }}</p>
+            <p style="margin:0;font-size:.8rem;color:var(--color-gray-500)">{{ $description }}</p>
         @endif
     </div>
     {{ $slot }}

@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\ApiResponse;
+use App\Http\Requests\StoreActivityRequest;
+use App\Http\Requests\UpdateActivityRequest;
 use App\Models\Activity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 
 class ActivityController extends Controller
 {
@@ -29,40 +30,18 @@ class ActivityController extends Controller
 
         $paginator = $query->latest()->paginate($perPage);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Activities fetched successfully',
-            'data'    => $paginator->getCollection()->map(fn ($a) => $this->formatActivity($a)),
-            'meta'    => [
-                'current_page' => $paginator->currentPage(),
-                'per_page'     => $paginator->perPage(),
-                'total'        => $paginator->total(),
-                'last_page'    => $paginator->lastPage(),
-            ],
-        ]);
+        return ApiResponse::paginated(
+            'Activities fetched successfully',
+            $paginator->through(fn ($a) => $this->formatActivity($a))
+        );
     }
 
     /**
      * POST /api/admin/activities
      */
-    public function store(Request $request)
+    public function store(StoreActivityRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'title'         => 'required|string|max:255',
-            'category_id'   => 'required|exists:categories,id',
-            'description'   => 'nullable|string',
-            'cover_image'   => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
-            'pdf_file'      => 'nullable|mimes:pdf|max:20480',
-            'activity_date' => 'nullable|date',
-            'location'      => 'nullable|string|max:500',
-            'status'        => 'nullable|boolean',
-        ]);
-
-        if ($validator->fails()) {
-            return ApiResponse::error('Validation failed', $validator->errors(), 422);
-        }
-
-        $data = $validator->validated();
+        $data = $request->validated();
 
         $payload = [
             'category_id'   => $data['category_id'],
@@ -108,26 +87,11 @@ class ActivityController extends Controller
      * PUT /api/admin/activities/{id}
      * Also handles POST with _method=PUT (multipart form-data)
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateActivityRequest $request, string $id)
     {
         $activity = Activity::findOrFail($id);
 
-        $validator = Validator::make($request->all(), [
-            'title'         => 'required|string|max:255',
-            'category_id'   => 'required|exists:categories,id',
-            'description'   => 'nullable|string',
-            'cover_image'   => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
-            'pdf_file'      => 'nullable|mimes:pdf|max:20480',
-            'activity_date' => 'nullable|date',
-            'location'      => 'nullable|string|max:500',
-            'status'        => 'nullable|boolean',
-        ]);
-
-        if ($validator->fails()) {
-            return ApiResponse::error('Validation failed', $validator->errors(), 422);
-        }
-
-        $data = $validator->validated();
+        $data = $request->validated();
 
         $payload = [
             'category_id'   => $data['category_id'],

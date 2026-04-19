@@ -1,17 +1,29 @@
-{{-- Topbar: Brand identity + mode switch --}}
-<header class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 p-5 bg-white border border-line/75 rounded-2xl shadow-card mb-4">
-    {{-- Brand --}}
-    <div class="flex items-center gap-3.5">
-        <span class="w-3.5 h-3.5 rounded-full bg-gradient-to-b from-primary to-[#14998f] shadow-[0_0_0_8px_rgba(15,118,110,0.12)]" aria-hidden="true"></span>
-        <div>
-            <p class="m-0 text-[13px] uppercase tracking-[0.08em] text-muted font-display">University Activities</p>
-            <h1 class="mt-1 m-0 text-[clamp(1.05rem,1.8vw,1.35rem)] font-bold">ระบบกิจกรรมและเอกสาร</h1>
-        </div>
-    </div>
+<header class="nav-bar">
+    <div class="nav-inner">
+        <a href="/" class="nav-brand">
+            <span class="nav-brand-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                    <path d="M8 7h8M8 11h8M8 15h5"/>
+                </svg>
+            </span>
+            <div class="nav-brand-text">
+                <strong>กิจกรรมมหาวิทยาลัย</strong>
+                <span>University Activities</span>
+            </div>
+        </a>
 
-    {{-- Mode switch --}}
-    <nav class="inline-flex gap-2 p-1.5 rounded-full border border-line bg-[#f7f9fc] w-full md:w-auto" aria-label="โหมดการใช้งาน">
-        <button type="button" class="mode-btn is-active flex-1 md:flex-none border-0 rounded-full bg-transparent text-muted py-2 px-3.5 font-sans text-sm cursor-pointer text-center transition-colors" data-mode="public">ผู้ใช้ทั่วไป</button>
-        <button type="button" class="mode-btn flex-1 md:flex-none border-0 rounded-full bg-transparent text-muted py-2 px-3.5 font-sans text-sm cursor-pointer text-center transition-colors" data-mode="admin">แอดมิน</button>
-    </nav>
+        <nav class="nav-links">
+            <a href="#activities" class="nav-link hidden sm:inline-block">กิจกรรม</a>
+            <a href="#about" class="nav-link hidden sm:inline-block">เกี่ยวกับ</a>
+            <button type="button" class="btn btn-primary btn-sm mode-btn" data-mode="admin">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+                เข้าสู่ระบบ
+            </button>
+        </nav>
+    </div>
 </header>

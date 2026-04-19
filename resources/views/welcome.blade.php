@@ -1,38 +1,181 @@
-{{--
-    Entry point — assembles layout + components.
-    Actual rendering is done by Blade components in:
-      - components/topbar.blade.php
-      - components/public/activity-section.blade.php
-      - components/admin/*.blade.php
-      - components/activity-dialog.blade.php
-      - components/confirm-dialog.blade.php
-      - components/toast.blade.php
---}}
 <x-layouts.app>
-    <div class="max-w-[1180px] w-[94%] mx-auto mt-6 mb-12 max-sm:w-[96%] max-sm:mt-3.5">
+
+    {{-- ════════════════════════════════
+         PUBLIC VIEW
+    ════════════════════════════════ --}}
+    <div id="public-view">
+
         <x-topbar />
 
-        <main class="grid gap-4">
-            {{-- Public view --}}
-            <x-public.activity-section />
+        {{-- Hero --}}
+        <section class="hero">
+            <div class="hero-inner">
+                <div class="hero-badge">ระบบจัดการกิจกรรมและเอกสาร</div>
+                <h2 class="hero-title">
+                    จัดการ<em>กิจกรรม</em><br>มหาวิทยาลัย<br>ให้ง่ายยิ่งขึ้น
+                </h2>
+                <p class="hero-desc">
+                    ระบบครบวงจรสำหรับจัดการกิจกรรม อัปโหลดเอกสาร และติดตามข้อมูลอย่างมีประสิทธิภาพ
+                </p>
+                <div class="hero-actions">
+                    <a href="#activities" class="hero-cta">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                            <polyline points="9 22 9 12 15 12 15 22"/>
+                        </svg>
+                        ดูกิจกรรมทั้งหมด
+                    </a>
+                    <button type="button" class="hero-cta-outline mode-btn" data-mode="admin">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="8" r="4"/>
+                            <path d="M6 20v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>
+                        </svg>
+                        สำหรับผู้ดูแล
+                    </button>
+                </div>
 
-            {{-- Admin view --}}
-            <section id="admin-view" class="hidden">
-                <x-admin.login-card />
+                {{-- Stats --}}
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <p class="hero-stat-num" id="stat-activities">0</p>
+                        <p class="hero-stat-label">กิจกรรม</p>
+                    </div>
+                    <div class="hero-stat">
+                        <p class="hero-stat-num" id="stat-categories">0</p>
+                        <p class="hero-stat-label">หมวดหมู่</p>
+                    </div>
+                    <div class="hero-stat">
+                        <p class="hero-stat-num" id="stat-documents">0</p>
+                        <p class="hero-stat-label">เอกสาร</p>
+                    </div>
+                    <div class="hero-stat">
+                        <p class="hero-stat-num" id="stat-registered">0</p>
+                        <p class="hero-stat-label">ผู้เข้าร่วม</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-                <div id="admin-dashboard" class="hidden">
-                    <x-admin.dashboard-header />
+        {{-- Features --}}
+        <section id="about" class="section" style="background:#fff; border-bottom:1px solid var(--color-line)">
+            <div class="section-inner">
+                <p class="section-eyebrow">ฟีเจอร์</p>
+                <h3 class="section-title">ครบทุกความต้องการ</h3>
+                <p class="section-subtitle">ระบบออกแบบมาเพื่อมหาวิทยาลัยโดยเฉพาะ</p>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+                            </svg>
+                        </div>
+                        <h4 class="feature-title">จัดการกิจกรรม</h4>
+                        <p class="feature-desc">สร้าง แก้ไข และติดตามกิจกรรมต่างๆ ได้อย่างมีระบบ</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
+                            </svg>
+                        </div>
+                        <h4 class="feature-title">จัดการเอกสาร PDF</h4>
+                        <p class="feature-desc">อัปโหลดและแชร์เอกสาร PDF ประกอบกิจกรรมได้ทันที</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                            </svg>
+                        </div>
+                        <h4 class="feature-title">รองรับผู้เข้าร่วม</h4>
+                        <p class="feature-desc">บริหารจัดการรายชื่อผู้เข้าร่วมกิจกรรมได้ง่าย</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+                            </svg>
+                        </div>
+                        <h4 class="feature-title">สถิติและรายงาน</h4>
+                        <p class="feature-desc">ดูภาพรวมและสร้างรายงานได้อย่างรวดเร็ว</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {{-- Activities Section --}}
+        <section id="activities" class="section">
+            <div class="section-inner">
+                <x-public.activity-section />
+            </div>
+        </section>
+
+        {{-- Footer --}}
+        <footer class="footer">
+            <div class="footer-inner">
+                <div class="footer-top">
+                    <div class="footer-brand">
+                        <strong>University Activities</strong>
+                        <p>ระบบจัดการกิจกรรมและเอกสารสำหรับมหาวิทยาลัย</p>
+                    </div>
+                    <nav class="footer-nav">
+                        <a href="#activities">กิจกรรม</a>
+                        <a href="#about">เกี่ยวกับ</a>
+                        <a href="#" class="mode-btn" data-mode="admin">ผู้ดูแลระบบ</a>
+                    </nav>
+                </div>
+                <p class="footer-bottom">© {{ date('Y') }} University Activities. สงวนลิขสิทธิ์</p>
+            </div>
+        </footer>
+
+    </div>{{-- end #public-view --}}
+
+    {{-- ════════════════════════════════
+         ADMIN VIEW
+    ════════════════════════════════ --}}
+    <section id="admin-view" class="hidden">
+
+        {{-- Login screen --}}
+        <div class="admin-login-screen" id="admin-auth-card">
+            <x-admin.login-card />
+        </div>
+
+        {{-- Dashboard --}}
+        <div id="admin-dashboard" class="hidden admin-layout">
+            <x-admin.dashboard-header />
+            <div class="admin-main">
+                <header class="admin-topbar">
+                    <div style="display:flex;align-items:center;gap:.875rem">
+                        <div>
+                            <h1 id="admin-topbar-title">ภาพรวม</h1>
+                            <p id="admin-topbar-desc">สถิติและข้อมูลสรุปของระบบ</p>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-sm mode-btn" data-mode="public"
+                        style="background:var(--color-gray-100);color:var(--color-gray-600);border:1px solid var(--color-gray-200)">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                            <polyline points="9 22 9 12 15 12 15 22"/>
+                        </svg>
+                        กลับหน้าหลัก
+                    </button>
+                </header>
+                <div class="admin-page-body">
+                    <x-admin.overview-section />
                     <x-admin.category-manager />
                     <x-admin.activity-manager />
                 </div>
-            </section>
-        </main>
-    </div>
+            </div>
+        </div>
 
-    {{-- Dialogs (rendered outside the page shell) --}}
+    </section>{{-- end #admin-view --}}
+
+    {{-- Dialogs --}}
     <x-activity-dialog />
     <x-confirm-dialog />
     <x-admin.category-form-dialog />
     <x-admin.activity-form-dialog />
+    <x-admin.media-preview-dialog />
     <x-toast />
+
 </x-layouts.app>

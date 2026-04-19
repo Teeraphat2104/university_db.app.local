@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(php artisan *)",
+      "Bash(python3 *)",
+      "Bash(php *)",
+      "Bash(npx vite *)",
+      "Bash(npm run *)"
+    ]
+  }
+}

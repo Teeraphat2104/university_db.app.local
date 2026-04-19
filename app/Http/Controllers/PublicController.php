@@ -11,7 +11,7 @@ class PublicController extends Controller
 {
     /**
      * GET /api/public/home
-     * Returns active categories + latest 8 active activities.
+     * Returns active categories + latest 8 active activities + stats.
      */
     public function home()
     {
@@ -31,6 +31,11 @@ class PublicController extends Controller
                 'status'          => (int) $cat->status,
             ]),
             'latest_activities' => $latestActivities->map(fn ($a) => $this->formatActivity($a)),
+            'stats' => [
+                'total_activities' => Activity::where('status', true)->count(),
+                'total_categories' => Category::where('status', true)->count(),
+                'total_documents'  => Activity::where('status', true)->whereNotNull('pdf_file')->count(),
+            ],
         ]);
     }
 
@@ -73,17 +78,10 @@ class PublicController extends Controller
 
         $paginator = $query->latest()->paginate($perPage);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Activities fetched successfully',
-            'data'    => $paginator->getCollection()->map(fn ($a) => $this->formatActivity($a)),
-            'meta'    => [
-                'current_page' => $paginator->currentPage(),
-                'per_page'     => $paginator->perPage(),
-                'total'        => $paginator->total(),
-                'last_page'    => $paginator->lastPage(),
-            ],
-        ]);
+        return ApiResponse::paginated(
+            'Activities fetched successfully',
+            $paginator->through(fn ($a) => $this->formatActivity($a))
+        );
     }
 
     /**
