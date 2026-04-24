@@ -18,7 +18,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     bindDialogEvents();
     bindModalBackdropClose();
     bindModeSwitch();
-    bindMobileMenu();
 
     const initialMode = window.location.pathname.startsWith('/admin') ? 'admin' : 'public';
     setMode(initialMode, false);
@@ -30,25 +29,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         showToast(errorToMessage(error), 'error');
     }
 });
-
-/* ── Mobile Menu ── */
-
-function bindMobileMenu() {
-    const menuBtn = document.querySelector('.mobile-menu-btn');
-    const navLinks = document.querySelector('.nav-links');
-
-    if (!menuBtn || !navLinks) return;
-
-    menuBtn.addEventListener('click', () => {
-        navLinks.classList.toggle('is-open');
-    });
-
-    document.addEventListener('click', (e) => {
-        if (!menuBtn.contains(e.target) && !navLinks.contains(e.target)) {
-            navLinks.classList.remove('is-open');
-        }
-    });
-}
 
 /* ── Mode switching ── */
 
