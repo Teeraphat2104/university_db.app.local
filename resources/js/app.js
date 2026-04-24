@@ -10,11 +10,13 @@ import { errorToMessage } from './api';
 import { cacheElements, el, showToast, bindDialogEvents, bindModalBackdropClose } from './ui';
 import { loadPublicCategories, loadPublicActivities, bindPublicEvents } from './public';
 import { ensureAdminSession, bindAdminEvents } from './admin';
+import { bindParticipantSearchEvents } from './participant-search';
 
 document.addEventListener('DOMContentLoaded', async () => {
     cacheElements();
     bindPublicEvents();
     bindAdminEvents();
+    bindParticipantSearchEvents();
     bindDialogEvents();
     bindModalBackdropClose();
     bindModeSwitch();

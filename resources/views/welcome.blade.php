@@ -25,6 +25,12 @@
                         </svg>
                         ดูกิจกรรมทั้งหมด
                     </a>
+                    <button type="button" id="open-participant-search" class="hero-cta-outline">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                        </svg>
+                        ตรวจสอบการเข้าร่วม
+                    </button>
                     <button type="button" class="hero-cta-outline mode-btn" data-mode="admin">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="8" r="4"/>
@@ -48,7 +54,7 @@
                         <p class="hero-stat-num" id="stat-documents">0</p>
                         <p class="hero-stat-label">เอกสาร</p>
                     </div>
-                    <div class="hero-stat">
+                    <div class="hero-stat" style="cursor:pointer" id="stat-registered-wrap">
                         <p class="hero-stat-num" id="stat-registered">0</p>
                         <p class="hero-stat-label">ผู้เข้าร่วม</p>
                     </div>
@@ -176,6 +182,7 @@
     <x-admin.category-form-dialog />
     <x-admin.activity-form-dialog />
     <x-admin.media-preview-dialog />
+    <x-participant-search-dialog />
     <x-toast />
 
 </x-layouts.app>

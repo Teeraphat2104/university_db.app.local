@@ -16,6 +16,7 @@ Route::prefix('public')->group(function () {
     Route::get('/categories',      [PublicController::class, 'categories']);
     Route::get('/activities',      [PublicController::class, 'activities']);
     Route::get('/activities/{id}', [PublicController::class, 'activityDetail']);
+    Route::get('/search',          [PublicController::class, 'search']);
 });
 
 /*
@@ -34,5 +35,10 @@ Route::prefix('admin')->group(function () {
 
         Route::apiResource('categories', CategoryController::class);
         Route::apiResource('activities', ActivityController::class);
+
+        // Excel import & participants management
+        Route::post('/activities/{id}/import-excel',     [ActivityController::class, 'importExcel']);
+        Route::get('/activities/{id}/participants',      [ActivityController::class, 'participants']);
+        Route::delete('/activities/{id}/participants',   [ActivityController::class, 'clearParticipants']);
     });
 });

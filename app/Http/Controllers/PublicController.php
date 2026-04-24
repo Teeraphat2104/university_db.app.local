@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\ApiResponse;
 use App\Models\Activity;
+use App\Models\ActivityParticipant;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -32,9 +33,10 @@ class PublicController extends Controller
             ]),
             'latest_activities' => $latestActivities->map(fn ($a) => $this->formatActivity($a)),
             'stats' => [
-                'total_activities' => Activity::where('status', true)->count(),
-                'total_categories' => Category::where('status', true)->count(),
-                'total_documents'  => Activity::where('status', true)->whereNotNull('pdf_file')->count(),
+                'total_activities'    => Activity::where('status', true)->count(),
+                'total_categories'    => Category::where('status', true)->count(),
+                'total_documents'     => Activity::where('status', true)->whereNotNull('pdf_file')->count(),
+                'total_participants'  => ActivityParticipant::count(),
             ],
         ]);
     }
@@ -97,6 +99,55 @@ class PublicController extends Controller
             'Activity fetched successfully',
             $this->formatActivity($activity)
         );
+    }
+
+    /**
+     * GET /api/public/search?q=6601234567  (Student ID)
+     * GET /api/public/search?q=สมชาย       (Name)
+     */
+    public function search(Request $request)
+    {
+        $q = trim($request->input('q', ''));
+
+        if (blank($q)) {
+            return ApiResponse::error('กรุณากรอก Student ID หรือชื่อที่ต้องการค้นหา', null, 422);
+        }
+
+        $query = ActivityParticipant::with(['activity' => function ($q) {
+            $q->with('category')->where('status', true);
+        }]);
+
+        // Detect search type: all-digits = Student ID, else = name
+        if (ctype_digit($q)) {
+            $query->where('student_id', $q);
+            $queryType = 'student_id';
+        } else {
+            $query->where('name', 'LIKE', "%{$q}%");
+            $queryType = 'name';
+        }
+
+        $participants = $query->get();
+
+        // Filter out participants whose activity was deleted / inactive
+        $participants = $participants->filter(fn ($p) => $p->activity !== null);
+
+        // Group by student
+        $grouped = $participants->groupBy('student_id')->map(function ($rows) {
+            $first = $rows->first();
+            return [
+                'student_id' => $first->student_id,
+                'name'       => $first->name,
+                'activities' => $rows->map(fn ($p) => $this->formatActivity($p->activity))->values()->toArray(),
+            ];
+        })->values()->toArray();
+
+        return response()->json([
+            'success'    => true,
+            'query'      => $q,
+            'query_type' => $queryType,
+            'count'      => count($grouped),
+            'data'       => $grouped,
+        ]);
     }
 
     /**
