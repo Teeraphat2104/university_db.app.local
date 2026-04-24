@@ -2,9 +2,7 @@
     <div class="dialog-header">
         <h3 id="category-form-dialog-title">เพิ่มหมวดหมู่</h3>
         <button id="category-dialog-close-btn" type="button" class="btn btn-ghost btn-sm" style="width:32px;height:32px;padding:0;border-radius:var(--radius-md)">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-            </svg>
+            <i class="fa-solid fa-xmark"></i>
         </button>
     </div>
 

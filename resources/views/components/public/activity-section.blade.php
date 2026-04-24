@@ -30,23 +30,15 @@
                 {{-- View toggle --}}
                 <div class="view-toggle">
                     <button id="view-card-btn" type="button" class="view-toggle-btn is-active" aria-label="Card view" title="มุมมองการ์ด">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
-                            <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
-                        </svg>
+                        <i class="fa-solid fa-grip"></i>
                     </button>
                     <button id="view-table-btn" type="button" class="view-toggle-btn" aria-label="Table view" title="มุมมองตาราง">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/>
-                            <line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
-                        </svg>
+                        <i class="fa-solid fa-table-list"></i>
                     </button>
                 </div>
 
                 <button id="public-back-to-categories" type="button" class="btn btn-muted btn-sm">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="15 18 9 12 15 6"/>
-                    </svg>
+                    <i class="fa-solid fa-chevron-left"></i>
                     กลับ
                 </button>
             </div>
@@ -76,13 +68,13 @@
 
         <div class="pagination">
             <button id="public-prev" type="button" class="btn btn-muted btn-sm">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                <i class="fa-solid fa-chevron-left"></i>
                 ก่อนหน้า
             </button>
             <span id="public-page" class="pagination-info">หน้า 1 / 1</span>
             <button id="public-next" type="button" class="btn btn-muted btn-sm">
                 ถัดไป
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                <i class="fa-solid fa-chevron-right"></i>
             </button>
         </div>
     </div>

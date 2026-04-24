@@ -4,9 +4,7 @@
             {{-- icon + text injected by JS --}}
         </p>
         <button id="media-preview-close" type="button" class="media-preview-close" aria-label="ปิด">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-            </svg>
+            <i class="fa-solid fa-xmark"></i>
         </button>
     </div>
     <div class="media-preview-body">
