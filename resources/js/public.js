@@ -56,7 +56,7 @@ function updateStatsFromServer(stats, categoryCount) {
     if (statActivities) animateNumber(statActivities, stats.total_activities || 0);
     if (statCategories) animateNumber(statCategories, categoryCount);
     if (statDocuments)  animateNumber(statDocuments, stats.total_documents || 0);
-    if (statRegistered) animateNumber(statRegistered, 0);
+    if (statRegistered) animateNumber(statRegistered, stats.total_participants || 0);
 }
 
 export async function loadPublicActivities() {

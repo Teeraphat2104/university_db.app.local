@@ -276,9 +276,26 @@ async function loadOverviewStats() {
         const stats = response.data?.stats || {};
         const elActive = document.getElementById('overview-active-activities');
         const elDocs   = document.getElementById('overview-total-documents');
+        const elPart   = document.getElementById('stat-registered');
         if (elActive) elActive.textContent = stats.total_activities ?? '—';
         if (elDocs)   elDocs.textContent   = stats.total_documents  ?? '—';
+        if (elPart)   {
+            const total = stats.total_participants || 0;
+            animateStatNumber(elPart, total);
+        }
     } catch { /* non-critical */ }
+}
+
+function animateStatNumber(element, target) {
+    const duration = 800;
+    const startTime = performance.now();
+    function update(t) {
+        const progress = Math.min((t - startTime) / duration, 1);
+        const easeOut = 1 - Math.pow(1 - progress, 3);
+        element.textContent = Math.floor(target * easeOut).toLocaleString('th-TH');
+        if (progress < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
 }
 
 function updateOverviewCounts() {
@@ -568,9 +585,11 @@ async function editActivity(id) {
         const coverPreviewEl = document.getElementById('activity-cover-preview');
         const pdfPreviewEl   = document.getElementById('activity-pdf-preview');
         const existingEl     = document.getElementById('activity-existing-assets');
+        const excelInput     = document.getElementById('activity-excel');
 
         if (coverPreviewEl) { coverPreviewEl.innerHTML = ''; coverPreviewEl.classList.add('hidden'); }
         if (pdfPreviewEl)   { pdfPreviewEl.innerHTML   = ''; pdfPreviewEl.classList.add('hidden'); }
+        if (excelInput)     { excelInput.value = ''; }
 
         if (existingEl) {
             existingEl.innerHTML = '';
@@ -584,11 +603,26 @@ async function editActivity(id) {
             }
         }
 
+        // Update participants badge
+        updateParticipantsBadge(activity.participants_count || 0);
+
         el.activityFormDialogTitle.textContent = 'แก้ไขกิจกรรม';
         el.activitySubmit.textContent = 'บันทึกการแก้ไข';
         el.activityFormDialog.showModal();
     } catch (error) {
         showToast(errorToMessage(error), 'error');
+    }
+}
+
+function updateParticipantsBadge(count) {
+    const badge   = document.getElementById('activity-participants-badge');
+    const countEl = document.getElementById('activity-participants-count');
+    if (!badge || !countEl) return;
+    if (count > 0) {
+        countEl.textContent = `${count.toLocaleString('th-TH')} คน`;
+        badge.classList.remove('hidden');
+    } else {
+        badge.classList.add('hidden');
     }
 }
 
@@ -600,9 +634,12 @@ function resetActivityForm() {
     const coverPreviewEl = document.getElementById('activity-cover-preview');
     const pdfPreviewEl   = document.getElementById('activity-pdf-preview');
     const existingEl     = document.getElementById('activity-existing-assets');
+    const excelInput     = document.getElementById('activity-excel');
     if (coverPreviewEl) { coverPreviewEl.innerHTML = ''; coverPreviewEl.classList.add('hidden'); }
     if (pdfPreviewEl)   { pdfPreviewEl.innerHTML   = ''; pdfPreviewEl.classList.add('hidden'); }
     if (existingEl)     { existingEl.innerHTML     = ''; existingEl.classList.add('hidden'); }
+    if (excelInput)     { excelInput.value = ''; }
+    updateParticipantsBadge(0);
 }
 
 async function saveActivity() {
@@ -743,6 +780,47 @@ export function bindAdminEvents() {
     const actPdfPreview   = document.getElementById('activity-pdf-preview');
     if (actCoverPreview) bindFilePreview(el.activityCover, actCoverPreview, 'image');
     if (actPdfPreview)   bindFilePreview(el.activityPdf,   actPdfPreview,   'pdf');
+
+    /* ── Excel import ── */
+    document.getElementById('activity-import-excel-btn')?.addEventListener('click', async () => {
+        const id = el.activityId.value;
+        if (!id) {
+            showToast('กรุณาบันทึกกิจกรรมก่อนนำเข้า Excel', 'error');
+            return;
+        }
+        const excelInput = document.getElementById('activity-excel');
+        if (!excelInput?.files.length) {
+            showToast('กรุณาเลือกไฟล์ Excel ก่อน', 'error');
+            return;
+        }
+        const formData = new FormData();
+        formData.set('excel_file', excelInput.files[0]);
+        try {
+            const res = await api(`/admin/activities/${id}/import-excel`, { method: 'POST', auth: true, body: formData });
+            showToast(res.message || 'นำเข้าสำเร็จ', 'success');
+            updateParticipantsBadge(res.data?.total || 0);
+            excelInput.value = '';
+            await loadAdminActivities();
+        } catch (error) {
+            showToast(errorToMessage(error), 'error');
+        }
+    });
+
+    /* ── Clear participants ── */
+    document.getElementById('activity-clear-participants')?.addEventListener('click', async () => {
+        const id = el.activityId.value;
+        if (!id) return;
+        const confirmed = await showConfirmDialog('ล้างรายชื่อ', 'ต้องการล้างรายชื่อผู้เข้าร่วมทั้งหมดหรือไม่?');
+        if (!confirmed) return;
+        try {
+            await api(`/admin/activities/${id}/participants`, { method: 'DELETE', auth: true });
+            showToast('ล้างรายชื่อแล้ว', 'success');
+            updateParticipantsBadge(0);
+            await loadAdminActivities();
+        } catch (error) {
+            showToast(errorToMessage(error), 'error');
+        }
+    });
 
     /* ── Activity filters & pagination ── */
     el.adminActivitySearch.addEventListener('click', () => {
