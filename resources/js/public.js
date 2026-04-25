@@ -12,9 +12,9 @@ let publicViewType = 'card';
 
 function setPublicViewType(type) {
     publicViewType = type;
-    const grid  = document.getElementById('public-activity-grid');
+    const grid = document.getElementById('public-activity-grid');
     const table = document.getElementById('public-activity-table-wrap');
-    const cardBtn  = document.getElementById('view-card-btn');
+    const cardBtn = document.getElementById('view-card-btn');
     const tableBtn = document.getElementById('view-table-btn');
 
     if (type === 'table') {
@@ -50,12 +50,12 @@ export async function loadPublicCategories() {
 function updateStatsFromServer(stats, categoryCount) {
     const statActivities = document.getElementById('stat-activities');
     const statCategories = document.getElementById('stat-categories');
-    const statDocuments  = document.getElementById('stat-documents');
+    const statDocuments = document.getElementById('stat-documents');
     const statRegistered = document.getElementById('stat-registered');
 
     if (statActivities) animateNumber(statActivities, stats.total_activities || 0);
     if (statCategories) animateNumber(statCategories, categoryCount);
-    if (statDocuments)  animateNumber(statDocuments, stats.total_documents || 0);
+    if (statDocuments) animateNumber(statDocuments, stats.total_documents || 0);
     if (statRegistered) animateNumber(statRegistered, stats.total_participants || 0);
 }
 
@@ -166,8 +166,8 @@ function animateNumber(element, target) {
 
 function categoryCard(category) {
     const colors = [
-        ['#EEF2FF','#6366F1'], ['#F0FDF4','#10B981'], ['#FFFBEB','#F59E0B'],
-        ['#FAF5FF','#8B5CF6'], ['#FFF1F2','#F43F5E'], ['#ECFEFF','#06B6D4'],
+        ['#EEF2FF', '#6366F1'], ['#F0FDF4', '#10B981'], ['#FFFBEB', '#F59E0B'],
+        ['#FAF5FF', '#8B5CF6'], ['#FFF1F2', '#F43F5E'], ['#ECFEFF', '#06B6D4'],
     ];
     const [bg, fg] = colors[category.id % colors.length];
 
@@ -311,6 +311,7 @@ async function openPublicDetail(id) {
         } else {
             el.dialog.setAttribute('open', 'open');
         }
+        document.body.style.overflow = 'hidden';
     } catch (error) {
         showToast(errorToMessage(error), 'error');
     }

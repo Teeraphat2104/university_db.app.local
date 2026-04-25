@@ -2,11 +2,11 @@ INSERT INTO `admins` (`id`, `name`, `email`, `password`, `created_at`, `updated_
 (1, 'Super Admin', 'admin@example.com', '$2y$12$SCct3v5AGezlKItGL5bO8ep5CEWl9.Cyh.v32DBj9M8GsnfLBycp.', '2026-04-09 08:56:06', '2026-04-09 08:56:06');
 
 INSERT INTO `categories` (`id`, `name`, `cover_image`, `status`, `created_at`, `updated_at`) VALUES
-(6, 'อบรม ความรู้ทางไซเบอร์', 'categories/H0LMcdUnqVz3FFSlZlQcnfXEe47vl3BVzQvWy6ce.jpg', 1, '2026-04-10 08:13:49', '2026-04-10 09:19:52'),
-(7, 'กิจกรรม จิตอาสา', 'categories/MztjDrujDWPrjDezKTZD4mh8tdOxJMT39P1v0HQg.jpg', 1, '2026-04-10 09:12:52', '2026-04-10 09:24:29'),
-(8, 'อบรม ธรรมะ', 'categories/EhhihU6pNE0rh1nr5qKFXR8TRdGvFYyFGaYOaOdM.jpg', 1, '2026-04-10 09:23:49', '2026-04-10 09:24:22'),
-(9, 'อบรม การขับขี่รถยนต์', 'categories/UCyV6GOFPADnny0ssSw6YiQJlOL87qhvF7LmkNEA.png', 1, '2026-04-10 09:25:37', '2026-04-10 09:26:06'),
-(10, 'กีฬา สระหงส์', 'categories/WarC1uow294zt6pblFYytqYSRi5MKVjgq4dShZuS.jpg', 1, '2026-04-10 09:29:53', '2026-04-10 09:30:00');
+(6, 'อบรมความรู้ทางไซเบอร์', 'categories/H0LMcdUnqVz3FFSlZlQcnfXEe47vl3BVzQvWy6ce.jpg', 1, '2026-04-10 08:13:49', '2026-04-10 09:19:52'),
+(7, 'กิจกรรมจิตอาสา', 'categories/MztjDrujDWPrjDezKTZD4mh8tdOxJMT39P1v0HQg.jpg', 1, '2026-04-10 09:12:52', '2026-04-10 09:24:29'),
+(8, 'อบรมธรรมะ', 'categories/EhhihU6pNE0rh1nr5qKFXR8TRdGvFYyFGaYOaOdM.jpg', 1, '2026-04-10 09:23:49', '2026-04-10 09:24:22'),
+(9, 'อบรมการขับขี่รถยนต์', 'categories/UCyV6GOFPADnny0ssSw6YiQJlOL87qhvF7LmkNEA.png', 1, '2026-04-10 09:25:37', '2026-04-10 09:26:06'),
+(10, 'กีฬาสระหงส์', 'categories/WarC1uow294zt6pblFYytqYSRi5MKVjgq4dShZuS.jpg', 1, '2026-04-10 09:29:53', '2026-04-10 09:30:00');
 
 INSERT INTO `activities` (`id`, `category_id`, `title`, `description`, `cover_image`, `pdf_file`, `excel_file`, `participants_count`, `activity_date`, `location`, `status`, `created_at`, `updated_at`) VALUES
 (7, 6, 'องค์กรจัดอบรมความปลอดภัยทางเว็ป เพื่อเสริมสร้างความรู้ให้กับนักศึกษา', 'การจัดอบรมความปลอดภัยทางเว็ปเป็นส่วนสำคัญในการพัฒนาบุคลากรในองค์กร ช่วยให้พนักงานเข้าใจถึงความเสี่ยงจากการใช้งานอินเทอร์เน็ตในชีวิตประจำวัน เนื้อหาครอบคลุมทั้งการป้องกันไวรัส มัลแวร์ และการโจมตีทางไซเบอร์ รวมถึงแนวทางปฏิบัติเมื่อพบเหตุการณ์ผิดปกติบนเว็ปไซต์ ส่งผลให้องค์กรมีความปลอดภัยด้านข้อมูลมากยิ่งขึ้น', 'covers/p6h1S8G2ZgGvLmBefSNECDRqmPSj4sy7bakRwv4l.png', 'pdfs/iJnZDu0AbKNUEjNapQZxAFzYwHaS6pjjCaZpNQ8h.pdf', NULL, 0, '2026-04-07', 'ตึกหอสมุด ชั้น 2', 1, '2026-04-10 08:17:53', '2026-04-10 09:11:31'),

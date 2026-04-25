@@ -119,9 +119,11 @@ export function showToast(message, type = 'info') {
 export function closeDialog() {
     if (typeof el.dialog.close === 'function' && el.dialog.open) {
         el.dialog.close();
+        document.body.style.overflow = '';
         return;
     }
     el.dialog.removeAttribute('open');
+    document.body.style.overflow = '';
 }
 
 export function bindDialogEvents() {
@@ -130,6 +132,9 @@ export function bindDialogEvents() {
         if (event.target === el.dialog) {
             closeDialog();
         }
+    });
+    el.dialog.addEventListener('close', () => {
+        document.body.style.overflow = '';
     });
 }
 

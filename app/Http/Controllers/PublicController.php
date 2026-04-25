@@ -35,7 +35,8 @@ class PublicController extends Controller
             'stats' => [
                 'total_activities'    => Activity::where('status', true)->count(),
                 'total_categories'    => Category::where('status', true)->count(),
-                'total_documents'     => Activity::where('status', true)->whereNotNull('pdf_file')->count(),
+                'total_documents'     => Activity::where('status', true)->whereNotNull('pdf_file')->count() 
+                                       + Activity::where('status', true)->whereNotNull('excel_file')->count(),
                 'total_participants'  => ActivityParticipant::count(),
             ],
         ]);

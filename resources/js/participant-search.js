@@ -15,11 +15,13 @@ export function openParticipantSearch() {
     if (!searchDialog) return;
     resetSearch();
     searchDialog.showModal();
+    document.body.style.overflow = 'hidden';
     document.getElementById('participant-search-input')?.focus();
 }
 
 function closeParticipantSearch() {
     searchDialog?.close();
+    document.body.style.overflow = '';
 }
 
 function resetSearch() {
@@ -159,6 +161,10 @@ export function bindParticipantSearchEvents() {
 
     document.getElementById('participant-search-dialog')?.addEventListener('click', (event) => {
         if (event.target === event.currentTarget) closeParticipantSearch();
+    });
+
+    document.getElementById('participant-search-dialog')?.addEventListener('close', () => {
+        document.body.style.overflow = '';
     });
 
     document.getElementById('participant-search-btn')?.addEventListener('click', () => void doSearch());

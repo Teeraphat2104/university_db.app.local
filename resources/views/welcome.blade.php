@@ -10,7 +10,6 @@
         {{-- Hero --}}
         <section class="hero">
             <div class="hero-inner">
-                <div class="hero-badge">ระบบจัดการกิจกรรมและเอกสาร</div>
                 <h2 class="hero-title">
                     จัดการ<em>กิจกรรม</em><br>มหาวิทยาลัย<br>ให้ง่ายยิ่งขึ้น
                 </h2>
@@ -31,16 +30,16 @@
                         </svg>
                         ตรวจสอบการเข้าร่วม
                     </button>
-                    <button type="button" class="hero-cta-outline mode-btn" data-mode="admin">
+                    <!-- <button type="button" class="hero-cta-outline mode-btn" data-mode="admin">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="8" r="4"/>
                             <path d="M6 20v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>
                         </svg>
                         สำหรับผู้ดูแล
-                    </button>
+                    </button> -->
                 </div>
 
-                {{-- Stats --}}
+                <!-- {{-- Stats --}}
                 <div class="hero-stats">
                     <div class="hero-stat">
                         <p class="hero-stat-num" id="stat-activities">0</p>
@@ -59,7 +58,7 @@
                         <p class="hero-stat-label">ผู้เข้าร่วม</p>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </section>
 
         {{-- Features --}}
