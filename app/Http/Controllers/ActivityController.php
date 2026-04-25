@@ -30,7 +30,7 @@ class ActivityController extends Controller
             $query->where('category_id', $request->input('category_id'));
         }
 
-        $paginator = $query->latest()->paginate($perPage);
+        $paginator = $query->orderByDesc('id')->paginate($perPage);
 
         return ApiResponse::paginated(
             'Activities fetched successfully',
@@ -181,7 +181,7 @@ class ActivityController extends Controller
         // First row = headers (map column letter → header name lowercase)
         $headerRow  = array_shift($rows);
         $colMap     = []; // 'A' => 'student_id', etc.
-        $knownCols  = ['student_id', 'name', 'faculty', 'major', 'year'];
+        $knownCols  = ['student_id', 'name'];
 
         foreach ($headerRow as $col => $header) {
             $normalized = strtolower(trim((string) $header));
@@ -226,13 +226,7 @@ class ActivityController extends Controller
                 'activity_id' => $activity->id,
                 'student_id'  => $studentId,
                 'name'        => $name,
-                'faculty'     => $mapped['faculty'] ?? null,
-                'major'       => $mapped['major']   ?? null,
-                'year'        => isset($mapped['year']) && is_numeric($mapped['year'])
-                                    ? (int) $mapped['year'] : null,
                 'extra_data'  => !empty($extra) ? json_encode($extra) : null,
-                'created_at'  => $now,
-                'updated_at'  => $now,
             ];
         }
 
@@ -250,7 +244,7 @@ class ActivityController extends Controller
         ActivityParticipant::upsert(
             $upsertData,
             ['activity_id', 'student_id'],
-            ['name', 'faculty', 'major', 'year', 'extra_data', 'updated_at']
+            ['name', 'extra_data']
         );
 
         $count = ActivityParticipant::where('activity_id', $activity->id)->count();
@@ -292,9 +286,6 @@ class ActivityController extends Controller
                 'id'         => $p->id,
                 'student_id' => $p->student_id,
                 'name'       => $p->name,
-                'faculty'    => $p->faculty,
-                'major'      => $p->major,
-                'year'       => $p->year,
             ])
         );
     }
@@ -337,7 +328,6 @@ class ActivityController extends Controller
             'activity_date'      => $activity->activity_date?->format('Y-m-d'),
             'location'           => $activity->location,
             'status'             => (int) $activity->status,
-            'created_at'         => $activity->created_at?->format('Y-m-d H:i:s'),
         ];
     }
 }

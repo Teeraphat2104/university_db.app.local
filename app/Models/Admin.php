@@ -10,6 +10,8 @@ class Admin extends Authenticatable
 {
     use HasApiTokens, HasFactory;
 
+    public $timestamps = false;
+
     protected $table = 'admins';
 
     protected $fillable = [

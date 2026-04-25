@@ -9,13 +9,12 @@ class ActivityParticipant extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
         'activity_id',
         'student_id',
         'name',
-        'faculty',
-        'major',
-        'year',
         'extra_data',
     ];
 
@@ -23,7 +22,6 @@ class ActivityParticipant extends Model
     {
         return [
             'extra_data' => 'array',
-            'year'       => 'integer',
         ];
     }
 

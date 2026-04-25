@@ -18,7 +18,6 @@ return new class extends Migration
             $table->date('activity_date')->nullable();
             $table->string('location')->nullable();
             $table->boolean('status')->default(true);
-            $table->timestamps();
         });
     }
 

@@ -16,11 +16,11 @@ class PublicController extends Controller
      */
     public function home()
     {
-        $categories = Category::where('status', true)->latest()->get();
+        $categories = Category::where('status', true)->orderByDesc('id')->get();
 
         $latestActivities = Activity::with('category')
             ->where('status', true)
-            ->latest()
+            ->orderByDesc('id')
             ->limit(8)
             ->get();
 
@@ -48,7 +48,7 @@ class PublicController extends Controller
      */
     public function categories()
     {
-        $categories = Category::where('status', true)->latest()->get();
+        $categories = Category::where('status', true)->orderByDesc('id')->get();
 
         return ApiResponse::success(
             'Categories fetched successfully',
@@ -79,7 +79,7 @@ class PublicController extends Controller
             $query->where('category_id', $request->input('category_id'));
         }
 
-        $paginator = $query->latest()->paginate($perPage);
+        $paginator = $query->orderByDesc('id')->paginate($perPage);
 
         return ApiResponse::paginated(
             'Activities fetched successfully',
@@ -170,7 +170,6 @@ class PublicController extends Controller
             'activity_date'   => $activity->activity_date?->format('Y-m-d'),
             'location'        => $activity->location,
             'status'          => (int) $activity->status,
-            'created_at'      => $activity->created_at?->format('Y-m-d H:i:s'),
         ];
     }
 }

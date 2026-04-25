@@ -10,6 +10,8 @@ class Activity extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
         'category_id',
         'title',

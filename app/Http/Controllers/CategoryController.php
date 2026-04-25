@@ -15,7 +15,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::latest()->get();
+        $categories = Category::orderByDesc('id')->get();
 
         return ApiResponse::success(
             'Categories fetched successfully',
@@ -118,8 +118,6 @@ class CategoryController extends Controller
             'name'            => $category->name,
             'cover_image_url' => $category->cover_image_url,
             'status'          => (int) $category->status,
-            'created_at'      => $category->created_at?->format('Y-m-d H:i:s'),
-            'updated_at'      => $category->updated_at?->format('Y-m-d H:i:s'),
         ];
     }
 }

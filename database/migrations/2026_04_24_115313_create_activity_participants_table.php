@@ -13,11 +13,7 @@ return new class extends Migration
             $table->foreignId('activity_id')->constrained('activities')->onDelete('cascade');
             $table->string('student_id', 20);          // รหัสนักศึกษา เช่น 6601234567
             $table->string('name', 255);               // ชื่อ-นามสกุล
-            $table->string('faculty', 255)->nullable(); // คณะ
-            $table->string('major', 255)->nullable();   // สาขา
-            $table->tinyInteger('year')->nullable();    // ชั้นปี
             $table->json('extra_data')->nullable();     // คอลัมน์เพิ่มเติมอื่นๆ
-            $table->timestamps();
 
             $table->index('student_id');
             $table->index('name');
