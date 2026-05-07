@@ -24,7 +24,8 @@
                 </label>
                 <label style="display:grid;gap:.375rem">
                     <span class="field-label">วันที่กิจกรรม</span>
-                    <input id="activity-date" name="activity_date" type="date">
+                    <input type="hidden" id="activity-date" name="activity_date">
+                    <input type="text" id="activity-date-display" placeholder="เลือกวันที่ (พ.ศ.)" autocomplete="off" readonly>
                 </label>
             </div>
 
@@ -55,6 +56,8 @@
             {{-- Excel import --}}
             <div style="display:grid;gap:.5rem">
                 <span class="field-label">ไฟล์รายชื่อผู้เข้าร่วม (Excel .xlsx / .xls / .csv)</span>
+
+                {{-- Participants count badge (shown after import) --}}
                 <div id="activity-participants-badge" class="hidden"
                     style="display:flex;align-items:center;gap:.5rem;padding:.375rem .625rem;background:#EEF2FF;border-radius:var(--radius-md);font-size:.8rem;color:#4338CA;width:fit-content">
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -65,19 +68,13 @@
                     <button type="button" id="activity-clear-participants" class="btn btn-danger btn-sm"
                         style="padding:.15rem .5rem;font-size:.73rem;height:auto">ล้างรายชื่อ</button>
                 </div>
-                <div style="display:flex;align-items:center;gap:.5rem">
-                    <input id="activity-excel" type="file" accept=".xlsx,.xls,.csv" style="flex:1">
-                    <button type="button" id="activity-import-excel-btn" class="btn btn-primary btn-sm" style="white-space:nowrap">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:.25rem">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
-                        </svg>
-                        นำเข้า
-                    </button>
-                </div>
+
+                <input id="activity-excel" type="file" accept=".xlsx,.xls,.csv">
                 <p style="font-size:.75rem;color:var(--color-gray-400)">
-                    ต้องมีคอลัมน์ <code>student_id</code> และ <code>name</code> (คอลัมน์อื่นๆ เป็น optional)
+                    ต้องมีคอลัมน์ <code>student_id</code> และ <code>name</code> — ระบบจะนำเข้าอัตโนมัติเมื่อกดบันทึก
                 </p>
             </div>
+
 
             <div id="activity-existing-assets" class="file-existing hidden"></div>
 

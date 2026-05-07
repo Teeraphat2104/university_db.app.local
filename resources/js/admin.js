@@ -16,6 +16,8 @@ const SECTION_META = {
     'admin-section-activities': { title: 'กิจกรรม',  desc: 'จัดการกิจกรรมและเอกสาร' },
 };
 
+let airDatepicker = null; // Air Datepicker instance
+
 function switchAdminSection(sectionId) {
     document.querySelectorAll('.admin-section').forEach((s) => s.classList.add('hidden'));
     const target = document.getElementById(sectionId);
@@ -577,7 +579,12 @@ async function editActivity(id) {
         el.activityId.value          = activity.id;
         el.activityTitle.value       = activity.title || '';
         el.activityCategory.value    = activity.category_id || '';
-        el.activityDate.value        = activity.activity_date || '';
+        if (airDatepicker && activity.activity_date) {
+            const [y, m, d] = activity.activity_date.split('-').map(Number);
+            airDatepicker.selectDate(new Date(y, m - 1, d));
+        } else {
+            el.activityDate.value = activity.activity_date || '';
+        }
         el.activityLocation.value    = activity.location || '';
         el.activityDescription.value = activity.description || '';
         el.activityStatus.checked    = Number(activity.status) === 1;
@@ -630,6 +637,10 @@ function resetActivityForm() {
     el.adminActivityForm.reset();
     el.activityId.value = '';
     el.activityStatus.checked = true;
+    if (airDatepicker) {
+        airDatepicker.clear();
+    }
+    el.activityDate.value = '';
 
     const coverPreviewEl = document.getElementById('activity-cover-preview');
     const pdfPreviewEl   = document.getElementById('activity-pdf-preview');
@@ -639,29 +650,87 @@ function resetActivityForm() {
     if (pdfPreviewEl)   { pdfPreviewEl.innerHTML   = ''; pdfPreviewEl.classList.add('hidden'); }
     if (existingEl)     { existingEl.innerHTML     = ''; existingEl.classList.add('hidden'); }
     if (excelInput)     { excelInput.value = ''; }
+    const excelBadge   = document.getElementById('excel-ready-badge');
+    const excelPreview = document.getElementById('excel-preview-wrap');
+    if (excelBadge)   excelBadge.classList.add('hidden');
+    if (excelPreview) excelPreview.classList.add('hidden');
     updateParticipantsBadge(0);
 }
 
 async function saveActivity() {
     const id = el.activityId.value;
+    const excelInput = document.getElementById('activity-excel');
+    const hasExcel = excelInput?.files.length > 0;
+
     const formData = new FormData(el.adminActivityForm);
     formData.set('status', el.activityStatus.checked ? '1' : '0');
     if (!el.activityCover.files.length) formData.delete('cover_image');
     if (!el.activityPdf.files.length)   formData.delete('pdf_file');
 
     try {
+        let savedId = id;
+
         if (id) {
             formData.append('_method', 'PUT');
             await api(`/admin/activities/${id}`, { method: 'POST', auth: true, body: formData });
             showToast('อัปเดตกิจกรรมแล้ว', 'success');
         } else {
-            await api('/admin/activities', { method: 'POST', auth: true, body: formData });
+            const response = await api('/admin/activities', { method: 'POST', auth: true, body: formData });
+            savedId = response.data?.id;
             showToast('เพิ่มกิจกรรมแล้ว', 'success');
         }
+
+        // Auto-import Excel if file was attached
+        if (hasExcel && savedId) {
+            try {
+                const xlFormData = new FormData();
+                xlFormData.set('excel_file', excelInput.files[0]);
+                const res = await api(`/admin/activities/${savedId}/import-excel`, { method: 'POST', auth: true, body: xlFormData });
+                showToast(res.message || 'นำเข้ารายชื่อสำเร็จ', 'success');
+            } catch (xlError) {
+                showToast('บันทึกสำเร็จ แต่นำเข้า Excel ไม่สำเร็จ: ' + errorToMessage(xlError), 'error');
+            }
+        }
+
         el.activityFormDialog.close();
         await loadAdminActivities();
     } catch (error) {
         showToast(errorToMessage(error), 'error');
+    }
+}
+
+/**
+ * Saves a NEW activity silently (without closing the dialog) and returns its ID.
+ * Used so Excel can be imported immediately after creating the activity.
+ */
+async function saveActivitySilent() {
+    if (!el.activityTitle.value.trim()) {
+        showToast('กรุณาระบุชื่อกิจกรรมก่อนนำเข้า Excel', 'error');
+        return null;
+    }
+    if (!el.activityCategory.value) {
+        showToast('กรุณาเลือกหมวดหมู่ก่อนนำเข้า Excel', 'error');
+        return null;
+    }
+
+    const formData = new FormData(el.adminActivityForm);
+    formData.set('status', el.activityStatus.checked ? '1' : '0');
+    if (!el.activityCover.files.length) formData.delete('cover_image');
+    if (!el.activityPdf.files.length)   formData.delete('pdf_file');
+
+    try {
+        const response = await api('/admin/activities', { method: 'POST', auth: true, body: formData });
+        const newId = response.data?.id;
+        if (newId) {
+            el.activityId.value = String(newId);
+            el.activityFormDialogTitle.textContent = 'แก้ไขกิจกรรม';
+            el.activitySubmit.textContent = 'บันทึกการแก้ไข';
+            await loadAdminActivities();
+        }
+        return newId || null;
+    } catch (error) {
+        showToast(errorToMessage(error), 'error');
+        return null;
     }
 }
 
@@ -687,6 +756,54 @@ async function deleteActivity(id) {
    ══════════════════════════════════ */
 
 export function bindAdminEvents() {
+    /* ── Air Datepicker Initialization ── */
+    if (window.AirDatepicker && el.activityDateDisplay) {
+        const thLocale = {
+            days: ['อาทิตย์', 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์'],
+            daysShort: ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'],
+            daysMin: ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'],
+            months: ['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน',
+                     'กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'],
+            monthsShort: ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.',
+                          'ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'],
+            today: 'วันนี้',
+            clear: 'ล้าง',
+            dateFormat: 'dd/MM/yyyy',
+            timeFormat: 'HH:mm',
+            firstDay: 0,
+        };
+
+        airDatepicker = new AirDatepicker(el.activityDateDisplay, {
+            locale: thLocale,
+            container: '#activity-form-dialog',
+            dateFormat(date) {
+                const d = date.getDate();
+                const m = thLocale.months[date.getMonth()];
+                const y = date.getFullYear() + 543;
+                return `${d} ${m} ${y}`;
+            },
+            navTitles: {
+                days(dp) {
+                    const m = thLocale.months[dp.viewDate.getMonth()];
+                    const y = dp.viewDate.getFullYear() + 543;
+                    return `${m} ${y}`;
+                },
+                months(dp) {
+                    return dp.viewDate.getFullYear() + 543;
+                },
+            },
+            onSelect({ date }) {
+                if (date) {
+                    const d = String(date.getDate()).padStart(2, '0');
+                    const m = String(date.getMonth() + 1).padStart(2, '0');
+                    el.activityDate.value = `${date.getFullYear()}-${m}-${d}`;
+                } else {
+                    el.activityDate.value = '';
+                }
+            },
+        });
+    }
+
     /* ── Auth ── */
     el.adminLoginForm.addEventListener('submit', (event) => {
         event.preventDefault();
@@ -781,30 +898,7 @@ export function bindAdminEvents() {
     if (actCoverPreview) bindFilePreview(el.activityCover, actCoverPreview, 'image');
     if (actPdfPreview)   bindFilePreview(el.activityPdf,   actPdfPreview,   'pdf');
 
-    /* ── Excel import ── */
-    document.getElementById('activity-import-excel-btn')?.addEventListener('click', async () => {
-        const id = el.activityId.value;
-        if (!id) {
-            showToast('กรุณาบันทึกกิจกรรมก่อนนำเข้า Excel', 'error');
-            return;
-        }
-        const excelInput = document.getElementById('activity-excel');
-        if (!excelInput?.files.length) {
-            showToast('กรุณาเลือกไฟล์ Excel ก่อน', 'error');
-            return;
-        }
-        const formData = new FormData();
-        formData.set('excel_file', excelInput.files[0]);
-        try {
-            const res = await api(`/admin/activities/${id}/import-excel`, { method: 'POST', auth: true, body: formData });
-            showToast(res.message || 'นำเข้าสำเร็จ', 'success');
-            updateParticipantsBadge(res.data?.total || 0);
-            excelInput.value = '';
-            await loadAdminActivities();
-        } catch (error) {
-            showToast(errorToMessage(error), 'error');
-        }
-    });
+
 
     /* ── Clear participants ── */
     document.getElementById('activity-clear-participants')?.addEventListener('click', async () => {

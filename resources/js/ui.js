@@ -83,6 +83,7 @@ export function cacheElements() {
     el.activityTitle = document.getElementById('activity-title');
     el.activityCategory = document.getElementById('activity-category');
     el.activityDate = document.getElementById('activity-date');
+    el.activityDateDisplay = document.getElementById('activity-date-display');
     el.activityLocation = document.getElementById('activity-location');
     el.activityDescription = document.getElementById('activity-description');
     el.activityCover = document.getElementById('activity-cover');
