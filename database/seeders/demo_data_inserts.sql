@@ -1,6 +1,6 @@
 SET FOREIGN_KEY_CHECKS = 0;
 INSERT INTO `admins` (`id`, `name`, `email`, `password`) VALUES
-(1, 'Super Admin', 'admin@example.com', '$2y$12$SCct3v5AGezlKItGL5bO8ep5CEWl9.Cyh.v32DBj9M8GsnfLBycp.');
+(1, 'Super Admin', 'admin@example.com', '$2y$12$XTldNJ46qE9Swr113IaCpONSGUdlxECWGMijHwq0Aq4yrtnDFyBcu');
 
 INSERT INTO `categories` (`id`, `name`, `cover_image`, `status`) VALUES
 (6, 'อบรมความรู้ทางไซเบอร์', 'categories/H0LMcdUnqVz3FFSlZlQcnfXEe47vl3BVzQvWy6ce.jpg', 1),

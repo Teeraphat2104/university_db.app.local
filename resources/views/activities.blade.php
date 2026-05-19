@@ -52,7 +52,7 @@
             <nav class="flex flex-wrap gap-x-6 gap-y-2 text-sm">
                 <a href="/activities" class="text-gray-400 hover:text-white transition-colors no-underline"><i class="fa-regular fa-calendar mr-1.5"></i>กิจกรรม</a>
                 <a href="/#about" class="text-gray-400 hover:text-white transition-colors no-underline"><i class="fa-regular fa-circle-info mr-1.5"></i>เกี่ยวกับ</a>
-                <a href="#" class="mode-btn text-gray-400 hover:text-white transition-colors no-underline" data-mode="admin"><i class="fa-regular fa-user mr-1.5"></i>ผู้ดูแลระบบ</a>
+                <a href="/login" class="text-gray-400 hover:text-white transition-colors no-underline"><i class="fa-regular fa-user mr-1.5"></i>ผู้ดูแลระบบ</a>
             </nav>
         </div>
         <p class="text-xs text-gray-600">© {{ date('Y') }} University Activities. สงวนลิขสิทธิ์</p>

@@ -20,12 +20,11 @@
                 <i class="fa-regular fa-calendar"></i>
                 กิจกรรม
             </a>
-            <button type="button"
-                class="mode-btn inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-gray-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition-all no-underline bg-transparent border-none cursor-pointer"
-                data-mode="admin">
+            <a href="/login"
+                class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-gray-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition-all no-underline">
                 <i class="fa-solid fa-user-tie"></i>
                 ผู้ดูแล
-            </button>
+            </a>
         </div>
     </div>
 </nav>

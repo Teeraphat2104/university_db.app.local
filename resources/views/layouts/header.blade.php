@@ -13,10 +13,10 @@
         <nav class="nav-links">
             <a href="/activities" class="nav-link">กิจกรรม</a>
             <a href="/#about" class="nav-link">เกี่ยวกับ</a>
-            <button type="button" class="btn btn-primary btn-sm mode-btn" data-mode="admin">
+            <a href="/login" class="btn btn-primary btn-sm">
                 <i class="fa-solid fa-user-tie"></i>
                 สำหรับแอดมิน
-            </button>
+            </a>
         </nav>
     </div>
 </header>

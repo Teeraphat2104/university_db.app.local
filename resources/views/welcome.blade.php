@@ -29,10 +29,10 @@
                     <i class="fa-solid fa-magnifying-glass"></i>
                     ตรวจสอบการเข้าร่วม
                 </button>
-                <button type="button" class="mode-btn inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-white/80 bg-white/10 border border-white/15 rounded-full hover:bg-white/20 hover:text-white transition-all cursor-pointer no-underline" data-mode="admin">
+                <a href="/login" class="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-white/80 bg-white/10 border border-white/15 rounded-full hover:bg-white/20 hover:text-white transition-all no-underline">
                     <i class="fa-solid fa-user-tie"></i>
                     สำหรับผู้ดูแล
-                </button>
+                </a>
             </div>
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-lg" style="animation: fadeUp .6s ease-out .5s backwards;">
                 <div class="bg-white/5 border border-white/10 rounded-2xl p-4 text-center hover:-translate-y-1 hover:shadow-lg transition-all">
@@ -147,7 +147,7 @@
                 <nav class="flex flex-wrap gap-x-6 gap-y-2 text-sm">
                     <a href="/activities" class="text-gray-400 hover:text-white transition-colors no-underline"><i class="fa-regular fa-calendar mr-1.5"></i>กิจกรรม</a>
                     <a href="#about" class="text-gray-400 hover:text-white transition-colors no-underline"><i class="fa-regular fa-circle-info mr-1.5"></i>เกี่ยวกับ</a>
-                    <a href="#" class="mode-btn text-gray-400 hover:text-white transition-colors no-underline" data-mode="admin"><i class="fa-regular fa-user mr-1.5"></i>ผู้ดูแลระบบ</a>
+                    <a href="/login" class="text-gray-400 hover:text-white transition-colors no-underline"><i class="fa-regular fa-user mr-1.5"></i>ผู้ดูแลระบบ</a>
                 </nav>
                 <div class="flex gap-2">
                     <a href="#" class="w-9 h-9 bg-white/5 hover:bg-indigo-500 rounded-full flex items-center justify-center text-gray-400 hover:text-white transition-all no-underline"><i class="fa-brands fa-facebook text-sm"></i></a>
@@ -160,53 +160,6 @@
     </footer>
 </div>
 
-<section id="admin-view" class="hidden fixed inset-0 z-[100] bg-gray-950 overflow-y-auto">
-    <div id="admin-auth-card" class="min-h-screen flex items-center justify-center p-6">
-        <div class="w-full max-w-sm bg-white rounded-3xl shadow-2xl p-8">
-            <div class="flex items-center gap-3 mb-6">
-                <div class="w-11 h-11 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center flex-shrink-0"> <i class="fa-solid fa-user-tie text-white"></i> </div>
-                <div>
-                    <div class="text-sm font-extrabold text-gray-900">ผู้ดูแลระบบ</div>
-                    <div class="text-[10px] font-semibold text-gray-400 tracking-widest uppercase">Login</div>
-                </div>
-            </div>
-            <h2 class="text-xl font-extrabold text-gray-900 mb-1">เข้าสู่ระบบ</h2>
-            <p class="text-sm text-gray-500 mb-6">กรุณาเข้าสู่ระบบด้วยบัญชีผู้ดูแลของคุณ</p>
-            <form id="admin-login-form" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold text-gray-500 mb-1.5">อีเมล</label>
-                    <input type="email" id="admin-email" name="email" required class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl focus:border-indigo-400 focus:ring-3 focus:ring-indigo-100 outline-none transition-all">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-gray-500 mb-1.5">รหัสผ่าน</label>
-                    <input type="password" id="admin-password" name="password" required class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl focus:border-indigo-400 focus:ring-3 focus:ring-indigo-100 outline-none transition-all">
-                </div>
-                <button type="submit" class="w-full py-2.5 text-sm font-bold text-white bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all border-none cursor-pointer">เข้าสู่ระบบ</button>
-            </form>
-            <p class="text-xs text-gray-400 text-center mt-5">
-                demo: <code class="text-gray-600 bg-gray-100 px-1.5 py-0.5 rounded text-xs">admin@example.com</code> / <code class="text-gray-600 bg-gray-100 px-1.5 py-0.5 rounded text-xs">password</code>
-            </p>
-            <button type="button" class="mode-btn mt-4 w-full text-xs text-gray-400 hover:text-gray-600 text-center bg-transparent border-none cursor-pointer" data-mode="public">
-                <i class="fa-solid fa-arrow-left mr-1"></i> กลับหน้าหลัก
-            </button>
-        </div>
-    </div>
-
-    <div id="admin-dashboard" class="hidden">
-        <div class="flex items-center justify-between px-6 py-4 border-b border-white/10">
-            <div>
-                <h1 class="text-lg font-extrabold text-white" id="admin-topbar-title">ภาพรวม</h1>
-                <p class="text-xs text-gray-500" id="admin-topbar-desc">สถิติและข้อมูลสรุปของระบบ</p>
-            </div>
-            <button type="button" class="mode-btn inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold text-gray-300 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 hover:text-white transition-all cursor-pointer no-underline" data-mode="public">
-                <i class="fa-solid fa-house"></i>
-                กลับหน้าหลัก
-            </button>
-        </div>
-        <div id="admin-content" class="p-6 space-y-6">
-        </div>
-    </div>
-</section>
 
 <style>
     @keyframes fadeUp {
@@ -253,15 +206,6 @@ $(function () {
         }
     });
 
-    $('.mode-btn').on('click', function () {
-        var mode = $(this).data('mode');
-        $('#public-view').toggleClass('hidden', mode === 'admin');
-        $('#admin-view').toggleClass('hidden', mode !== 'admin');
-    });
-
-    $('#open-participant-search').on('click', function () {
-        $('#open-participant-search-hero').trigger('click');
-    });
 });
 </script>
 @endsection
