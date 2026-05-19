@@ -3,6 +3,15 @@
 @section('title', 'กิจกรรมทั้งหมด - Admin')
 
 @section('content')
+<header class="topbar">
+    <div class="topbar-left">
+        <h1 class="page-title">กิจกรรมทั้งหมด</h1>
+    </div>
+    <div class="topbar-right">
+        <button class="topbar-btn" onclick="location.reload()"><i class="fa-regular fa-rotate"></i></button>
+    </div>
+</header>
+
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem">
     <div>
         <h2 style="font-size:24px;font-weight:700;margin-bottom:0.25rem">กิจกรรมทั้งหมด</h2>
@@ -15,14 +24,14 @@
 </div>
 
 <div class="card" style="margin-bottom:1.5rem">
-    <div class="card-body" style="display:flex;gap:1rem;align-items:center;">
+    <div class="card-body" style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap">
         <div style="flex:1;min-width:200px">
             <input type="text" id="filter-keyword" placeholder="ค้นหากิจกรรม..." style="width:100%">
         </div>
-        <select id="filter-category" style="padding:0.625rem 1rem;border:1px solid var(--border);border-radius:var(--radius);font-size:14px;background:var(--surface);width:20%">
+        <select id="filter-category" style="padding:0.625rem 1rem;border:1px solid var(--border);border-radius:var(--radius);font-size:14px;background:var(--surface);min-width:150px">
             <option value="">ทุกหมวดหมู่</option>
         </select>
-        <select id="filter-status" style="padding:0.625rem 1rem;border:1px solid var(--border);border-radius:var(--radius);font-size:14px;background:var(--surface);width:20%">
+        <select id="filter-status" style="padding:0.625rem 1rem;border:1px solid var(--border);border-radius:var(--radius);font-size:14px;background:var(--surface);min-width:130px">
             <option value="">ทุกสถานะ</option>
             <option value="1">เปิดใช้งาน</option>
             <option value="0">ปิดใช้งาน</option>
@@ -65,6 +74,90 @@
     <p id="pagination-info" style="color:var(--text-muted);font-size:14px"></p>
     <div id="pagination-btns" style="display:flex;gap:0.5rem"></div>
 </div>
+
+<dialog id="view-modal" class="modal-lg">
+    <div class="dialog-header">
+        <h3 id="view-modal-title">รายละเอียดกิจกรรม</h3>
+        <button type="button" class="btn btn-sm btn-muted" onclick="closeViewModal()" style="padding:0.375rem 0.5rem">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+    <div class="dialog-body" id="view-modal-body">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
+            <div id="view-cover-wrap" style="display:none">
+                <img id="view-cover" src="" alt="cover" style="width:100%;border-radius:var(--radius-lg);max-height:300px;object-fit:cover">
+            </div>
+            <div style="grid-column:1/-1">
+                <h3 id="view-title" style="font-size:1.25rem;font-weight:700;margin:0 0 0.75rem"></h3>
+                <p id="view-desc" style="color:var(--text-secondary);line-height:1.6;margin:0 0 1rem;font-size:14px"></p>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;font-size:14px">
+                    <div><span style="color:var(--text-muted)">หมวดหมู่:</span> <span id="view-category" style="font-weight:600"></span></div>
+                    <div><span style="color:var(--text-muted)">วันที่:</span> <span id="view-date" style="font-weight:600"></span></div>
+                    <div><span style="color:var(--text-muted)">สถานที่:</span> <span id="view-location" style="font-weight:600"></span></div>
+                    <div><span style="color:var(--text-muted)">ผู้เข้าร่วม:</span> <span id="view-participants" style="font-weight:600"></span></div>
+                    <div><span style="color:var(--text-muted)">สถานะ:</span> <span id="view-status" style="font-weight:600"></span></div>
+                </div>
+            </div>
+        </div>
+        <div id="view-pdf-wrap" style="margin-top:1.5rem;display:none">
+            <hr style="border:none;border-top:1px solid var(--border);margin-bottom:1rem">
+            <p style="font-weight:700;margin:0 0 0.5rem"><i class="fa-solid fa-file-pdf" style="color:#DC2626"></i> เอกสาร PDF</p>
+            <iframe id="view-pdf" src="" style="width:100%;height:500px;border:1px solid var(--border);border-radius:var(--radius-lg)"></iframe>
+        </div>
+    </div>
+</dialog>
+
+<dialog id="edit-modal" class="modal-lg">
+    <form id="edit-form">
+        <div class="dialog-header">
+            <h3 id="edit-modal-title">แก้ไขกิจกรรม</h3>
+            <button type="button" class="btn btn-sm btn-muted" onclick="closeEditModal()" style="padding:0.375rem 0.5rem">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="dialog-body" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+            <input type="hidden" id="edit-id">
+            <div style="grid-column:1/-1">
+                <label class="field-label">ชื่อกิจกรรม</label>
+                <input type="text" id="edit-title" name="title" required placeholder="กรุณากรอกชื่อกิจกรรม">
+            </div>
+            <div>
+                <label class="field-label">หมวดหมู่</label>
+                <select id="edit-category-id" name="category_id" required>
+                    <option value="">เลือกหมวดหมู่</option>
+                </select>
+            </div>
+            <div>
+                <label class="field-label">วันที่จัดกิจกรรม</label>
+                <input type="date" id="edit-activity-date" name="activity_date">
+            </div>
+            <div style="grid-column:1/-1">
+                <label class="field-label">สถานที่</label>
+                <input type="text" id="edit-location" name="location" placeholder="กรุณากรอกสถานที่">
+            </div>
+            <div style="grid-column:1/-1">
+                <label class="field-label">รายละเอียด</label>
+                <textarea id="edit-description" name="description" rows="4" placeholder="กรุณากรอกรายละเอียด"></textarea>
+            </div>
+            <div>
+                <label class="field-label">สถานะ</label>
+                <select id="edit-status" name="status">
+                    <option value="1">เปิดใช้งาน</option>
+                    <option value="0">ปิดใช้งาน</option>
+                </select>
+            </div>
+        </div>
+        <div class="dialog-footer">
+            <button type="button" class="btn btn-muted" onclick="closeEditModal()">ยกเลิก</button>
+            <button type="submit" class="btn btn-primary" id="edit-submit-btn">บันทึก</button>
+        </div>
+    </form>
+</dialog>
+
+<div id="empty-state" class="empty-state" style="display:none">
+    <i class="fa-regular fa-calendar"></i>
+    <p>ยังไม่มีกิจกรรม</p>
+</div>
 @endsection
 
 @section('script')
@@ -74,6 +167,7 @@ var CAT_API = '/api/admin/categories';
 var token = localStorage.getItem('admin_token');
 var currentPage = 1;
 var lastPage = 1;
+var allCategories = [];
 
 function getHeaders() {
     return {
@@ -97,12 +191,14 @@ function loadCategories() {
         method: 'GET',
         headers: getHeaders(),
         success: function (json) {
+            allCategories = json.data || [];
             var sel = $('#filter-category');
-            if (json.data) {
-                $.each(json.data, function (i, cat) {
-                    sel.append('<option value="' + cat.id + '">' + $('<span>').text(cat.name).html() + '</option>');
-                });
-            }
+            var editSel = $('#edit-category-id');
+            $.each(allCategories, function (i, cat) {
+                var name = $('<span>').text(cat.name).html();
+                sel.append('<option value="' + cat.id + '">' + name + '</option>');
+                editSel.append('<option value="' + cat.id + '">' + name + '</option>');
+            });
         }
     });
 }
@@ -162,9 +258,9 @@ function loadActivities(page) {
                     '<td>' + statusHtml + '</td>' +
                     '<td>' +
                         '<div style="display:flex;gap:0.5rem">' +
-                            '<button class="btn btn-sm btn-secondary" onclick="viewActivity(' + act.id + ')" style="padding:0.375rem"><i class="fa-regular fa-eye"></i></button>' +
-                            '<button class="btn btn-sm btn-secondary" style="padding:0.375rem"><i class="fa-regular fa-pen-to-square"></i></button>' +
-                            '<button class="btn btn-sm btn-secondary" onclick="deleteActivity(' + act.id + ')" style="padding:0.375rem;color:var(--danger)"><i class="fa-regular fa-trash-can"></i></button>' +
+                            '<button class="btn btn-sm btn-secondary" onclick="viewActivity(' + act.id + ')" style="padding:0.375rem" title="ดู"><i class="fa-regular fa-eye"></i></button>' +
+                            '<button class="btn btn-sm btn-secondary" onclick="openEditModal(' + act.id + ')" style="padding:0.375rem" title="แก้ไข"><i class="fa-regular fa-pen-to-square"></i></button>' +
+                            '<button class="btn btn-sm btn-secondary" onclick="confirmDelete(' + act.id + ')" style="padding:0.375rem;color:var(--danger)" title="ลบ"><i class="fa-regular fa-trash-can"></i></button>' +
                         '</div>' +
                     '</td>' +
                 '</tr>';
@@ -200,7 +296,11 @@ function updatePagination(meta) {
     prevBtn.on('click', function () { if (meta.current_page > 1) loadActivities(meta.current_page - 1); });
     btns.append(prevBtn);
 
-    for (var p = 1; p <= meta.last_page; p++) {
+    var startPage = Math.max(1, meta.current_page - 2);
+    var endPage = Math.min(meta.last_page, startPage + 4);
+    startPage = Math.max(1, endPage - 4);
+
+    for (var p = startPage; p <= endPage; p++) {
         (function (page) {
             var btn = $('<button class="btn btn-sm ' + (page === meta.current_page ? 'btn-primary' : 'btn-secondary') + '">').text(page);
             btn.on('click', function () { loadActivities(page); });
@@ -215,24 +315,138 @@ function updatePagination(meta) {
 }
 
 function viewActivity(id) {
-    window.location.href = '/admin/activities/' + id;
+    $.ajax({
+        url: API + '/' + id,
+        method: 'GET',
+        headers: getHeaders(),
+        success: function (json) {
+            var act = json.data;
+            if (!act) return;
+
+            $('#view-title').text(act.title);
+            $('#view-desc').text(act.description || 'ไม่มีรายละเอียด');
+            $('#view-category').text(act.category ? act.category.name : '-');
+            $('#view-date').text(act.activity_date || '-');
+            $('#view-location').text(act.location || '-');
+            $('#view-participants').text(act.participants_count || 0);
+            $('#view-status').html(act.status
+                ? '<span class="badge badge-success">เปิดใช้งาน</span>'
+                : '<span class="badge badge-warning">ปิดใช้งาน</span>');
+
+            if (act.cover_image_url) {
+                $('#view-cover').attr('src', act.cover_image_url);
+                $('#view-cover-wrap').show();
+            } else {
+                $('#view-cover-wrap').hide();
+            }
+
+            if (act.pdf_url) {
+                $('#view-pdf').attr('src', act.pdf_url);
+                $('#view-pdf-wrap').show();
+            } else {
+                $('#view-pdf-wrap').hide();
+            }
+
+            $('#view-modal')[0].showModal();
+        },
+        error: function () {
+            showToast('ไม่สามารถโหลดข้อมูลกิจกรรม', 'error');
+        }
+    });
 }
 
-function deleteActivity(id) {
-    if (!confirm('คุณแน่ใจหรือไม่ที่จะลบกิจกรรมนี้?')) return;
+function closeViewModal() {
+    $('#view-modal')[0].close();
+}
+
+function openEditModal(id) {
+    $.ajax({
+        url: API + '/' + id,
+        method: 'GET',
+        headers: getHeaders(),
+        success: function (json) {
+            var act = json.data;
+            if (!act) return;
+
+            $('#edit-id').val(act.id);
+            $('#edit-title').val(act.title);
+            $('#edit-category-id').val(act.category_id || '');
+            $('#edit-activity-date').val(act.activity_date || '');
+            $('#edit-location').val(act.location || '');
+            $('#edit-description').val(act.description || '');
+            $('#edit-status').val(act.status.toString());
+
+            $('#edit-form').off('submit').on('submit', handleEditSubmit);
+            $('#edit-modal')[0].showModal();
+        },
+        error: function () {
+            showToast('ไม่สามารถโหลดข้อมูลกิจกรรม', 'error');
+        }
+    });
+}
+
+function closeEditModal() {
+    $('#edit-modal')[0].close();
+}
+
+function handleEditSubmit(e) {
+    e.preventDefault();
+    var id = $('#edit-id').val();
+    var btn = $('#edit-submit-btn');
+    btn.prop('disabled', true).text('กำลังบันทึก...');
 
     $.ajax({
         url: API + '/' + id,
-        method: 'DELETE',
-        headers: getHeaders(),
+        method: 'PUT',
+        headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/json' },
+        data: {
+            title: $('#edit-title').val(),
+            category_id: $('#edit-category-id').val(),
+            activity_date: $('#edit-activity-date').val(),
+            location: $('#edit-location').val(),
+            description: $('#edit-description').val(),
+            status: $('#edit-status').val()
+        },
         success: function () {
+            closeEditModal();
             loadActivities(currentPage);
-            showToast('ลบกิจกรรมสำเร็จ', 'success');
+            showToast('อัปเดตกิจกรรมสำเร็จ', 'success');
         },
         error: function (xhr) {
             var msg = 'เกิดข้อผิดพลาด';
             try { msg = JSON.parse(xhr.responseText).message || msg; } catch (e) {}
             showToast(msg, 'error');
+            btn.prop('disabled', false).text('บันทึก');
+        }
+    });
+}
+
+function confirmDelete(id) {
+    Swal.fire({
+        title: 'คุณแน่ใจหรือไม่?',
+        text: 'การลบกิจกรรมนี้จะไม่สามารถกู้คืนได้',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#DC2626',
+        cancelButtonColor: '#64748B',
+        confirmButtonText: 'ใช่, ลบเลย',
+        cancelButtonText: 'ยกเลิก'
+    }).then(function (result) {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: API + '/' + id,
+                method: 'DELETE',
+                headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/json' },
+                success: function () {
+                    loadActivities(currentPage);
+                    Swal.fire('ลบแล้ว!', 'กิจกรรมถูกลบเรียบร้อย', 'success');
+                },
+                error: function (xhr) {
+                    var msg = 'เกิดข้อผิดพลาด';
+                    try { msg = JSON.parse(xhr.responseText).message || msg; } catch (e) {}
+                    Swal.fire('ผิดพลาด!', msg, 'error');
+                }
+            });
         }
     });
 }
