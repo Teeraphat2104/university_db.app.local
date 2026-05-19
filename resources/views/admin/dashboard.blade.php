@@ -3,6 +3,12 @@
 @section('title', 'Dashboard - Admin')
 
 @section('content')
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem">
+        <div>
+            <h2 style="font-size:24px;font-weight:700;margin-bottom:0.25rem">Dashboard</h2>
+            <p style="color:var(--text-muted)">ภาพรวมของระบบ</p>
+        </div>
+    </div>
     <div class="stats-grid">
         <div class="stat-card">
             <div class="stat-header">

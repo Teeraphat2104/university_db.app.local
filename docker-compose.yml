@@ -9,6 +9,7 @@ services:
       - .:/var/www/html:cached
       - ./storage:/var/www/html/storage
       - ./bootstrap/cache:/var/www/html/bootstrap/cache
+      - ./php-upload.ini:/usr/local/etc/php/conf.d/upload-limits.ini:ro
     environment:
       - DB_HOST=mysql
       - DB_PORT=3306
