@@ -3,15 +3,6 @@
 @section('title', 'จัดการหมวดหมู่ - Admin')
 
 @section('content')
-<header class="topbar">
-    <div class="topbar-left">
-        <h1 class="page-title">จัดการหมวดหมู่</h1>
-    </div>
-    <div class="topbar-right">
-        <button class="topbar-btn" onclick="location.reload()"><i class="fa-regular fa-rotate"></i></button>
-    </div>
-</header>
-
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem">
     <div>
         <h2 style="font-size:24px;font-weight:700;margin-bottom:0.25rem">หมวดหมู่กิจกรรม</h2>
