@@ -42,6 +42,14 @@ export async function loadPublicCategories() {
         // Update stats from server
         const stats = response.data?.stats || {};
         updateStatsFromServer(stats, state.public.categories.length);
+
+        // Check if we should start in activities view (for /activities page)
+        const viewInner = document.getElementById('public-view-inner');
+        const initialView = viewInner?.dataset?.initialView;
+        if (initialView === 'activities') {
+            // Start with all activities (no category filter)
+            showAllActivitiesView();
+        }
     } catch (error) {
         showToast(errorToMessage(error), 'error');
     }
@@ -97,6 +105,26 @@ function showActivitiesView(categoryId, categoryName) {
     el.publicActivitiesTitle.textContent = categoryName;
     el.publicActivitiesSubtitle.textContent = 'ค้นหาและกรองกิจกรรม พร้อมเปิดหรือดาวน์โหลดเอกสาร PDF ได้ทันที';
     el.publicKeyword.value = '';
+
+    el.publicCategoriesView.classList.add('hidden');
+    el.publicActivitiesView.classList.remove('hidden');
+
+    void loadPublicActivities();
+}
+
+function showAllActivitiesView() {
+    state.public.viewMode = 'activities';
+    state.public.filters.category_id = null;
+    state.public.filters.keyword = '';
+    state.public.filters.page = 1;
+
+    el.publicActivitiesTitle.textContent = 'กิจกรรมทั้งหมด';
+    el.publicActivitiesSubtitle.textContent = 'ค้นหาและกรองกิจกรรม พร้อมเปิดหรือดาวน์โหลดเอกสาร PDF ได้ทันที';
+    el.publicKeyword.value = '';
+
+    // Hide back button in all activities view
+    const backBtn = document.getElementById('public-back-to-categories');
+    if (backBtn) backBtn.classList.add('hidden');
 
     el.publicCategoriesView.classList.add('hidden');
     el.publicActivitiesView.classList.remove('hidden');
@@ -320,6 +348,38 @@ async function openPublicDetail(id) {
 /* ── Event bindings ── */
 
 export function bindPublicEvents() {
+    /* ── Not on public SPA page → skip ── */
+    if (!el.publicCategoryGrid || !el.publicBackBtn) return;
+
+    /* ── Hero section animations ── */
+    const heroElements = document.querySelectorAll('.hero-badge, .hero-title, .hero-desc, .hero-actions, .hero-stats');
+    heroElements.forEach((el, index) => {
+        if (el) {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+
+            setTimeout(() => {
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
+            }, 200 * index);
+        }
+    });
+
+    /* ── Hero stats hover effect ── */
+    const heroStats = document.querySelectorAll('.hero-stat');
+    heroStats.forEach(stat => {
+        stat.addEventListener('mouseenter', () => {
+            stat.style.transform = 'translateY(-5px)';
+            stat.style.boxShadow = '0 10px 20px rgba(0,0,0,.15)';
+        });
+
+        stat.addEventListener('mouseleave', () => {
+            stat.style.transform = 'translateY(0)';
+            stat.style.boxShadow = 'none';
+        });
+    });
+
     /* ── Category grid click → navigate to activity list ── */
     el.publicCategoryGrid.addEventListener('click', (event) => {
         const card = event.target.closest('[data-action="browse"]');
@@ -389,4 +449,12 @@ export function bindPublicEvents() {
         if (!detailButton) return;
         void openPublicDetail(detailButton.dataset.id);
     });
+
+    /* ── Hero CTA pulse animation ── */
+    const heroCTA = document.querySelector('.hero-cta');
+    if (heroCTA) {
+        setInterval(() => {
+            heroCTA.classList.toggle('pulse');
+        }, 3000);
+    }
 }

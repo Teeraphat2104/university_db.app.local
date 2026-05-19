@@ -1,0 +1,9 @@
+vendor
+node_modules
+.git
+.idea
+.vscode
+*.log
+.env
+.env.local
+storage/*.key

@@ -15,8 +15,8 @@
         </a>
 
         <nav class="nav-links">
-            <a href="#activities" class="nav-link hidden sm:inline-block">กิจกรรม</a>
-            <a href="#about" class="nav-link hidden sm:inline-block">เกี่ยวกับ</a>
+            <a href="/activities" class="nav-link hidden sm:inline-block">กิจกรรม</a>
+            <a href="/#about" class="nav-link hidden sm:inline-block">เกี่ยวกับ</a>
             <button type="button" class="btn btn-primary btn-sm mode-btn" data-mode="admin">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>

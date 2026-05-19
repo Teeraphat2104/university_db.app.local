@@ -21,6 +21,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     bindModalBackdropClose();
     bindModeSwitch();
 
+    /* ── Standalone admin page (no SPA elements) → skip ── */
+    if (!el.publicView) return;
+
     const initialMode = window.location.pathname.startsWith('/admin') ? 'admin' : 'public';
     setMode(initialMode, false);
 
@@ -44,6 +47,8 @@ function bindModeSwitch() {
 
 function setMode(mode, updateHistory = true) {
     state.mode = mode === 'admin' ? 'admin' : 'public';
+
+    if (!el.publicView || !el.adminView) return;
 
     el.modeButtons.forEach((button) => {
         button.classList.toggle('is-active', button.dataset.mode === state.mode);

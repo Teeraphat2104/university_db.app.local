@@ -2,67 +2,99 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\ApiResponse;
 use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 
 class AdminAuthController extends Controller
 {
-    /**
-     * POST /api/admin/login
-     */
     public function login(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'email'    => 'required|email',
-            'password' => 'required|string|min:6',
-        ]);
+        $response = (object)[];
 
-        if ($validator->fails()) {
-            return ApiResponse::error('Validation failed', $validator->errors(), 422);
+        try {
+            $data = $request->validate([
+                'email'    => 'required|email',
+                'password' => 'required|string|min:6',
+            ]);
+
+            $admin = Admin::where('email', $data['email'])->first();
+
+            if (! $admin || ! Hash::check($data['password'], $admin->password)) {
+                $response->success = false;
+                $response->message = 'Invalid email or password.';
+                $response->errors = null;
+                return response()->json($response, 401);
+            }
+
+            $token = $admin->createToken('admin-token')->plainTextToken;
+
+            $response->success = true;
+            $response->message = 'Login successful';
+            $response->data = [
+                'admin' => [
+                    'id'    => $admin->id,
+                    'name'  => $admin->name,
+                    'email' => $admin->email,
+                ],
+                'token' => $token,
+            ];
+
+            $httpCode = 200;
+        } catch (\Exception $e) {
+            $response->success = false;
+            $response->message = 'Validation failed';
+            $response->errors = $e->getMessage();
+            $httpCode = 422;
         }
 
-        $admin = Admin::where('email', $request->email)->first();
+        return response()->json($response, $httpCode ?? 500);
+    }
 
-        if (! $admin || ! Hash::check($request->password, $admin->password)) {
-            return ApiResponse::error('Invalid email or password.', null, 401);
-        }
+    public function profile(Request $request)
+    {
+        $response = (object)[];
 
-        $token = $admin->createToken('admin-token')->plainTextToken;
+        try {
+            $admin = $request->user();
 
-        return ApiResponse::success('Login successful', [
-            'admin' => [
+            $response->success = true;
+            $response->message = 'Profile fetched successfully';
+            $response->data = [
                 'id'    => $admin->id,
                 'name'  => $admin->name,
                 'email' => $admin->email,
-            ],
-            'token' => $token,
-        ]);
+            ];
+
+            $httpCode = 200;
+        } catch (\Exception $e) {
+            $response->success = false;
+            $response->message = 'An error occurred';
+            $response->errors = $e->getMessage();
+            $httpCode = 500;
+        }
+
+        return response()->json($response, $httpCode ?? 500);
     }
 
-    /**
-     * GET /api/admin/profile
-     */
-    public function profile(Request $request)
-    {
-        $admin = $request->user();
-
-        return ApiResponse::success('Profile fetched successfully', [
-            'id'    => $admin->id,
-            'name'  => $admin->name,
-            'email' => $admin->email,
-        ]);
-    }
-
-    /**
-     * POST /api/admin/logout
-     */
     public function logout(Request $request)
     {
-        $request->user()->currentAccessToken()->delete();
+        $response = (object)[];
 
-        return ApiResponse::success('Logout successful');
+        try {
+            $request->user()->currentAccessToken()->delete();
+
+            $response->success = true;
+            $response->message = 'Logout successful';
+
+            $httpCode = 200;
+        } catch (\Exception $e) {
+            $response->success = false;
+            $response->message = 'An error occurred';
+            $response->errors = $e->getMessage();
+            $httpCode = 500;
+        }
+
+        return response()->json($response, $httpCode ?? 500);
     }
 }

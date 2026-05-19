@@ -1,4 +1,8 @@
-<div id="public-view-inner">
+@php
+    // Check if we're on the /activities page (no category selected)
+    $initialView = request()->is('activities') ? 'activities' : 'categories';
+@endphp
+<div id="public-view-inner" data-initial-view="{{ $initialView }}">
 
     {{-- Categories view --}}
     <div id="public-categories-view">

@@ -118,6 +118,7 @@ export function showToast(message, type = 'info') {
 /* ── Activity detail dialog ── */
 
 export function closeDialog() {
+    if (!el.dialog) return;
     if (typeof el.dialog.close === 'function' && el.dialog.open) {
         el.dialog.close();
         document.body.style.overflow = '';
@@ -128,6 +129,7 @@ export function closeDialog() {
 }
 
 export function bindDialogEvents() {
+    if (!el.dialog || !el.dialogClose) return;
     el.dialogClose.addEventListener('click', () => closeDialog());
     el.dialog.addEventListener('click', (event) => {
         if (event.target === el.dialog) {
@@ -147,6 +149,10 @@ export function bindDialogEvents() {
  */
 export function showConfirmDialog(title, message) {
     return new Promise((resolve) => {
+        if (!el.confirmDialog || !el.confirmTitle || !el.confirmMessage || !el.confirmOk || !el.confirmCancel) {
+            resolve(false);
+            return;
+        }
         el.confirmTitle.textContent = title;
         el.confirmMessage.textContent = message;
 

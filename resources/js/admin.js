@@ -756,6 +756,9 @@ async function deleteActivity(id) {
    ══════════════════════════════════ */
 
 export function bindAdminEvents() {
+    /* ── Not on admin SPA page → skip ── */
+    if (!el.adminLoginForm) return;
+
     /* ── Air Datepicker Initialization ── */
     if (window.AirDatepicker && el.activityDateDisplay) {
         const thLocale = {
