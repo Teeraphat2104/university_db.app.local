@@ -184,7 +184,7 @@
                 </div>
             </header>
             <div class="page-content">
-                {{ $slot }}
+                @yield('content')
             </div>
         </main>
     </div>

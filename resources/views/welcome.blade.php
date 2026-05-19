@@ -1,223 +1,267 @@
-<x-layouts.app>
+@extends('layouts.master')
 
-    {{-- ════════════════════════════════
-         PUBLIC VIEW
-    ════════════════════════════════ --}}
-    <div id="public-view">
+@section('title', 'University Activities - ระบบจัดการกิจกรรมมหาวิทยาลัย')
 
-        <x-topbar />
-
-        {{-- ════════════ Hero ════════════ --}}
-        <section class="hero">
-            <div class="hero-orb"></div>
-            <div class="hero-orb hero-orb-2"></div>
-            <div class="hero-orb hero-orb-3"></div>
-            <div class="hero-inner">
-                <div class="hero-badge">
-                    <i class="fa-solid fa-layer-group"></i>
-                    ระบบจัดการกิจกรรมมหาวิทยาลัย
-                </div>
-                <h1 class="hero-title">
-                    จัดการกิจกรรม<em>มหาวิทยาลัย</em><br>ให้ง่ายยิ่งขึ้น
-                </h1>
-                <p class="hero-desc">
-                    ระบบครบวงจรสำหรับจัดการกิจกรรม อัปโหลดเอกสาร และติดตามข้อมูลอย่างมีประสิทธิภาพ
-                </p>
-                <div class="hero-actions">
-                    <a href="/activities" class="hero-cta">
-                        <i class="fa-solid fa-calendar-check"></i>
-                        ดูกิจกรรมทั้งหมด
-                    </a>
-                    <button type="button" id="open-participant-search" class="hero-cta-outline">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                        ตรวจสอบการเข้าร่วม
-                    </button>
-                    <button type="button" class="hero-cta-outline mode-btn" data-mode="admin">
-                        <i class="fa-solid fa-user-tie"></i>
-                        สำหรับผู้ดูแล
-                    </button>
-                </div>
-
-                {{-- Stats --}}
-                <div class="hero-stats">
-                    <div class="hero-stat">
-                        <i class="fa-regular fa-calendar hero-stat-icon"></i>
-                        <p class="hero-stat-num" id="stat-activities">0</p>
-                        <p class="hero-stat-label">กิจกรรม</p>
-                    </div>
-                    <div class="hero-stat">
-                        <i class="fa-regular fa-rectangle-list hero-stat-icon"></i>
-                        <p class="hero-stat-num" id="stat-categories">0</p>
-                        <p class="hero-stat-label">หมวดหมู่</p>
-                    </div>
-                    <div class="hero-stat">
-                        <i class="fa-regular fa-file-lines hero-stat-icon"></i>
-                        <p class="hero-stat-num" id="stat-documents">0</p>
-                        <p class="hero-stat-label">เอกสาร</p>
-                    </div>
-                    <div class="hero-stat" style="cursor:pointer" id="stat-registered-wrap">
-                        <i class="fa-regular fa-user hero-stat-icon"></i>
-                        <p class="hero-stat-num" id="stat-registered">0</p>
-                        <p class="hero-stat-label">ผู้เข้าร่วม</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        {{-- ════════════ Features ════════════ --}}
-        <section id="about" class="section-alt">
-            <div class="section-inner">
-                <div class="section-header">
-                    <span class="section-badge">ฟีเจอร์</span>
-                    <h2 class="section-title">ครบทุกความต้องการ</h2>
-                    <p class="section-desc">ระบบออกแบบมาเพื่อมหาวิทยาลัยโดยเฉพาะ</p>
-                </div>
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <div class="feature-icon" style="--icon-color:#6366F1">
-                            <i class="fa-solid fa-calendar-days"></i>
-                        </div>
-                        <h3 class="feature-title">จัดการกิจกรรม</h3>
-                        <p class="feature-desc">สร้าง แก้ไข และติดตามกิจกรรมต่างๆ ได้อย่างมีระบบ</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon" style="--icon-color:#EF4444">
-                            <i class="fa-solid fa-file-pdf"></i>
-                        </div>
-                        <h3 class="feature-title">จัดการเอกสาร PDF</h3>
-                        <p class="feature-desc">อัปโหลดและแชร์เอกสาร PDF ประกอบกิจกรรมได้ทันที</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon" style="--icon-color:#10B981">
-                            <i class="fa-solid fa-users"></i>
-                        </div>
-                        <h3 class="feature-title">รองรับผู้เข้าร่วม</h3>
-                        <p class="feature-desc">บริหารจัดการรายชื่อผู้เข้าร่วมกิจกรรมได้ง่าย</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon" style="--icon-color:#F59E0B">
-                            <i class="fa-solid fa-chart-bar"></i>
-                        </div>
-                        <h3 class="feature-title">สถิติและรายงาน</h3>
-                        <p class="feature-desc">ดูภาพรวมและสร้างรายงานได้อย่างรวดเร็ว</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        {{-- ════════════ Highlights ════════════ --}}
-        <section class="section-highlights">
-            <div class="section-inner">
-                <div class="section-header">
-                    <span class="section-badge">ไฮไลท์</span>
-                    <h2 class="section-title">ทำไมต้องเลือกระบบของเรา?</h2>
-                    <p class="section-desc">ประสบการณ์การใช้งานที่ได้รับการพัฒนาอย่างต่อเนื่อง</p>
-                </div>
-                <div class="highlights-grid">
-                    <div class="highlight-card">
-                        <div class="highlight-icon">
-                            <i class="fa-solid fa-shield-halved"></i>
-                        </div>
-                        <h3 class="highlight-title">ความปลอดภัยสูง</h3>
-                        <p class="highlight-desc">ข้อมูลของคุณได้รับการปกป้องด้วยมาตรฐานการรักษาความปลอดภัยระดับสากล</p>
-                    </div>
-                    <div class="highlight-card">
-                        <div class="highlight-icon">
-                            <i class="fa-solid fa-moon"></i>
-                        </div>
-                        <h3 class="highlight-title">ใช้งานง่าย</h3>
-                        <p class="highlight-desc">อินเตอร์เฟซที่เป็นมิตรกับผู้ใช้ ช่วยให้คุณเริ่มต้นได้ภายในไม่กี่นาที</p>
-                    </div>
-                    <div class="highlight-card">
-                        <div class="highlight-icon">
-                            <i class="fa-solid fa-globe"></i>
-                        </div>
-                        <h3 class="highlight-title">รองรับทุกแพลตฟอร์ม</h3>
-                        <p class="highlight-desc">ใช้งานได้ทั้งบนคอมพิวเตอร์ แท็บเล็ต และสมาร์ทโฟน</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        {{-- ════════════ Activities ════════════ --}}
-        <section id="activities" class="section-activities">
-            <div class="section-inner">
-                <x-public.activity-section />
-            </div>
-        </section>
-
-        {{-- ════════════ Footer ════════════ --}}
-        <footer class="footer">
-            <div class="footer-inner">
-                <div class="footer-top">
-                    <div class="footer-brand">
-                        <div class="footer-logo">
-                            <i class="fa-solid fa-graduation-cap"></i>
-                        </div>
-                        <strong>University Activities</strong>
-                        <p>ระบบจัดการกิจกรรมและเอกสารสำหรับมหาวิทยาลัย</p>
-                    </div>
-                    <nav class="footer-nav">
-                        <a href="/activities"><i class="fa-regular fa-calendar"></i> กิจกรรม</a>
-                        <a href="#about"><i class="fa-regular fa-circle-info"></i> เกี่ยวกับ</a>
-                        <a href="#" class="mode-btn" data-mode="admin"><i class="fa-regular fa-user"></i> ผู้ดูแลระบบ</a>
-                    </nav>
-                    <div class="footer-social">
-                        <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
-                        <a href="#" aria-label="Line"><i class="fa-brands fa-line"></i></a>
-                        <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
-                    </div>
-                </div>
-                <p class="footer-bottom">© {{ date('Y') }} University Activities. สงวนลิขสิทธิ์</p>
-            </div>
-        </footer>
-
-    </div>{{-- end #public-view --}}
-
-    {{-- ════════════════════════════════
-         ADMIN VIEW
-    ════════════════════════════════ --}}
-    <section id="admin-view" class="hidden">
-
-        {{-- Login screen --}}
-        <div class="admin-login-screen" id="admin-auth-card">
-            <x-admin.login-card />
+@section('content')
+<div id="public-view">
+    <section class="relative min-h-[600px] flex items-center overflow-hidden bg-gradient-to-br from-gray-950 via-indigo-950 to-gray-950 pt-16">
+        <div class="absolute inset-0 pointer-events-none">
+            <div class="absolute w-[500px] h-[500px] -top-20 -left-20 rounded-full" style="background: radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%);"></div>
+            <div class="absolute w-[400px] h-[400px] -bottom-20 -right-20 rounded-full" style="background: radial-gradient(circle, rgba(139,92,246,0.10) 0%, transparent 70%);"></div>
         </div>
-
-        {{-- Dashboard --}}
-        <div id="admin-dashboard" class="hidden admin-layout">
-            <x-admin.dashboard-header />
-            <div class="admin-main">
-                <header class="admin-topbar">
-                    <div style="display:flex;align-items:center;gap:.875rem">
-                        <div>
-                            <h1 id="admin-topbar-title">ภาพรวม</h1>
-                            <p id="admin-topbar-desc">สถิติและข้อมูลสรุปของระบบ</p>
-                        </div>
-                    </div>
-                    <button type="button" class="btn btn-sm mode-btn" data-mode="public"
-                        style="background:var(--color-gray-100);color:var(--color-gray-600);border:1px solid var(--color-gray-200)">
-                        <i class="fa-solid fa-house"></i>
-                        กลับหน้าหลัก
-                    </button>
-                </header>
-                <div class="admin-page-body">
-                    <x-admin.overview-section />
-                    <x-admin.category-manager />
-                    <x-admin.activity-manager />
+        <div class="relative z-10 max-w-6xl mx-auto px-6 py-20 w-full">
+            <div class="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/30 rounded-full px-4 py-1.5 text-indigo-300 text-xs font-semibold mb-6 backdrop-blur" style="animation: fadeUp .6s ease-out .1s backwards;">
+                <i class="fa-solid fa-layer-group text-[10px]"></i>
+                ระบบจัดการกิจกรรมมหาวิทยาลัย
+            </div>
+            <h1 class="text-white font-black leading-tight mb-5" style="font-size: clamp(2rem, 5vw, 3.5rem); animation: fadeUp .6s ease-out .2s backwards;">
+                จัดการกิจกรรม<em class="not-italic bg-gradient-to-r from-indigo-300 to-purple-300 bg-clip-text text-transparent">มหาวิทยาลัย</em><br>ให้ง่ายยิ่งขึ้น
+            </h1>
+            <p class="text-gray-400 text-base sm:text-lg max-w-lg leading-relaxed mb-8" style="animation: fadeUp .6s ease-out .3s backwards;">
+                ระบบครบวงจรสำหรับจัดการกิจกรรม อัปโหลดเอกสาร และติดตามข้อมูลอย่างมีประสิทธิภาพ
+            </p>
+            <div class="flex flex-wrap gap-3 mb-12" style="animation: fadeUp .6s ease-out .4s backwards;">
+                <a href="/activities" class="inline-flex items-center gap-2 px-6 py-3 text-sm font-bold text-white bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full shadow-lg shadow-indigo-500/30 hover:shadow-xl hover:shadow-indigo-500/40 hover:-translate-y-0.5 transition-all no-underline">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    ดูกิจกรรมทั้งหมด
+                </a>
+                <button type="button" id="open-participant-search-hero" class="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-white/80 bg-white/10 border border-white/15 rounded-full hover:bg-white/20 hover:text-white transition-all cursor-pointer no-underline">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    ตรวจสอบการเข้าร่วม
+                </button>
+                <button type="button" class="mode-btn inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-white/80 bg-white/10 border border-white/15 rounded-full hover:bg-white/20 hover:text-white transition-all cursor-pointer no-underline" data-mode="admin">
+                    <i class="fa-solid fa-user-tie"></i>
+                    สำหรับผู้ดูแล
+                </button>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-lg" style="animation: fadeUp .6s ease-out .5s backwards;">
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-4 text-center hover:-translate-y-1 hover:shadow-lg transition-all">
+                    <i class="fa-regular fa-calendar text-indigo-400 text-lg mb-2 block"></i>
+                    <p class="text-white text-2xl font-extrabold font-display leading-none mb-1" id="stat-activities">0</p>
+                    <p class="text-gray-500 text-xs font-medium">กิจกรรม</p>
+                </div>
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-4 text-center hover:-translate-y-1 hover:shadow-lg transition-all">
+                    <i class="fa-regular fa-rectangle-list text-indigo-400 text-lg mb-2 block"></i>
+                    <p class="text-white text-2xl font-extrabold font-display leading-none mb-1" id="stat-categories">0</p>
+                    <p class="text-gray-500 text-xs font-medium">หมวดหมู่</p>
+                </div>
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-4 text-center hover:-translate-y-1 hover:shadow-lg transition-all">
+                    <i class="fa-regular fa-file-lines text-indigo-400 text-lg mb-2 block"></i>
+                    <p class="text-white text-2xl font-extrabold font-display leading-none mb-1" id="stat-documents">0</p>
+                    <p class="text-gray-500 text-xs font-medium">เอกสาร</p>
+                </div>
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-4 text-center hover:-translate-y-1 hover:shadow-lg transition-all cursor-pointer" id="stat-registered-wrap">
+                    <i class="fa-regular fa-user text-indigo-400 text-lg mb-2 block"></i>
+                    <p class="text-white text-2xl font-extrabold font-display leading-none mb-1" id="stat-registered">0</p>
+                    <p class="text-gray-500 text-xs font-medium">ผู้เข้าร่วม</p>
                 </div>
             </div>
         </div>
+    </section>
 
-    </section>{{-- end #admin-view --}}
+    <section id="about" class="py-16 sm:py-20 bg-white border-b border-gray-100">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center max-w-lg mx-auto mb-12">
+                <span class="inline-flex items-center gap-1.5 bg-indigo-50 text-indigo-600 text-xs font-bold rounded-full px-3.5 py-1 mb-4 border border-indigo-100">ฟีเจอร์</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-3">ครบทุกความต้องการ</h2>
+                <p class="text-gray-500 text-sm leading-relaxed">ระบบออกแบบมาเพื่อมหาวิทยาลัยโดยเฉพาะ</p>
+            </div>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                <div class="bg-white border border-gray-100 rounded-2xl p-6 hover:border-indigo-200 hover:shadow-lg hover:shadow-indigo-500/5 hover:-translate-y-1.5 transition-all">
+                    <div class="w-11 h-11 bg-indigo-50 text-indigo-500 rounded-xl flex items-center justify-center text-lg mb-4"> <i class="fa-solid fa-calendar-days"></i> </div>
+                    <h3 class="text-sm font-bold text-gray-800 mb-1.5">จัดการกิจกรรม</h3>
+                    <p class="text-xs text-gray-500 leading-relaxed">สร้าง แก้ไข และติดตามกิจกรรมต่างๆ ได้อย่างมีระบบ</p>
+                </div>
+                <div class="bg-white border border-gray-100 rounded-2xl p-6 hover:border-red-200 hover:shadow-lg hover:shadow-red-500/5 hover:-translate-y-1.5 transition-all">
+                    <div class="w-11 h-11 bg-red-50 text-red-500 rounded-xl flex items-center justify-center text-lg mb-4"> <i class="fa-solid fa-file-pdf"></i> </div>
+                    <h3 class="text-sm font-bold text-gray-800 mb-1.5">จัดการเอกสาร PDF</h3>
+                    <p class="text-xs text-gray-500 leading-relaxed">อัปโหลดและแชร์เอกสาร PDF ประกอบกิจกรรมได้ทันที</p>
+                </div>
+                <div class="bg-white border border-gray-100 rounded-2xl p-6 hover:border-emerald-200 hover:shadow-lg hover:shadow-emerald-500/5 hover:-translate-y-1.5 transition-all">
+                    <div class="w-11 h-11 bg-emerald-50 text-emerald-500 rounded-xl flex items-center justify-center text-lg mb-4"> <i class="fa-solid fa-users"></i> </div>
+                    <h3 class="text-sm font-bold text-gray-800 mb-1.5">รองรับผู้เข้าร่วม</h3>
+                    <p class="text-xs text-gray-500 leading-relaxed">บริหารจัดการรายชื่อผู้เข้าร่วมกิจกรรมได้ง่าย</p>
+                </div>
+                <div class="bg-white border border-gray-100 rounded-2xl p-6 hover:border-amber-200 hover:shadow-lg hover:shadow-amber-500/5 hover:-translate-y-1.5 transition-all">
+                    <div class="w-11 h-11 bg-amber-50 text-amber-500 rounded-xl flex items-center justify-center text-lg mb-4"> <i class="fa-solid fa-chart-bar"></i> </div>
+                    <h3 class="text-sm font-bold text-gray-800 mb-1.5">สถิติและรายงาน</h3>
+                    <p class="text-xs text-gray-500 leading-relaxed">ดูภาพรวมและสร้างรายงานได้อย่างรวดเร็ว</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    {{-- Dialogs --}}
-    <x-activity-dialog />
-    <x-confirm-dialog />
-    <x-admin.category-form-dialog />
-    <x-admin.activity-form-dialog />
-    <x-admin.media-preview-dialog />
-    <x-participant-search-dialog />
-    <x-toast />
+    <section class="py-16 sm:py-20 bg-gray-50">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center max-w-lg mx-auto mb-12">
+                <span class="inline-flex items-center gap-1.5 bg-indigo-50 text-indigo-600 text-xs font-bold rounded-full px-3.5 py-1 mb-4 border border-indigo-100">ไฮไลท์</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-3">ทำไมต้องเลือกระบบของเรา?</h2>
+                <p class="text-gray-500 text-sm leading-relaxed">ประสบการณ์การใช้งานที่ได้รับการพัฒนาอย่างต่อเนื่อง</p>
+            </div>
+            <div class="grid sm:grid-cols-3 gap-5">
+                <div class="bg-white border border-gray-100 rounded-2xl p-8 text-center hover:shadow-xl hover:-translate-y-1 transition-all">
+                    <div class="w-14 h-14 bg-indigo-50 text-indigo-500 rounded-full flex items-center justify-center text-xl mx-auto mb-5"> <i class="fa-solid fa-shield-halved"></i> </div>
+                    <h3 class="text-base font-bold text-gray-800 mb-2">ความปลอดภัยสูง</h3>
+                    <p class="text-sm text-gray-500 leading-relaxed">ข้อมูลของคุณได้รับการปกป้องด้วยมาตรฐานการรักษาความปลอดภัยระดับสากล</p>
+                </div>
+                <div class="bg-white border border-gray-100 rounded-2xl p-8 text-center hover:shadow-xl hover:-translate-y-1 transition-all">
+                    <div class="w-14 h-14 bg-indigo-50 text-indigo-500 rounded-full flex items-center justify-center text-xl mx-auto mb-5"> <i class="fa-solid fa-moon"></i> </div>
+                    <h3 class="text-base font-bold text-gray-800 mb-2">ใช้งานง่าย</h3>
+                    <p class="text-sm text-gray-500 leading-relaxed">อินเตอร์เฟซที่เป็นมิตรกับผู้ใช้ ช่วยให้คุณเริ่มต้นได้ภายในไม่กี่นาที</p>
+                </div>
+                <div class="bg-white border border-gray-100 rounded-2xl p-8 text-center hover:shadow-xl hover:-translate-y-1 transition-all">
+                    <div class="w-14 h-14 bg-indigo-50 text-indigo-500 rounded-full flex items-center justify-center text-xl mx-auto mb-5"> <i class="fa-solid fa-globe"></i> </div>
+                    <h3 class="text-base font-bold text-gray-800 mb-2">รองรับทุกแพลตฟอร์ม</h3>
+                    <p class="text-sm text-gray-500 leading-relaxed">ใช้งานได้ทั้งบนคอมพิวเตอร์ แท็บเล็ต และสมาร์ทโฟน</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-</x-layouts.app>
+    <section id="activities" class="py-16 sm:py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center max-w-lg mx-auto mb-12">
+                <span class="inline-flex items-center gap-1.5 bg-indigo-50 text-indigo-600 text-xs font-bold rounded-full px-3.5 py-1 mb-4 border border-indigo-100">กิจกรรม</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-3">กิจกรรมล่าสุด</h2>
+                <p class="text-gray-500 text-sm leading-relaxed">ดูข้อมูลกิจกรรมที่กำลังจะเกิดขึ้นและกิจกรรมยอดนิยม</p>
+            </div>
+            <div id="activities-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            </div>
+            <div class="text-center mt-8">
+                <a href="/activities" class="inline-flex items-center gap-2 px-6 py-3 text-sm font-bold text-white bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl shadow-md shadow-indigo-200 hover:shadow-lg hover:shadow-indigo-300 hover:-translate-y-0.5 transition-all no-underline">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    ดูทั้งหมด
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-950 text-gray-400 py-12 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex flex-wrap justify-between gap-8 pb-8 border-b border-white/10 mb-6">
+                <div>
+                    <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center text-white mb-3"> <i class="fa-solid fa-graduation-cap"></i> </div>
+                    <div class="text-white text-sm font-extrabold mb-1">University Activities</div>
+                    <p class="text-xs max-w-xs leading-relaxed">ระบบจัดการกิจกรรมและเอกสารสำหรับมหาวิทยาลัย</p>
+                </div>
+                <nav class="flex flex-wrap gap-x-6 gap-y-2 text-sm">
+                    <a href="/activities" class="text-gray-400 hover:text-white transition-colors no-underline"><i class="fa-regular fa-calendar mr-1.5"></i>กิจกรรม</a>
+                    <a href="#about" class="text-gray-400 hover:text-white transition-colors no-underline"><i class="fa-regular fa-circle-info mr-1.5"></i>เกี่ยวกับ</a>
+                    <a href="#" class="mode-btn text-gray-400 hover:text-white transition-colors no-underline" data-mode="admin"><i class="fa-regular fa-user mr-1.5"></i>ผู้ดูแลระบบ</a>
+                </nav>
+                <div class="flex gap-2">
+                    <a href="#" class="w-9 h-9 bg-white/5 hover:bg-indigo-500 rounded-full flex items-center justify-center text-gray-400 hover:text-white transition-all no-underline"><i class="fa-brands fa-facebook text-sm"></i></a>
+                    <a href="#" class="w-9 h-9 bg-white/5 hover:bg-indigo-500 rounded-full flex items-center justify-center text-gray-400 hover:text-white transition-all no-underline"><i class="fa-brands fa-line text-sm"></i></a>
+                    <a href="#" class="w-9 h-9 bg-white/5 hover:bg-indigo-500 rounded-full flex items-center justify-center text-gray-400 hover:text-white transition-all no-underline"><i class="fa-brands fa-youtube text-sm"></i></a>
+                </div>
+            </div>
+            <p class="text-xs text-gray-600">© {{ date('Y') }} University Activities. สงวนลิขสิทธิ์</p>
+        </div>
+    </footer>
+</div>
+
+<section id="admin-view" class="hidden fixed inset-0 z-[100] bg-gray-950 overflow-y-auto">
+    <div id="admin-auth-card" class="min-h-screen flex items-center justify-center p-6">
+        <div class="w-full max-w-sm bg-white rounded-3xl shadow-2xl p-8">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-11 h-11 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center flex-shrink-0"> <i class="fa-solid fa-user-tie text-white"></i> </div>
+                <div>
+                    <div class="text-sm font-extrabold text-gray-900">ผู้ดูแลระบบ</div>
+                    <div class="text-[10px] font-semibold text-gray-400 tracking-widest uppercase">Login</div>
+                </div>
+            </div>
+            <h2 class="text-xl font-extrabold text-gray-900 mb-1">เข้าสู่ระบบ</h2>
+            <p class="text-sm text-gray-500 mb-6">กรุณาเข้าสู่ระบบด้วยบัญชีผู้ดูแลของคุณ</p>
+            <form id="admin-login-form" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-500 mb-1.5">อีเมล</label>
+                    <input type="email" id="admin-email" name="email" required class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl focus:border-indigo-400 focus:ring-3 focus:ring-indigo-100 outline-none transition-all">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-500 mb-1.5">รหัสผ่าน</label>
+                    <input type="password" id="admin-password" name="password" required class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl focus:border-indigo-400 focus:ring-3 focus:ring-indigo-100 outline-none transition-all">
+                </div>
+                <button type="submit" class="w-full py-2.5 text-sm font-bold text-white bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all border-none cursor-pointer">เข้าสู่ระบบ</button>
+            </form>
+            <p class="text-xs text-gray-400 text-center mt-5">
+                demo: <code class="text-gray-600 bg-gray-100 px-1.5 py-0.5 rounded text-xs">admin@example.com</code> / <code class="text-gray-600 bg-gray-100 px-1.5 py-0.5 rounded text-xs">password</code>
+            </p>
+            <button type="button" class="mode-btn mt-4 w-full text-xs text-gray-400 hover:text-gray-600 text-center bg-transparent border-none cursor-pointer" data-mode="public">
+                <i class="fa-solid fa-arrow-left mr-1"></i> กลับหน้าหลัก
+            </button>
+        </div>
+    </div>
+
+    <div id="admin-dashboard" class="hidden">
+        <div class="flex items-center justify-between px-6 py-4 border-b border-white/10">
+            <div>
+                <h1 class="text-lg font-extrabold text-white" id="admin-topbar-title">ภาพรวม</h1>
+                <p class="text-xs text-gray-500" id="admin-topbar-desc">สถิติและข้อมูลสรุปของระบบ</p>
+            </div>
+            <button type="button" class="mode-btn inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold text-gray-300 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 hover:text-white transition-all cursor-pointer no-underline" data-mode="public">
+                <i class="fa-solid fa-house"></i>
+                กลับหน้าหลัก
+            </button>
+        </div>
+        <div id="admin-content" class="p-6 space-y-6">
+        </div>
+    </div>
+</section>
+
+<style>
+    @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(24px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+@endsection
+
+@section('script')
+<script>
+const API_BASE = '/api/public';
+
+$(function () {
+    $.getJSON(API_BASE + '/home', function (json) {
+        if (json.data) {
+            $('#stat-activities').text(json.data.stats?.total_activities ?? 0);
+            $('#stat-categories').text(json.data.stats?.total_categories ?? 0);
+            $('#stat-documents').text(json.data.stats?.total_documents ?? 0);
+            $('#stat-registered').text(json.data.stats?.total_participants ?? 0);
+        }
+    });
+
+    $.getJSON(API_BASE + '/activities', { per_page: 6 }, function (json) {
+        var $grid = $('#activities-grid');
+        if (json.data && $grid.length) {
+            $grid.html($.map(json.data, function (a) {
+                var img = a.cover_image_url
+                    ? '<img src="' + a.cover_image_url + '" alt="' + a.title + '" class="w-full h-full object-cover">'
+                    : '<div class="w-full h-full flex items-center justify-center text-3xl text-gray-300"><i class="fa-regular fa-image"></i></div>';
+                var cat = a.category
+                    ? '<span class="absolute top-2.5 left-2.5 bg-gray-900/60 backdrop-blur-sm text-white text-[10px] font-bold px-2 py-0.5 rounded-full">' + a.category.name + '</span>'
+                    : '';
+                var date = a.activity_date || '';
+                return '<div class="bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all group">'
+                    + '<div class="h-40 bg-gray-100 overflow-hidden relative">' + cat + img + '</div>'
+                    + '<div class="p-4">'
+                    + '<div class="flex items-center gap-2 text-xs text-gray-400 mb-2"><i class="fa-regular fa-calendar"></i>' + date + '</div>'
+                    + '<h3 class="text-sm font-bold text-gray-800 leading-snug mb-2">' + a.title + '</h3>'
+                    + '<p class="text-xs text-gray-500 line-clamp-2 leading-relaxed">' + (a.description || '') + '</p>'
+                    + '</div>'
+                    + '</div>';
+            }).join(''));
+        }
+    });
+
+    $('.mode-btn').on('click', function () {
+        var mode = $(this).data('mode');
+        $('#public-view').toggleClass('hidden', mode === 'admin');
+        $('#admin-view').toggleClass('hidden', mode !== 'admin');
+    });
+
+    $('#open-participant-search').on('click', function () {
+        $('#open-participant-search-hero').trigger('click');
+    });
+});
+</script>
+@endsection

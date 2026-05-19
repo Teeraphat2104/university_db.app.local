@@ -96,6 +96,10 @@ class PublicController extends Controller
                 $query->where('category_id', $request->input('category_id'));
             }
 
+            if ($request->filled('year')) {
+                $query->whereYear('activity_date', $request->input('year'));
+            }
+
             $paginator = $query->orderByDesc('id')->paginate($perPage);
 
             $response->success = true;

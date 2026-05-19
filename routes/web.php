@@ -10,6 +10,10 @@ Route::get('/activities', function () {
     return view('activities');
 });
 
+Route::get('/activities/{id}', function () {
+    return view('activity-detail');
+});
+
 Route::get('/admin', function () {
     return view('admin.dashboard');
 });
