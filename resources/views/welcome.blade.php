@@ -2,25 +2,36 @@
 
 @section('title', 'University Activities - ระบบจัดการกิจกรรมมหาวิทยาลัย')
 
+@section('style')
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-up-1 { animation: fadeUp .6s ease-out .1s backwards; }
+    .fade-up-2 { animation: fadeUp .6s ease-out .2s backwards; }
+    .fade-up-3 { animation: fadeUp .6s ease-out .3s backwards; }
+    .fade-up-4 { animation: fadeUp .6s ease-out .4s backwards; }
+    .fade-up-5 { animation: fadeUp .6s ease-out .5s backwards; }
+    .hero-gradient { background: radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%); }
+    .hero-gradient-2 { background: radial-gradient(circle, rgba(139,92,246,0.10) 0%, transparent 70%); }
+@endsection
+
 @section('content')
 <div id="public-view">
     <section class="relative min-h-[600px] flex items-center overflow-hidden bg-gradient-to-br from-gray-950 via-indigo-950 to-gray-950 pt-16">
         <div class="absolute inset-0 pointer-events-none">
-            <div class="absolute w-[500px] h-[500px] -top-20 -left-20 rounded-full" style="background: radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%);"></div>
-            <div class="absolute w-[400px] h-[400px] -bottom-20 -right-20 rounded-full" style="background: radial-gradient(circle, rgba(139,92,246,0.10) 0%, transparent 70%);"></div>
+            <div class="absolute w-[500px] h-[500px] -top-20 -left-20 rounded-full hero-gradient"></div>
+            <div class="absolute w-[400px] h-[400px] -bottom-20 -right-20 rounded-full hero-gradient-2"></div>
         </div>
         <div class="relative z-10 max-w-6xl mx-auto px-6 py-20 w-full">
-            <div class="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/30 rounded-full px-4 py-1.5 text-indigo-300 text-xs font-semibold mb-6 backdrop-blur" style="animation: fadeUp .6s ease-out .1s backwards;">
+            <div class="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/30 rounded-full px-4 py-1.5 text-indigo-300 text-xs font-semibold mb-6 backdrop-blur fade-up-1">
                 <i class="fa-solid fa-layer-group text-[10px]"></i>
                 ระบบจัดการกิจกรรมมหาวิทยาลัย
             </div>
-            <h1 class="text-white font-black leading-tight mb-5" style="font-size: clamp(2rem, 5vw, 3.5rem); animation: fadeUp .6s ease-out .2s backwards;">
+            <h1 class="text-white font-black leading-tight mb-5 fade-up-2" style="font-size: clamp(2rem, 5vw, 3.5rem);">
                 จัดการกิจกรรม<em class="not-italic bg-gradient-to-r from-indigo-300 to-purple-300 bg-clip-text text-transparent">มหาวิทยาลัย</em><br>ให้ง่ายยิ่งขึ้น
             </h1>
-            <p class="text-gray-400 text-base sm:text-lg max-w-lg leading-relaxed mb-8" style="animation: fadeUp .6s ease-out .3s backwards;">
+            <p class="text-gray-400 text-base sm:text-lg max-w-lg leading-relaxed mb-8 fade-up-3">
                 ระบบครบวงจรสำหรับจัดการกิจกรรม อัปโหลดเอกสาร และติดตามข้อมูลอย่างมีประสิทธิภาพ
             </p>
-            <div class="flex flex-wrap gap-3 mb-12" style="animation: fadeUp .6s ease-out .4s backwards;">
+            <div class="flex flex-wrap gap-3 mb-12 fade-up-4">
                 <a href="/activities" class="inline-flex items-center gap-2 px-6 py-3 text-sm font-bold text-white bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full shadow-lg shadow-indigo-500/30 hover:shadow-xl hover:shadow-indigo-500/40 hover:-translate-y-0.5 transition-all no-underline">
                     <i class="fa-solid fa-calendar-check"></i>
                     ดูกิจกรรมทั้งหมด
@@ -34,7 +45,7 @@
                     สำหรับผู้ดูแล
                 </a>
             </div>
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-lg" style="animation: fadeUp .6s ease-out .5s backwards;">
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-lg fade-up-5">
                 <div class="bg-white/5 border border-white/10 rounded-2xl p-4 text-center hover:-translate-y-1 hover:shadow-lg transition-all">
                     <i class="fa-regular fa-calendar text-indigo-400 text-lg mb-2 block"></i>
                     <p class="text-white text-2xl font-extrabold font-display leading-none mb-1" id="stat-activities">0</p>
@@ -171,14 +182,6 @@
         </div>
     </footer>
 </div>
-
-
-<style>
-    @keyframes fadeUp {
-        from { opacity: 0; transform: translateY(24px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-</style>
 @endsection
 
 @section('script')

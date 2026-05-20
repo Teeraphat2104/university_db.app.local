@@ -2,11 +2,52 @@
 
 @section('title', 'กิจกรรมทั้งหมด - Admin')
 
+@section('style')
+    .act-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+    .act-title { font-size: 24px; font-weight: 700; margin-bottom: 0.25rem; }
+    .act-subtitle { color: var(--text-muted); }
+    .filter-bar { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+    .filter-input-wrap { flex: 1; min-width: 200px; }
+    .filter-input-wrap input { width: 100%; }
+    .filter-select { padding: 0.625rem 1rem; border: 1px solid var(--border); border-radius: var(--radius); font-size: 14px; background: var(--surface); min-width: 150px; }
+    .table-checkbox { width: 18px; height: 18px; cursor: pointer; }
+    .loading-cell { text-align: center; padding: 3rem; color: var(--text-muted); }
+    .pagination-wrap { display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; }
+    .pagination-info { color: var(--text-muted); font-size: 14px; }
+    .pagination-btns { display: flex; gap: 0.5rem; }
+    .view-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .view-cover-img { width: 100%; border-radius: var(--radius-lg); max-height: 300px; object-fit: cover; }
+    .view-full { grid-column: 1 / -1; }
+    .view-title-lg { font-size: 1.25rem; font-weight: 700; margin: 0 0 0.75rem; }
+    .view-desc { color: var(--text-secondary); line-height: 1.6; margin: 0 0 1rem; font-size: 14px; }
+    .view-meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; font-size: 14px; }
+    .view-meta-label { color: var(--text-muted); }
+    .view-meta-value { font-weight: 600; }
+    .pdf-section { margin-top: 1.5rem; display: none; }
+    .pdf-section hr { border: none; border-top: 1px solid var(--border); margin-bottom: 1rem; }
+    .pdf-label { font-weight: 700; margin: 0 0 0.5rem; }
+    .pdf-label i { color: #DC2626; }
+    .pdf-frame { width: 100%; height: 500px; border: 1px solid var(--border); border-radius: var(--radius-lg); }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-full { grid-column: 1 / -1; }
+    .form-cover-preview { width: 64px; height: 64px; object-fit: cover; display: block; }
+    .empty-state-icon { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg,#EEF2FF,#E0E7FF); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; }
+    .empty-state-icon i { font-size: 32px; color: var(--primary); }
+    .empty-state h3 { font-size: 18px; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem; }
+    .empty-state p { color: var(--text-muted); margin-bottom: 1.5rem; }
+    .skeleton-loading { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: skeleton 1.5s infinite; border-radius: var(--radius); }
+    .activity-avatar { width: 48px; height: 48px; border-radius: var(--radius); background: linear-gradient(135deg,#667eea,#764ba2); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; flex-shrink: 0; }
+    @keyframes skeleton { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    .page-title-section { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+    .page-title-section h2 { font-size: 24px; font-weight: 700; margin-bottom: 0.25rem; }
+    .page-title-section p { color: var(--text-muted); }
+@endsection
+
 @section('content')
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem">
+    <div class="page-title-section">
         <div>
-            <h2 style="font-size:24px;font-weight:700;margin-bottom:0.25rem">กิจกรรมทั้งหมด</h2>
-            <p style="color:var(--text-muted)">จัดการกิจกรรมของมหาวิทยาลัย</p>
+            <h2>กิจกรรมทั้งหมด</h2>
+            <p>จัดการกิจกรรมของมหาวิทยาลัย</p>
         </div>
         <button class="btn btn-primary" onclick="openCreateModal()">
             <i class="bi bi-plus"></i>
@@ -15,16 +56,14 @@
     </div>
 
     <div class="card" style="margin-bottom:1.5rem">
-        <div class="card-body" style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap">
-            <div style="flex:1;min-width:200px">
-                <input type="text" id="filter-keyword" placeholder="ค้นหากิจกรรม..." style="width:100%">
+        <div class="card-body filter-bar">
+            <div class="filter-input-wrap">
+                <input type="text" id="filter-keyword" placeholder="ค้นหากิจกรรม...">
             </div>
-            <select id="filter-category"
-                style="padding:0.625rem 1rem;border:1px solid var(--border);border-radius:var(--radius);font-size:14px;background:var(--surface);min-width:150px">
+            <select id="filter-category" class="filter-select">
                 <option value="">ทุกหมวดหมู่</option>
             </select>
-            <select id="filter-status"
-                style="padding:0.625rem 1rem;border:1px solid var(--border);border-radius:var(--radius);font-size:14px;background:var(--surface);min-width:130px">
+            <select id="filter-status" class="filter-select" style="min-width:130px">
                 <option value="">ทุกสถานะ</option>
                 <option value="1">เปิดใช้งาน</option>
                 <option value="0">ปิดใช้งาน</option>
@@ -41,8 +80,7 @@
             <table class="data-table" id="activities-table">
                 <thead>
                     <tr>
-                        <th style="width:40px"><input type="checkbox" id="select-all"
-                                style="width:18px;height:18px;cursor:pointer"></th>
+                        <th style="width:40px"><input type="checkbox" id="select-all" class="table-checkbox"></th>
                         <th>ชื่อกิจกรรม</th>
                         <th>หมวดหมู่</th>
                         <th>วันที่</th>
@@ -54,9 +92,8 @@
                 </thead>
                 <tbody id="activities-tbody">
                     <tr>
-                        <td colspan="8" style="text-align:center;padding:3rem;color:var(--text-muted)">
-                            <i class="bi bi-arrow-repeat bi-spin"
-                                style="font-size:1.5rem;display:block;margin-bottom:0.75rem"></i>
+                        <td colspan="8" class="loading-cell">
+                            <i class="bi bi-arrow-repeat bi-spin" style="font-size:1.5rem;display:block;margin-bottom:0.75rem"></i>
                             กำลังโหลด...
                         </td>
                     </tr>
@@ -65,9 +102,9 @@
         </div>
     </div>
 
-    <div id="pagination-wrap" style="display:flex;justify-content:space-between;align-items:center;margin-top:1.5rem">
-        <p id="pagination-info" style="color:var(--text-muted);font-size:14px"></p>
-        <div id="pagination-btns" style="display:flex;gap:0.5rem"></div>
+    <div class="pagination-wrap">
+        <p id="pagination-info" class="pagination-info"></p>
+        <div id="pagination-btns" class="pagination-btns"></div>
     </div>
 
     <dialog id="view-modal" class="modal-lg">
@@ -78,35 +115,26 @@
             </button>
         </div>
         <div class="dialog-body" id="view-modal-body">
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
+            <div class="view-grid">
                 <div id="view-cover-wrap" style="display:none">
-                    <img id="view-cover" src="" alt="cover"
-                        style="width:100%;border-radius:var(--radius-lg);max-height:300px;object-fit:cover">
+                    <img id="view-cover" src="" alt="cover" class="view-cover-img">
                 </div>
-                <div style="grid-column:1/-1">
-                    <h3 id="view-title" style="font-size:1.25rem;font-weight:700;margin:0 0 0.75rem"></h3>
-                    <p id="view-desc" style="color:var(--text-secondary);line-height:1.6;margin:0 0 1rem;font-size:14px">
-                    </p>
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;font-size:14px">
-                        <div><span style="color:var(--text-muted)">หมวดหมู่:</span> <span id="view-category"
-                                style="font-weight:600"></span></div>
-                        <div><span style="color:var(--text-muted)">วันที่:</span> <span id="view-date"
-                                style="font-weight:600"></span></div>
-                        <div><span style="color:var(--text-muted)">สถานที่:</span> <span id="view-location"
-                                style="font-weight:600"></span></div>
-                        <div><span style="color:var(--text-muted)">ผู้เข้าร่วม:</span> <span id="view-participants"
-                                style="font-weight:600"></span></div>
-                        <div><span style="color:var(--text-muted)">สถานะ:</span> <span id="view-status"
-                                style="font-weight:600"></span></div>
+                <div class="view-full">
+                    <h3 id="view-title" class="view-title-lg"></h3>
+                    <p id="view-desc" class="view-desc"></p>
+                    <div class="view-meta-grid">
+                        <div><span class="view-meta-label">หมวดหมู่:</span> <span id="view-category" class="view-meta-value"></span></div>
+                        <div><span class="view-meta-label">วันที่:</span> <span id="view-date" class="view-meta-value"></span></div>
+                        <div><span class="view-meta-label">สถานที่:</span> <span id="view-location" class="view-meta-value"></span></div>
+                        <div><span class="view-meta-label">ผู้เข้าร่วม:</span> <span id="view-participants" class="view-meta-value"></span></div>
+                        <div><span class="view-meta-label">สถานะ:</span> <span id="view-status" class="view-meta-value"></span></div>
                     </div>
                 </div>
             </div>
-            <div id="view-pdf-wrap" style="margin-top:1.5rem;display:none">
-                <hr style="border:none;border-top:1px solid var(--border);margin-bottom:1rem">
-                <p style="font-weight:700;margin:0 0 0.5rem"><i class="bi bi-file-earmark-pdf" style="color:#DC2626"></i>
-                    เอกสาร PDF</p>
-                <iframe id="view-pdf" src=""
-                    style="width:100%;height:500px;border:1px solid var(--border);border-radius:var(--radius-lg)"></iframe>
+            <div id="view-pdf-wrap" class="pdf-section">
+                <hr>
+                <p class="pdf-label"><i class="bi bi-file-earmark-pdf"></i> เอกสาร PDF</p>
+                <iframe id="view-pdf" src="" class="pdf-frame"></iframe>
             </div>
         </div>
     </dialog>
@@ -115,14 +143,13 @@
         <form id="activity-form">
             <div class="dialog-header">
                 <h3 id="form-modal-title">สร้างกิจกรรมใหม่</h3>
-                <button type="button" class="btn btn-sm btn-muted" onclick="closeFormModal()"
-                    style="padding:0.375rem 0.5rem">
+                <button type="button" class="btn btn-sm btn-muted" onclick="closeFormModal()" style="padding:0.375rem 0.5rem">
                     <i class="bi bi-x-lg"></i>
                 </button>
             </div>
-            <div class="dialog-body" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+            <div class="dialog-body form-grid">
                 <input type="hidden" id="form-id">
-                <div style="grid-column:1/-1">
+                <div class="form-full">
                     <label class="field-label">ชื่อกิจกรรม</label>
                     <input type="text" id="form-title" name="title" required placeholder="กรุณากรอกชื่อกิจกรรม">
                 </div>
@@ -136,27 +163,26 @@
                     <label class="field-label">วันที่จัดกิจกรรม</label>
                     <input type="date" id="form-activity-date" name="activity_date">
                 </div>
-                <div style="grid-column:1/-1">
+                <div class="form-full">
                     <label class="field-label">สถานที่</label>
                     <input type="text" id="form-location" name="location" placeholder="กรุณากรอกสถานที่">
                 </div>
-                <div style="grid-column:1/-1">
+                <div class="form-full">
                     <label class="field-label">รายละเอียด</label>
                     <textarea id="form-description" name="description" rows="4" placeholder="กรุณากรอกรายละเอียด"></textarea>
                 </div>
-                <div style="grid-column:1/-1">
+                <div class="form-full">
                     <label class="field-label">รูปปก</label>
                     <input type="file" id="form-cover" name="cover_image" accept="image/*">
                     <div id="form-cover-existing" class="file-existing" style="display:none;margin-top:0.5rem">
                         <div class="fe-img-thumb" onclick="previewImage($(this).find('img').attr('src'))">
-                            <img id="form-cover-preview" src="" alt=""
-                                style="width:64px;height:64px;object-fit:cover;display:block">
+                            <img id="form-cover-preview" src="" alt="" class="form-cover-preview">
                             <div class="fe-img-overlay"><i class="bi bi-fullscreen" style="font-size:12px"></i></div>
                         </div>
                         <span class="fe-label">รูปปกปัจจุบัน</span>
                     </div>
                 </div>
-                <div style="grid-column:1/-1">
+                <div class="form-full">
                     <label class="field-label">ไฟล์ PDF</label>
                     <input type="file" id="form-pdf" name="pdf_file" accept=".pdf">
                     <div id="form-pdf-existing" class="file-existing" style="display:none;margin-top:0.5rem">
@@ -183,36 +209,16 @@
     </dialog>
 
     <div id="empty-state" class="empty-state" style="display:none">
-        <div
-            style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#EEF2FF,#E0E7FF);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem">
-            <i class="bi bi-calendar" style="font-size:32px;color:var(--primary)"></i>
+        <div class="empty-state-icon">
+            <i class="bi bi-calendar"></i>
         </div>
-        <h3 style="font-size:18px;font-weight:700;color:var(--text-primary);margin-bottom:0.5rem">ยังไม่มีกิจกรรม</h3>
-        <p style="color:var(--text-muted);margin-bottom:1.5rem">เริ่มสร้างกิจกรรมแรกของคุณ</p>
+        <h3>ยังไม่มีกิจกรรม</h3>
+        <p>เริ่มสร้างกิจกรรมแรกของคุณ</p>
         <button class="btn btn-primary" onclick="openCreateModal()">
             <i class="bi bi-plus"></i>
             สร้างกิจกรรมใหม่
         </button>
     </div>
-
-    <style>
-        .skeleton-loading {
-            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-            background-size: 200% 100%;
-            animation: skeleton 1.5s infinite;
-            border-radius: var(--radius);
-        }
-
-        @keyframes skeleton {
-            0% {
-                background-position: 200% 0;
-            }
-
-            100% {
-                background-position: -200% 0;
-            }
-        }
-    </style>
 @endsection
 
 @section('script')
@@ -234,7 +240,7 @@
         $(function() {
             if (!token) {
                 $('#activities-tbody').html(
-                    '<tr><td colspan="8" style="text-align:center;padding:3rem;color:var(--text-muted)">กรุณา <a href="/login" style="color:var(--primary)">เข้าสู่ระบบ</a> ก่อน</td></tr>'
+                    '<tr><td colspan="8" class="loading-cell">กรุณา <a href="/login" style="color:var(--primary)">เข้าสู่ระบบ</a> ก่อน</td></tr>'
                     );
                 return;
             }
@@ -290,7 +296,7 @@
                     tbody.empty();
                     if (!json.data || json.data.length === 0) {
                         tbody.html(
-                            '<tr><td colspan="8" style="text-align:center;padding:3rem;color:var(--text-muted)">ไม่พบกิจกรรม</td></tr>'
+                            '<tr><td colspan="8" class="loading-cell">ไม่พบกิจกรรม</td></tr>'
                             );
                         return;
                     }
@@ -303,8 +309,8 @@
                         var titleSafe = $('<span>').text(act.title).html();
                         var catSafe = $('<span>').text(catName).html();
                         tbody.append('<tr>' +
-                            '<td><input type="checkbox" class="row-check" style="width:18px;height:18px;cursor:pointer"></td>' +
-                            '<td><div style="display:flex;align-items:center;gap:1rem"><div style="width:48px;height:48px;border-radius:var(--radius);background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;flex-shrink:0">' +
+                            '<td><input type="checkbox" class="row-check table-checkbox"></td>' +
+                            '<td><div style="display:flex;align-items:center;gap:1rem"><div class="activity-avatar">' +
                             initial + '</div><div><p style="font-weight:600;margin-bottom:2px">' +
                             titleSafe + '</p></div></div></td>' +
                             '<td><span class="badge badge-primary">' + catSafe + '</span></td>' +
@@ -334,7 +340,7 @@
                 error: function(xhr) {
                     if (xhr.status === 401) {
                         $('#activities-tbody').html(
-                            '<tr><td colspan="8" style="text-align:center;padding:3rem;color:var(--text-muted)">เซสชันหมดอายุ กรุณา <a href="/login" style="color:var(--primary)">เข้าสู่ระบบ</a> อีกครั้ง</td></tr>'
+                            '<tr><td colspan="8" class="loading-cell">เซสชันหมดอายุ กรุณา <a href="/login" style="color:var(--primary)">เข้าสู่ระบบ</a> อีกครั้ง</td></tr>'
                             );
                     } else {
                         $('#activities-tbody').html(

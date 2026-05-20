@@ -2,11 +2,24 @@
 
 @section('title', 'จัดการหมวดหมู่ - Admin')
 
+@section('style')
+    .cat-page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+    .cat-page-header h2 { font-size: 24px; font-weight: 700; margin-bottom: 0.25rem; }
+    .cat-page-header p { color: var(--text-muted); }
+    .cat-id-cell { font-weight: 600; color: var(--text-muted); }
+    .cat-name-cell { font-weight: 600; }
+    .cat-empty-icon { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg,#FEF3C7,#FDE68A); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; }
+    .cat-empty-icon i { font-size: 32px; color: #B45309; }
+    .cat-empty h3 { font-size: 18px; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem; }
+    .cat-empty p { color: var(--text-muted); margin-bottom: 1.5rem; }
+    .loading-cell { text-align: center; padding: 3rem; color: var(--text-muted); }
+@endsection
+
 @section('content')
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem">
+<div class="cat-page-header">
     <div>
-        <h2 style="font-size:24px;font-weight:700;margin-bottom:0.25rem">หมวดหมู่กิจกรรม</h2>
-        <p style="color:var(--text-muted)">จัดการหมวดหมู่สำหรับกิจกรรมของมหาวิทยาลัย</p>
+        <h2>หมวดหมู่กิจกรรม</h2>
+        <p>จัดการหมวดหมู่สำหรับกิจกรรมของมหาวิทยาลัย</p>
     </div>
     <button class="btn btn-primary" onclick="openCreateModal()">
         <i class="fa-solid fa-plus"></i>
@@ -27,7 +40,7 @@
             </thead>
             <tbody id="categories-tbody">
                 <tr>
-                    <td colspan="4" style="text-align:center;padding:3rem;color:var(--text-muted)">
+                    <td colspan="4" class="loading-cell">
                         <i class="fa-solid fa-spinner fa-spin" style="font-size:1.5rem;display:block;margin-bottom:0.75rem"></i>
                         กำลังโหลด...
                     </td>
@@ -37,12 +50,12 @@
     </div>
 </div>
 
-<div id="empty-state" class="empty-state" style="display:none">
-    <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#FEF3C7,#FDE68A);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem">
-        <i class="fa-regular fa-folder-open" style="font-size:32px;color:#B45309"></i>
+<div id="empty-state" class="empty-state cat-empty" style="display:none">
+    <div class="cat-empty-icon">
+        <i class="fa-regular fa-folder-open"></i>
     </div>
-    <h3 style="font-size:18px;font-weight:700;color:var(--text-primary);margin-bottom:0.5rem">ยังไม่มีหมวดหมู่</h3>
-    <p style="color:var(--text-muted);margin-bottom:1.5rem">สร้างหมวดหมู่แรกเพื่อจัดการกิจกรรม</p>
+    <h3>ยังไม่มีหมวดหมู่</h3>
+    <p>สร้างหมวดหมู่แรกเพื่อจัดการกิจกรรม</p>
     <button class="btn btn-primary" onclick="openCreateModal()">
         <i class="fa-solid fa-plus"></i>
         สร้างหมวดหมู่
@@ -87,7 +100,7 @@ function getHeaders() {
 
 $(function () {
     if (!token) {
-        $('#categories-tbody').html('<tr><td colspan="4" style="text-align:center;padding:3rem;color:var(--text-muted)">กรุณา <a href="/login" style="color:var(--primary)">เข้าสู่ระบบ</a> ก่อน</td></tr>');
+        $('#categories-tbody').html('<tr><td colspan="4" class="loading-cell">กรุณา <a href="/login" style="color:var(--primary)">เข้าสู่ระบบ</a> ก่อน</td></tr>');
         return;
     }
     loadCategories();
@@ -114,8 +127,8 @@ function loadCategories() {
                     : '<span class="badge badge-warning">ปิดใช้งาน</span>';
 
                 var row = '<tr>' +
-                    '<td style="font-weight:600;color:var(--text-muted)">' + cat.id + '</td>' +
-                    '<td style="font-weight:600">' + $('<span>').text(cat.name).html() + '</td>' +
+                    '<td class="cat-id-cell">' + cat.id + '</td>' +
+                    '<td class="cat-name-cell">' + $('<span>').text(cat.name).html() + '</td>' +
                     '<td>' + statusHtml + '</td>' +
                     '<td>' +
                         '<div style="display:flex;gap:0.5rem">' +
@@ -130,9 +143,9 @@ function loadCategories() {
         },
         error: function (xhr) {
             if (xhr.status === 401) {
-                $('#categories-tbody').html('<tr><td colspan="4" style="text-align:center;padding:3rem;color:var(--text-muted)">เซสชันหมดอายุ กรุณา <a href="/login" style="color:var(--primary)">เข้าสู่ระบบ</a> อีกครั้ง</td></tr>');
+                $('#categories-tbody').html('<tr><td colspan="4" class="loading-cell">เซสชันหมดอายุ กรุณา <a href="/login" style="color:var(--primary)">เข้าสู่ระบบ</a> อีกครั้ง</td></tr>');
             } else {
-                $('#categories-tbody').html('<tr><td colspan="4" style="text-align:center;padding:3rem;color:var(--danger)">เกิดข้อผิดพลาดในการโหลดข้อมูล</td></tr>');
+                $('#categories-tbody').html('<tr><td colspan="4" class="loading-cell" style="color:var(--danger)">เกิดข้อผิดพลาดในการโหลดข้อมูล</td></tr>');
             }
         }
     });

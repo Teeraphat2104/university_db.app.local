@@ -2,37 +2,48 @@
 
 @section('title', 'University Activities - ระบบจัดการกิจกรรมมหาวิทยาลัย')
 
+@section('style')
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-up-1 { animation: fadeUp .6s ease-out .1s backwards; }
+    .fade-up-2 { animation: fadeUp .6s ease-out .2s backwards; }
+    .fade-up-3 { animation: fadeUp .6s ease-out .3s backwards; }
+    .fade-up-4 { animation: fadeUp .6s ease-out .4s backwards; }
+    .fade-up-5 { animation: fadeUp .6s ease-out .5s backwards; }
+    .hero-gradient { background: radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 70%); }
+    .hero-gradient-2 { background: radial-gradient(circle, rgba(139,92,246,0.08) 0%, transparent 70%); }
+@endsection
+
 @section('content')
 <div id="public-view">
     <!-- Hero Section -->
     <section class="relative min-h-[75vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-50 via-white to-indigo-50 pt-16">
         <!-- Decorative elements -->
         <div class="absolute inset-0 pointer-events-none">
-            <div class="absolute w-[600px] h-[600px] -top-40 -left-40 rounded-full opacity-60" style="background: radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 70%);"></div>
-            <div class="absolute w-[500px] h-[500px] -bottom-40 -right-40 rounded-full opacity-50" style="background: radial-gradient(circle, rgba(139,92,246,0.08) 0%, transparent 70%);"></div>
+            <div class="absolute w-[600px] h-[600px] -top-40 -left-40 rounded-full opacity-60 hero-gradient"></div>
+            <div class="absolute w-[500px] h-[500px] -bottom-40 -right-40 rounded-full opacity-50 hero-gradient-2"></div>
         </div>
 
         <div class="relative z-10 max-w-4xl mx-auto px-6 py-16 text-center">
             <!-- Welcome badge -->
-            <div class="inline-flex items-center gap-2 bg-indigo-50 border border-indigo-100 rounded-full px-4 py-2 text-indigo-600 text-sm font-medium mb-8" style="animation: fadeUp .6s ease-out .1s backwards;">
+            <div class="inline-flex items-center gap-2 bg-indigo-50 border border-indigo-100 rounded-full px-4 py-2 text-indigo-600 text-sm font-medium mb-8 fade-up-1">
                 <i class="fa-solid fa-graduation-cap"></i>
                 <span>ยินดีต้อนรับสู่ระบบจัดการกิจกรรม</span>
             </div>
 
             <!-- Headline -->
-            <h1 class="text-gray-900 font-black leading-tight mb-6" style="font-size: clamp(2rem, 5vw, 3rem); animation: fadeUp .6s ease-out .2s backwards;">
+            <h1 class="text-gray-900 font-black leading-tight mb-6 fade-up-2" style="font-size: clamp(2rem, 5vw, 3rem);">
                 กิจกรรมมหาวิทยาลัย<br>
                 <em class="not-italic text-indigo-600">ทุกที่ ทุกเวลา</em>
             </h1>
 
             <!-- Subtitle -->
-            <p class="text-gray-500 text-lg max-w-xl mx-auto leading-relaxed mb-10" style="animation: fadeUp .6s ease-out .3s backwards;">
+            <p class="text-gray-500 text-lg max-w-xl mx-auto leading-relaxed mb-10 fade-up-3">
                 ค้นหาและติดตามกิจกรรมต่างๆ ของมหาวิทยาลัยได้อย่างง่ายดาย
                 รวมถึงตรวจสอบการเข้าร่วมและดาวน์โหลดเอกสารที่เกี่ยวข้อง
             </p>
 
             <!-- Action buttons -->
-            <div class="flex flex-wrap justify-center gap-4 mb-12" style="animation: fadeUp .6s ease-out .4s backwards;">
+            <div class="flex flex-wrap justify-center gap-4 mb-12 fade-up-4">
                 <a href="/activities" class="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-white bg-indigo-600 rounded-full shadow-lg shadow-indigo-200 hover:shadow-xl hover:shadow-indigo-300 hover:-translate-y-0.5 transition-all no-underline">
                     <i class="fa-solid fa-magnifying-glass"></i>
                     ค้นหากิจกรรม
@@ -44,7 +55,7 @@
             </div>
 
             <!-- Quick links cards -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto" style="animation: fadeUp .6s ease-out .5s backwards;">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto fade-up-5">
                 <a href="/activities" class="group bg-white border border-gray-100 rounded-2xl p-5 text-center hover:border-indigo-200 hover:shadow-lg hover:-translate-y-1 transition-all no-underline">
                     <div class="w-12 h-12 bg-indigo-50 text-indigo-500 rounded-xl flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition-transform">
                         <i class="fa-regular fa-calendar"></i>
@@ -116,11 +127,4 @@
         </div>
     </footer>
 </div>
-
-<style>
-@keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-</style>
 @endsection
