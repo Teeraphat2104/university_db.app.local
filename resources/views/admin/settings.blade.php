@@ -4,10 +4,6 @@
 
 @section('style')
     <style>
-        .settings-page {
-            max-width: 800px;
-        }
-
         .settings-group {
             margin-bottom: 1.5rem;
         }
@@ -161,7 +157,7 @@
 @endsection
 
 @section('content')
-    <div class="settings-page">
+    <div class="container-fluid">
         <div class="flex items-center justify-between mb-6">
             <div>
                 <h2 class="text-2xl font-bold mb-1">ตั้งค่าระบบ</h2>
@@ -170,7 +166,7 @@
         </div>
 
         <div id="settings-loading" class="text-center p-12 text-gray-500">
-            <i class="bi bi-arrow-repeat bi-spin text-2xl block mb-3"></i>
+            <i class="fa-solid fa-rotate fa-spin text-2xl block mb-3"></i>
             กำลังโหลด...
         </div>
 
@@ -178,8 +174,8 @@
             <div id="settings-groups"></div>
             <div class="save-bar">
                 <button type="submit" class="btn btn-primary" id="save-btn">
-                    <span class="saving-text"><i class="bi bi-check-lg"></i> บันทึกการตั้งค่า</span>
-                    <span class="saving-spinner"><i class="bi bi-arrow-repeat bi-spin"></i> กำลังบันทึก...</span>
+                    <span class="saving-text"><i class="fa-solid fa-check"></i> บันทึกการตั้งค่า</span>
+                    <span class="saving-spinner"><i class="fa-solid fa-rotate fa-spin"></i> กำลังบันทึก...</span>
                 </button>
             </div>
         </form>
@@ -193,22 +189,22 @@
         var groupMeta = {
             general: {
                 label: 'ทั่วไป',
-                icon: 'bi bi-gear',
+                icon: 'fa-solid fa-gear',
                 css: 'general'
             },
             appearance: {
                 label: 'ลักษณะเว็บ',
-                icon: 'bi bi-palette',
+                icon: 'fa-solid fa-palette',
                 css: 'appearance'
             },
             contact: {
                 label: 'ช่องทางติดต่อ',
-                icon: 'bi bi-envelope',
+                icon: 'fa-regular fa-envelope',
                 css: 'contact'
             },
             footer: {
                 label: 'ท้ายเว็บ',
-                icon: 'bi bi-layout-text-window',
+                icon: 'fa-regular fa-rectangle-list',
                 css: 'footer'
             },
         };
@@ -260,7 +256,7 @@
 
                 var meta = groupMeta[groupKey] || {
                     label: groupKey,
-                    icon: 'bi bi-circle',
+                    icon: 'fa-regular fa-circle',
                     css: ''
                 };
                 var html = '<div class="card settings-group">' +
@@ -280,8 +276,8 @@
                 $container.append(html);
             });
 
-            $('#settings-loading').hide();
-            $('#settings-form').show();
+            $('#settings-loading').addClass('hidden');
+            $('#settings-form').removeClass('hidden');
             bindColorPreview();
         }
 

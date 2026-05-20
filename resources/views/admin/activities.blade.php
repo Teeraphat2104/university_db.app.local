@@ -248,7 +248,7 @@
             <p>จัดการกิจกรรมของมหาวิทยาลัย</p>
         </div>
         <button class="btn btn-primary" onclick="openCreateModal()">
-            <i class="bi bi-plus"></i>
+            <i class="fa-solid fa-plus"></i>
             สร้างกิจกรรมใหม่
         </button>
     </div>
@@ -267,7 +267,7 @@
                 <option value="0">ปิดใช้งาน</option>
             </select>
             <button class="btn btn-secondary" onclick="applyFilters()">
-                <i class="bi bi-funnel"></i>
+                <i class="fa-solid fa-filter"></i>
                 กรอง
             </button>
         </div>
@@ -291,7 +291,7 @@
                 <tbody id="activities-tbody">
                     <tr>
                         <td colspan="8" class="loading-cell">
-                            <i class="bi bi-arrow-repeat bi-spin text-2xl block mb-3"></i>
+                            <i class="fa-solid fa-rotate fa-spin text-2xl block mb-3"></i>
                             กำลังโหลด...
                         </td>
                     </tr>
@@ -309,7 +309,7 @@
         <div class="dialog-header">
             <h3 id="view-modal-title">รายละเอียดกิจกรรม</h3>
                         <button type="button" class="btn btn-sm btn-muted py-1.5 px-2" onclick="closeViewModal()">
-                <i class="bi bi-x-lg"></i>
+                <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
         <div class="dialog-body" id="view-modal-body">
@@ -336,7 +336,7 @@
             </div>
             <div id="view-pdf-wrap" class="pdf-section">
                 <hr>
-                <p class="pdf-label"><i class="bi bi-file-earmark-pdf"></i> เอกสาร PDF</p>
+                <p class="pdf-label"><i class="fa-regular fa-file-pdf"></i> เอกสาร PDF</p>
                 <iframe id="view-pdf" src="" class="pdf-frame"></iframe>
             </div>
         </div>
@@ -347,7 +347,7 @@
             <div class="dialog-header">
                 <h3 id="form-modal-title">สร้างกิจกรรมใหม่</h3>
                 <button type="button" class="btn btn-sm btn-muted py-1.5 px-2" onclick="closeFormModal()">
-                    <i class="bi bi-x-lg"></i>
+                <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
             <div class="dialog-body form-grid">
@@ -380,7 +380,7 @@
                     <div id="form-cover-existing" class="file-existing hidden mt-2">
                         <div class="fe-img-thumb" onclick="previewImage($(this).find('img').attr('src'))">
                             <img id="form-cover-preview" src="" alt="" class="form-cover-preview">
-                            <div class="fe-img-overlay"><i class="bi bi-fullscreen text-xs"></i></div>
+                            <div class="fe-img-overlay"><i class="fa-solid fa-expand text-xs"></i></div>
                         </div>
                         <span class="fe-label">รูปปกปัจจุบัน</span>
                     </div>
@@ -390,7 +390,7 @@
                     <input type="file" id="form-pdf" name="pdf_file" accept=".pdf">
                     <div id="form-pdf-existing" class="file-existing hidden mt-2">
                         <div class="fe-pdf-chip" onclick="window.open($(this).data('url'), '_blank')">
-                            <i class="bi bi-file-pdf"></i>
+                            <i class="fa-regular fa-file-pdf"></i>
                             <span>PDF ปัจจุบัน</span>
                         </div>
                         <span class="fe-label">ไฟล์ PDF ปัจจุบัน (อัปโหลดแทนที่หากต้องการเปลี่ยน)</span>
@@ -413,12 +413,12 @@
 
     <div id="empty-state" class="empty-state hidden">
         <div class="empty-state-icon">
-            <i class="bi bi-calendar"></i>
+            <i class="fa-regular fa-calendar"></i>
         </div>
         <h3>ยังไม่มีกิจกรรม</h3>
         <p>เริ่มสร้างกิจกรรมแรกของคุณ</p>
         <button class="btn btn-primary" onclick="openCreateModal()">
-            <i class="bi bi-plus"></i>
+            <i class="fa-solid fa-plus"></i>
             สร้างกิจกรรมใหม่
         </button>
     </div>
@@ -523,9 +523,9 @@
                             '</span></td>' +
                             '<td>' + statusHtml + '</td>' +
                             '<td><div class="flex gap-2">' +
-                            '<button class="btn btn-sm btn-secondary p-1.5" onclick="viewActivity(' + act.id + ')" title="ดู"><i class="bi bi-eye"></i></button>' +
-                            '<button class="btn btn-sm btn-secondary p-1.5" onclick="openEditModal(' + act.id + ')" title="แก้ไข"><i class="bi bi-pencil-square"></i></button>' +
-                            '<button class="btn btn-sm btn-secondary p-1.5 text-red-500" onclick="confirmDelete(' + act.id + ')" title="ลบ"><i class="bi bi-trash"></i></button>' +
+                            '<button class="btn btn-sm btn-secondary p-1.5" onclick="viewActivity(' + act.id + ')" title="\u0e14\u0e39"><i class="fa-regular fa-eye"></i></button>' +
+                            '<button class="btn btn-sm btn-secondary p-1.5" onclick="openEditModal(' + act.id + ')" title="\u0e41\u0e01\u0e49\u0e44\u0e02"><i class="fa-regular fa-pen-to-square"></i></button>' +
+                            '<button class="btn btn-sm btn-secondary p-1.5 text-red-500" onclick="confirmDelete(' + act.id + ')" title="\u0e25\u0e1a"><i class="fa-regular fa-trash-can"></i></button>' +
                             '</div></td></tr>');
                     });
                     if (json.meta) {
@@ -595,9 +595,9 @@
                         '<span class="badge badge-warning">ปิดใช้งาน</span>');
                     if (act.cover_image_url) {
                         $('#view-cover').attr('src', act.cover_image_url);
-                        $('#view-cover-wrap').show();
+                        $('#view-cover-wrap').removeClass('hidden');
                     } else {
-                        $('#view-cover-wrap').hide();
+                        $('#view-cover-wrap').addClass('hidden');
                     }
                     if (act.pdf_url) {
                         $('#view-pdf').attr('src', act.pdf_url);
@@ -622,7 +622,7 @@
             $('#form-submit-btn').text('บันทึก');
             $('#form-id').val('');
             $('#activity-form')[0].reset();
-            $('#form-cover-existing, #form-pdf-existing').hide();
+            $('#form-cover-existing, #form-pdf-existing').addClass('hidden');
             $('#form-cover, #form-pdf').val('');
             $('#activity-form').off('submit').on('submit', handleCreate);
             $('#form-modal')[0].showModal();
@@ -649,15 +649,15 @@
 
                     if (act.cover_image_url) {
                         $('#form-cover-preview').attr('src', act.cover_image_url);
-                        $('#form-cover-existing').show();
+                        $('#form-cover-existing').removeClass('hidden');
                     } else {
-                        $('#form-cover-existing').hide();
+                        $('#form-cover-existing').addClass('hidden');
                     }
                     if (act.pdf_url) {
                         $('#form-pdf-existing .fe-pdf-chip').data('url', act.pdf_url);
-                        $('#form-pdf-existing').show();
+                        $('#form-pdf-existing').removeClass('hidden');
                     } else {
-                        $('#form-pdf-existing').hide();
+                        $('#form-pdf-existing').addClass('hidden');
                     }
 
                     $('#activity-form').off('submit').on('submit', handleEdit);

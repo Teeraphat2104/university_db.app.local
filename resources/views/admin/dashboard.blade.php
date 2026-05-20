@@ -236,7 +236,7 @@
         </div>
         <div class="dash-header-right">
             <span id="current-date" class="dash-date">
-                <i class="bi bi-calendar"></i>
+                <i class="fa-regular fa-calendar"></i>
             </span>
         </div>
     </div>
@@ -244,33 +244,33 @@
         <div class="stat-card stat-card-colored stat-card-purple">
             <div class="stat-header">
                 <div class="stat-icon">
-                    <i class="bi bi-calendar-event"></i>
+                    <i class="fa-regular fa-calendar-check"></i>
                 </div>
             </div>
             <p class="stat-value">24</p>
             <p class="stat-label">กิจกรรมทั้งหมด</p>
             <div class="stat-trend-colored">
-                <i class="bi bi-arrow-up text-[10px]"></i>
+                <i class="fa-solid fa-arrow-up text-[10px]"></i>
                 <span>12% จากเดือนก่อน</span>
             </div>
         </div>
         <div class="stat-card stat-card-colored stat-card-green">
             <div class="stat-header">
                 <div class="stat-icon">
-                    <i class="bi bi-people"></i>
+                    <i class="fa-solid fa-users"></i>
                 </div>
             </div>
             <p class="stat-value">1,234</p>
             <p class="stat-label">นักศึกษาทั้งหมด</p>
             <div class="stat-trend-colored">
-                <i class="bi bi-arrow-up text-[10px]"></i>
+                <i class="fa-solid fa-arrow-up text-[10px]"></i>
                 <span>8% จากเดือนก่อน</span>
             </div>
         </div>
         <div class="stat-card stat-card-colored stat-card-amber">
             <div class="stat-header">
                 <div class="stat-icon">
-                    <i class="bi bi-person-plus"></i>
+                    <i class="fa-solid fa-user-plus"></i>
                 </div>
             </div>
             <p class="stat-value">856</p>
@@ -282,7 +282,7 @@
         <div class="stat-card stat-card-colored stat-card-red">
             <div class="stat-header">
                 <div class="stat-icon">
-                    <i class="bi bi-calendar-date"></i>
+                    <i class="fa-regular fa-calendar"></i>
                 </div>
             </div>
             <p class="stat-value">3</p>
@@ -410,11 +410,11 @@
             </div>
             <div class="card-body">
                 <div class="action-list">
-                    <a href="/admin/activities/create" class="btn btn-primary"><i class="bi bi-plus"></i>
+                    <a href="/admin/activities/create" class="btn btn-primary"><i class="fa-solid fa-plus"></i>
                         สร้างกิจกรรมใหม่</a>
-                    <a href="/admin/participants/import" class="btn btn-secondary"><i class="bi bi-upload"></i>
+                    <a href="/admin/participants/import" class="btn btn-secondary"><i class="fa-solid fa-upload"></i>
                         นำเข้าข้อมูลผู้เข้าร่วม</a>
-                    <a href="/admin/reports/export" class="btn btn-secondary"><i class="bi bi-file-earmark-arrow-up"></i>
+                    <a href="/admin/reports/export" class="btn btn-secondary"><i class="fa-solid fa-file-export"></i>
                         ส่งออกรายงาน</a>
                 </div>
             </div>

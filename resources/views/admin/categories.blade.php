@@ -169,10 +169,10 @@
                     tbody.empty();
 
                     if (!json.data || json.data.length === 0) {
-                        $('#empty-state').show();
+                        $('#empty-state').removeClass('hidden');
                         return;
                     }
-                    $('#empty-state').hide();
+                    $('#empty-state').addClass('hidden');
 
                     $.each(json.data, function(i, cat) {
                         var statusHtml = cat.status ?
