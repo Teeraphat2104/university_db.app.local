@@ -126,6 +126,12 @@
                 <p class="text-gray-500 text-sm leading-relaxed">ดูข้อมูลกิจกรรมที่กำลังจะเกิดขึ้นและกิจกรรมยอดนิยม</p>
             </div>
             <div id="activities-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                <div class="col-span-full text-center py-16">
+                    <div class="inline-flex items-center justify-center w-16 h-16 bg-indigo-50 rounded-full mb-4">
+                        <i class="fa-regular fa-circle-notch fa-spin text-xl text-indigo-400"></i>
+                    </div>
+                    <p class="text-gray-500">กำลังโหลดกิจกรรม...</p>
+                </div>
             </div>
             <div class="text-center mt-8">
                 <a href="/activities" class="inline-flex items-center gap-2 px-6 py-3 text-sm font-bold text-white bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl shadow-md shadow-indigo-200 hover:shadow-lg hover:shadow-indigo-300 hover:-translate-y-0.5 transition-all no-underline">
@@ -140,22 +146,28 @@
         <div class="max-w-6xl mx-auto">
             <div class="flex flex-wrap justify-between gap-8 pb-8 border-b border-white/10 mb-6">
                 <div>
-                    <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center text-white mb-3"> <i class="fa-solid fa-graduation-cap"></i> </div>
-                    <div class="text-white text-sm font-extrabold mb-1">University Activities</div>
-                    <p class="text-xs max-w-xs leading-relaxed">ระบบจัดการกิจกรรมและเอกสารสำหรับมหาวิทยาลัย</p>
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center text-white shadow-lg shadow-indigo-500/30"> <i class="fa-solid fa-graduation-cap"></i> </div>
+                        <div class="text-white text-lg font-extrabold">University Activities</div>
+                    </div>
+                    <p class="text-sm text-gray-400 max-w-xs leading-relaxed mb-4">ระบบจัดการกิจกรรมและเอกสารสำหรับมหาวิทยาลัย</p>
+                    <div class="flex gap-2">
+                        <a href="#" class="w-9 h-9 bg-white/5 hover:bg-indigo-500 rounded-full flex items-center justify-center text-gray-400 hover:text-white transition-all no-underline"><i class="fa-brands fa-facebook text-sm"></i></a>
+                        <a href="#" class="w-9 h-9 bg-white/5 hover:bg-indigo-500 rounded-full flex items-center justify-center text-gray-400 hover:text-white transition-all no-underline"><i class="fa-brands fa-line text-sm"></i></a>
+                        <a href="#" class="w-9 h-9 bg-white/5 hover:bg-indigo-500 rounded-full flex items-center justify-center text-gray-400 hover:text-white transition-all no-underline"><i class="fa-brands fa-youtube text-sm"></i></a>
+                    </div>
                 </div>
-                <nav class="flex flex-wrap gap-x-6 gap-y-2 text-sm">
-                    <a href="/activities" class="text-gray-400 hover:text-white transition-colors no-underline"><i class="fa-regular fa-calendar mr-1.5"></i>กิจกรรม</a>
-                    <a href="#about" class="text-gray-400 hover:text-white transition-colors no-underline"><i class="fa-regular fa-circle-info mr-1.5"></i>เกี่ยวกับ</a>
-                    <a href="/login" class="text-gray-400 hover:text-white transition-colors no-underline"><i class="fa-regular fa-user mr-1.5"></i>ผู้ดูแลระบบ</a>
+                <nav class="flex flex-col gap-3 text-sm">
+                    <p class="text-white font-semibold mb-1">เมนู</p>
+                    <a href="/activities" class="text-gray-400 hover:text-white transition-colors no-underline"><i class="fa-regular fa-calendar mr-2"></i>กิจกรรมทั้งหมด</a>
+                    <a href="#about" class="text-gray-400 hover:text-white transition-colors no-underline"><i class="fa-regular fa-circle-info mr-2"></i>เกี่ยวกับระบบ</a>
+                    <a href="/login" class="text-gray-400 hover:text-white transition-colors no-underline"><i class="fa-solid fa-user-gear mr-2"></i>สำหรับผู้ดูแล</a>
                 </nav>
-                <div class="flex gap-2">
-                    <a href="#" class="w-9 h-9 bg-white/5 hover:bg-indigo-500 rounded-full flex items-center justify-center text-gray-400 hover:text-white transition-all no-underline"><i class="fa-brands fa-facebook text-sm"></i></a>
-                    <a href="#" class="w-9 h-9 bg-white/5 hover:bg-indigo-500 rounded-full flex items-center justify-center text-gray-400 hover:text-white transition-all no-underline"><i class="fa-brands fa-line text-sm"></i></a>
-                    <a href="#" class="w-9 h-9 bg-white/5 hover:bg-indigo-500 rounded-full flex items-center justify-center text-gray-400 hover:text-white transition-all no-underline"><i class="fa-brands fa-youtube text-sm"></i></a>
-                </div>
             </div>
-            <p class="text-xs text-gray-600">© {{ date('Y') }} University Activities. สงวนลิขสิทธิ์</p>
+            <div class="flex flex-wrap justify-between items-center gap-4">
+                <p class="text-xs text-gray-500">© {{ date('Y') }} University Activities. สงวนลิขสิทธิ์ทั้งหมด</p>
+                <p class="text-xs text-gray-600">พัฒนาด้วย <i class="fa-solid fa-heart text-red-500 mx-1"></i> สำหรับมหาวิทยาลัย</p>
+            </div>
         </div>
     </footer>
 </div>

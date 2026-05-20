@@ -16,8 +16,13 @@ services:
       - DB_DATABASE=uudb
       - DB_USERNAME=root
       - DB_PASSWORD=root
+      - PHP_OPCACHE_ENABLE=1
     working_dir: /var/www/html
     command: /usr/local/sbin/php-fpm
+    deploy:
+      resources:
+        limits:
+          memory: 512M
 
   nginx:
     image: nginx:alpine

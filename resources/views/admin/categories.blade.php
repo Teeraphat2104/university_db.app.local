@@ -38,8 +38,15 @@
 </div>
 
 <div id="empty-state" class="empty-state" style="display:none">
-    <i class="fa-regular fa-folder-open"></i>
-    <p>ยังไม่มีหมวดหมู่</p>
+    <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#FEF3C7,#FDE68A);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem">
+        <i class="fa-regular fa-folder-open" style="font-size:32px;color:#B45309"></i>
+    </div>
+    <h3 style="font-size:18px;font-weight:700;color:var(--text-primary);margin-bottom:0.5rem">ยังไม่มีหมวดหมู่</h3>
+    <p style="color:var(--text-muted);margin-bottom:1.5rem">สร้างหมวดหมู่แรกเพื่อจัดการกิจกรรม</p>
+    <button class="btn btn-primary" onclick="openCreateModal()">
+        <i class="fa-solid fa-plus"></i>
+        สร้างหมวดหมู่
+    </button>
 </div>
 
 <dialog id="category-modal" class="modal-sm">

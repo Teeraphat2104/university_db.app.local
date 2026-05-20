@@ -6,6 +6,7 @@ use App\Models\Activity;
 use App\Models\ActivityParticipant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class ActivityController extends Controller
@@ -91,11 +92,16 @@ class ActivityController extends Controller
             $response->data = $this->formatActivity($activity);
 
             $httpCode = 201;
-        } catch (\Exception $e) {
+        } catch (ValidationException $e) {
             $response->success = false;
             $response->message = 'Validation failed';
-            $response->errors = $e->getMessage();
+            $response->errors = $e->errors();
             $httpCode = 422;
+        } catch (\Exception $e) {
+            $response->success = false;
+            $response->message = 'An error occurred';
+            $response->errors = $e->getMessage();
+            $httpCode = 500;
         }
 
         return response()->json($response, $httpCode ?? 500);
@@ -172,11 +178,16 @@ class ActivityController extends Controller
             $response->data = $this->formatActivity($activity);
 
             $httpCode = 200;
-        } catch (\Exception $e) {
+        } catch (ValidationException $e) {
             $response->success = false;
             $response->message = 'Validation failed';
-            $response->errors = $e->getMessage();
+            $response->errors = $e->errors();
             $httpCode = 422;
+        } catch (\Exception $e) {
+            $response->success = false;
+            $response->message = 'An error occurred';
+            $response->errors = $e->getMessage();
+            $httpCode = 500;
         }
 
         return response()->json($response, $httpCode ?? 500);

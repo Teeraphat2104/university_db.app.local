@@ -8,55 +8,62 @@
             <h2 style="font-size:24px;font-weight:700;margin-bottom:0.25rem">Dashboard</h2>
             <p style="color:var(--text-muted)">ภาพรวมของระบบ</p>
         </div>
+        <div style="display:flex;gap:0.75rem">
+            <span id="current-date" style="font-size:14px;color:var(--text-muted);display:flex;align-items:center;gap:0.5rem">
+                <i class="bi bi-calendar"></i>
+            </span>
+        </div>
     </div>
-    <div class="stats-grid">
-        <div class="stat-card">
+    <div class="stats-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem">
+        <div class="stat-card" style="background:linear-gradient(135deg,#6366F1,#8B5CF6);border:none">
             <div class="stat-header">
-                <div class="stat-icon primary">
-                    <i class="fa-solid fa-calendar-days"></i>
+                <div class="stat-icon" style="background:rgba(255,255,255,0.2)">
+                    <i class="bi bi-calendar-event"></i>
                 </div>
-                <span class="stat-trend up">
-                    <i class="fa-solid fa-arrow-up"></i>
-                    12%
-                </span>
             </div>
-            <p class="stat-value">24</p>
-            <p class="stat-label">กิจกรรมทั้งหมด</p>
+            <p class="stat-value" style="color:white">24</p>
+            <p class="stat-label" style="color:rgba(255,255,255,0.8)">กิจกรรมทั้งหมด</p>
+            <div style="margin-top:0.75rem;display:flex;align-items:center;gap:0.5rem;font-size:12px;color:rgba(255,255,255,0.7)">
+                <i class="bi bi-arrow-up" style="font-size:10px"></i>
+                <span>12% จากเดือนก่อน</span>
+            </div>
         </div>
-        <div class="stat-card">
+        <div class="stat-card" style="background:linear-gradient(135deg,#10B981,#34D399);border:none">
             <div class="stat-header">
-                <div class="stat-icon success">
-                    <i class="fa-solid fa-users"></i>
+                <div class="stat-icon" style="background:rgba(255,255,255,0.2)">
+                    <i class="bi bi-people"></i>
                 </div>
-                <span class="stat-trend up">
-                    <i class="fa-solid fa-arrow-up"></i>
-                    8%
-                </span>
             </div>
-            <p class="stat-value">1,234</p>
-            <p class="stat-label">นักศึกษาทั้งหมด</p>
+            <p class="stat-value" style="color:white">1,234</p>
+            <p class="stat-label" style="color:rgba(255,255,255,0.8)">นักศึกษาทั้งหมด</p>
+            <div style="margin-top:0.75rem;display:flex;align-items:center;gap:0.5rem;font-size:12px;color:rgba(255,255,255,0.7)">
+                <i class="bi bi-arrow-up" style="font-size:10px"></i>
+                <span>8% จากเดือนก่อน</span>
+            </div>
         </div>
-        <div class="stat-card">
+        <div class="stat-card" style="background:linear-gradient(135deg,#F59E0B,#FBBF24);border:none">
             <div class="stat-header">
-                <div class="stat-icon warning">
-                    <i class="fa-solid fa-user-plus"></i>
+                <div class="stat-icon" style="background:rgba(255,255,255,0.2)">
+                    <i class="bi bi-person-plus"></i>
                 </div>
             </div>
-            <p class="stat-value">856</p>
-            <p class="stat-label">ผู้เข้าร่วม</p>
+            <p class="stat-value" style="color:white">856</p>
+            <p class="stat-label" style="color:rgba(255,255,255,0.8)">ผู้เข้าร่วม</p>
+            <div style="margin-top:0.75rem;font-size:12px;color:rgba(255,255,255,0.7)">
+                รออนุมัติ: <strong style="color:white">12</strong>
+            </div>
         </div>
-        <div class="stat-card">
+        <div class="stat-card" style="background:linear-gradient(135deg,#EF4444,#F87171);border:none">
             <div class="stat-header">
-                <div class="stat-icon danger">
-                    <i class="fa-solid fa-calendar-day"></i>
+                <div class="stat-icon" style="background:rgba(255,255,255,0.2)">
+                    <i class="bi bi-calendar-date"></i>
                 </div>
-                <span class="stat-trend down">
-                    <i class="fa-solid fa-arrow-down"></i>
-                    2%
-                </span>
             </div>
-            <p class="stat-value">3</p>
-            <p class="stat-label">กิจกรรมวันนี้</p>
+            <p class="stat-value" style="color:white">3</p>
+            <p class="stat-label" style="color:rgba(255,255,255,0.8)">กิจกรรมวันนี้</p>
+            <div style="margin-top:0.75rem;font-size:12px;color:rgba(255,255,255,0.7)">
+                กำลังดำเนิน: <strong style="color:white">1</strong>
+            </div>
         </div>
     </div>
 
@@ -192,12 +199,12 @@
             <div class="card-body">
                 <div style="display: flex; flex-direction: column; gap: 0.75rem;">
                     <a href="/admin/activities/create" class="btn btn-primary" style="justify-content: flex-start;"><i
-                            class="fa-solid fa-plus"></i> สร้างกิจกรรมใหม่</a>
+                            class="bi bi-plus"></i> สร้างกิจกรรมใหม่</a>
                     <a href="/admin/participants/import" class="btn btn-secondary"
-                        style="justify-content: flex-start;"><i class="fa-solid fa-upload"></i>
+                        style="justify-content: flex-start;"><i class="bi bi-upload"></i>
                         นำเข้าข้อมูลผู้เข้าร่วม</a>
                     <a href="/admin/reports/export" class="btn btn-secondary" style="justify-content: flex-start;"><i
-                            class="fa-solid fa-file-export"></i> ส่งออกรายงาน</a>
+                            class="bi bi-file-earmark-arrow-up"></i> ส่งออกรายงาน</a>
                 </div>
             </div>
         </div>

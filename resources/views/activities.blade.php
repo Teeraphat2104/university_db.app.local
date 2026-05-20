@@ -3,36 +3,46 @@
 @section('title', 'กิจกรรมทั้งหมด - University Activities')
 
 @section('content')
-<div class="bg-gray-50 border-b border-gray-100">
+<div class="bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 border-b border-white/10">
     <div class="max-w-6xl mx-auto px-6 py-8">
-        <div class="flex items-center gap-2 text-sm text-gray-500">
-            <a href="/" class="hover:text-indigo-600 transition-colors no-underline">หน้าหลัก</a>
-            <i class="fa-solid fa-chevron-right text-xs text-gray-300"></i>
-            <span class="text-gray-800 font-medium">กิจกรรมทั้งหมด</span>
+        <div class="flex items-center gap-2 text-sm text-white/70">
+            <a href="/" class="hover:text-white transition-colors no-underline">หน้าหลัก</a>
+            <i class="fa-solid fa-chevron-right text-xs text-white/40"></i>
+            <span class="text-white font-medium">กิจกรรมทั้งหมด</span>
         </div>
     </div>
 </div>
 
 <section class="py-10 bg-white">
     <div class="max-w-6xl mx-auto px-6">
-        <div class="flex items-center gap-4 mb-2">
+        <div class="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
             <h1 class="text-2xl font-extrabold text-gray-900 whitespace-nowrap">กิจกรรมทั้งหมด</h1>
-            <input type="text" id="search-input" placeholder="ค้นหากิจกรรม..." class="px-3.5 py-2 text-sm border border-gray-200 rounded-xl outline-none focus:border-indigo-400 w-48">
-            <select id="filter-category" class="px-3.5 py-2 text-sm border border-gray-200 rounded-xl bg-white text-gray-700 outline-none focus:border-indigo-400 w-32">
-                <option value="">ทุกหมวดหมู่</option>
-            </select>
-            <select id="filter-year" class="px-3.5 py-2 text-sm border border-gray-200 rounded-xl bg-white text-gray-700 outline-none focus:border-indigo-400 w-32">
-                <option value="">ทุกปี</option>
-                @for ($y = date('Y') + 543; $y >= date('Y') + 543 - 5; $y--)
-                    <option value="{{ $y - 543 }}">{{ $y }}</option>
-                @endfor
-            </select>
+            <div class="flex flex-wrap gap-2 flex-1">
+                <div class="relative flex-1 max-w-xs">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                    <input type="text" id="search-input" placeholder="ค้นหากิจกรรม..." class="pl-10 pr-3.5 py-2.5 text-sm border border-gray-200 rounded-xl outline-none focus:border-indigo-400 w-full bg-gray-50 focus:bg-white transition-colors">
+                </div>
+                <select id="filter-category" class="px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl bg-white text-gray-700 outline-none focus:border-indigo-400 min-w-[140px]">
+                    <option value="">ทุกหมวดหมู่</option>
+                </select>
+                <select id="filter-year" class="px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl bg-white text-gray-700 outline-none focus:border-indigo-400 min-w-[120px]">
+                    <option value="">ทุกปี</option>
+                    @for ($y = date('Y') + 543; $y >= date('Y') + 543 - 5; $y--)
+                        <option value="{{ $y - 543 }}">{{ $y }}</option>
+                    @endfor
+                </select>
+            </div>
         </div>
-        <p class="text-sm text-gray-500 mb-8">รวมกิจกรรมและเอกสารของมหาวิทยาลัย</p>
+        <p class="text-sm text-gray-500 mb-8 flex items-center gap-2">
+            <i class="fa-regular fa-lightbulb text-amber-500"></i>
+            รวมกิจกรรมและเอกสารของมหาวิทยาลัย
+        </p>
         <div id="activities-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            <div class="col-span-full text-center py-16 text-gray-400">
-                <i class="fa-regular fa-circle-notch fa-spin text-2xl"></i>
-                <p class="mt-3 text-sm">กำลังโหลด...</p>
+            <div class="col-span-full text-center py-20">
+                <div class="inline-flex items-center justify-center w-20 h-20 bg-indigo-50 rounded-full mb-4">
+                    <i class="fa-regular fa-circle-notch fa-spin text-2xl text-indigo-400"></i>
+                </div>
+                <p class="text-gray-500 font-medium">กำลังโหลดข้อมูล...</p>
             </div>
         </div>
         <div id="pagination" class="flex items-center justify-between gap-4 mt-8 flex-wrap">
@@ -46,16 +56,23 @@
     <div class="max-w-6xl mx-auto">
         <div class="flex flex-wrap justify-between gap-8 pb-8 border-b border-white/10 mb-6">
             <div>
-                <div class="text-white text-sm font-extrabold mb-1">University Activities</div>
-                <p class="text-xs max-w-xs leading-relaxed">ระบบจัดการกิจกรรมและเอกสารสำหรับมหาวิทยาลัย</p>
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center text-white shadow-lg shadow-indigo-500/30"> <i class="fa-solid fa-graduation-cap"></i> </div>
+                    <div class="text-white text-lg font-extrabold">University Activities</div>
+                </div>
+                <p class="text-sm text-gray-400 max-w-xs leading-relaxed">ระบบจัดการกิจกรรมและเอกสารสำหรับมหาวิทยาลัย</p>
             </div>
-            <nav class="flex flex-wrap gap-x-6 gap-y-2 text-sm">
-                <a href="/activities" class="text-gray-400 hover:text-white transition-colors no-underline"><i class="fa-regular fa-calendar mr-1.5"></i>กิจกรรม</a>
-                <a href="/#about" class="text-gray-400 hover:text-white transition-colors no-underline"><i class="fa-regular fa-circle-info mr-1.5"></i>เกี่ยวกับ</a>
-                <a href="/login" class="text-gray-400 hover:text-white transition-colors no-underline"><i class="fa-regular fa-user mr-1.5"></i>ผู้ดูแลระบบ</a>
+            <nav class="flex flex-col gap-3 text-sm">
+                <p class="text-white font-semibold mb-1">เมนู</p>
+                <a href="/activities" class="text-gray-400 hover:text-white transition-colors no-underline"><i class="fa-regular fa-calendar mr-2"></i>กิจกรรมทั้งหมด</a>
+                <a href="/#about" class="text-gray-400 hover:text-white transition-colors no-underline"><i class="fa-regular fa-circle-info mr-2"></i>เกี่ยวกับระบบ</a>
+                <a href="/login" class="text-gray-400 hover:text-white transition-colors no-underline"><i class="fa-solid fa-user-gear mr-2"></i>สำหรับผู้ดูแล</a>
             </nav>
         </div>
-        <p class="text-xs text-gray-600">© {{ date('Y') }} University Activities. สงวนลิขสิทธิ์</p>
+        <div class="flex flex-wrap justify-between items-center gap-4">
+            <p class="text-xs text-gray-500">© {{ date('Y') }} University Activities. สงวนลิขสิทธิ์ทั้งหมด</p>
+            <p class="text-xs text-gray-600">พัฒนาด้วย <i class="fa-solid fa-heart text-red-500 mx-1"></i> สำหรับมหาวิทยาลัย</p>
+        </div>
     </div>
 </footer>
 @endsection
@@ -82,7 +99,13 @@ function loadActivities(page) {
         var data = json.data || [];
 
         if (data.length === 0) {
-            $grid.html('<div class="col-span-full text-center py-16 text-gray-400"><i class="fa-regular fa-inbox text-3xl"></i><p class="mt-3 text-sm">ไม่พบกิจกรรม</p></div>');
+            $grid.html('<div class="col-span-full text-center py-20">' +
+                '<div class="inline-flex items-center justify-center w-20 h-20 bg-gray-100 rounded-full mb-4">' +
+                '<i class="fa-regular fa-inbox text-3xl text-gray-400"></i></div>' +
+                '<h3 class="text-lg font-bold text-gray-800 mb-2">ไม่พบกิจกรรม</h3>' +
+                '<p class="text-gray-500 mb-4">ลองค้นหาด้วยคำอื่นหรือเปลี่ยนตัวกรอง</p>' +
+                '<button onclick="$(\'#search-input\').val(\'\');$(\'#filter-category\').val(\'\');$(\'#filter-year\').val(\'\');loadActivities(1)" class="px-4 py-2 text-sm font-semibold text-indigo-600 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition-colors">' +
+                '<i class="fa-solid fa-rotate-left mr-1"></i> ล้างตัวกรอง</button></div>');
         } else {
             $grid.html($.map(data, function (a) {
                 var img = a.cover_image_url

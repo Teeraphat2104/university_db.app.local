@@ -17,9 +17,11 @@
 
 <section class="py-10 bg-white">
     <div class="max-w-6xl mx-auto px-6">
-        <div id="loading" class="text-center py-20 text-gray-400">
-            <i class="fa-regular fa-circle-notch fa-spin text-3xl"></i>
-            <p class="mt-3 text-sm">กำลังโหลด...</p>
+        <div id="loading" class="text-center py-20">
+            <div class="inline-flex items-center justify-center w-20 h-20 bg-indigo-50 rounded-full mb-4">
+                <i class="fa-regular fa-circle-notch fa-spin text-2xl text-indigo-400"></i>
+            </div>
+            <p class="text-gray-500 font-medium">กำลังโหลดข้อมูล...</p>
         </div>
 
         <div id="activity-content" class="hidden">
@@ -48,7 +50,7 @@
 
                 <div class="lg:w-80 flex-shrink-0">
                     <div class="sticky top-24 space-y-4">
-                        <div class="bg-gray-50 rounded-2xl p-5 space-y-4 border border-gray-100">
+                        <div class="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl p-5 space-y-4 border border-indigo-100">
                             <div>
                                 <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">วันที่จัดกิจกรรม</p>
                                 <p id="detail-date" class="text-sm font-bold text-gray-800 flex items-center gap-2"><i class="fa-regular fa-calendar text-indigo-500"></i></p>
@@ -60,6 +62,10 @@
                             <div>
                                 <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">หมวดหมู่</p>
                                 <p id="detail-category" class="text-sm font-bold text-gray-800 flex items-center gap-2"><i class="fa-regular fa-rectangle-list text-indigo-500"></i></p>
+                            </div>
+                            <div>
+                                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">ผู้เข้าร่วม</p>
+                                <p id="detail-participants" class="text-sm font-bold text-gray-800 flex items-center gap-2"><i class="fa-solid fa-users text-indigo-500"></i></p>
                             </div>
                         </div>
 
@@ -83,10 +89,13 @@
             </div>
         </div>
 
-        <div id="not-found" class="hidden text-center py-20 text-gray-400">
-            <i class="fa-regular fa-circle-exclamation text-4xl"></i>
-            <p class="mt-3 text-sm">ไม่พบกิจกรรมที่ต้องการ</p>
-            <a href="/activities" class="inline-flex items-center gap-2 mt-4 px-5 py-2.5 text-sm font-bold text-white bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl no-underline">
+        <div id="not-found" class="hidden text-center py-20">
+            <div class="inline-flex items-center justify-center w-24 h-24 bg-red-50 rounded-full mb-4">
+                <i class="fa-regular fa-circle-exclamation text-3xl text-red-400"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 mb-2">ไม่พบกิจกรรม</h3>
+            <p class="text-gray-500 mb-6">กิจกรรมที่คุณกำลังค้นหาอาจถูกลบหรือย้ายไปแล้ว</p>
+            <a href="/activities" class="inline-flex items-center gap-2 px-6 py-3 text-sm font-bold text-white bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl shadow-lg shadow-indigo-500/30 hover:shadow-xl hover:-translate-y-0.5 transition-all no-underline">
                 <i class="fa-solid fa-arrow-left"></i> กลับไปหน้ากิจกรรมทั้งหมด
             </a>
         </div>
@@ -97,11 +106,23 @@
     <div class="max-w-6xl mx-auto">
         <div class="flex flex-wrap justify-between gap-8 pb-8 border-b border-white/10 mb-6">
             <div>
-                <div class="text-white text-sm font-extrabold mb-1">University Activities</div>
-                <p class="text-xs max-w-xs leading-relaxed">ระบบจัดการกิจกรรมและเอกสารสำหรับมหาวิทยาลัย</p>
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center text-white shadow-lg shadow-indigo-500/30"> <i class="fa-solid fa-graduation-cap"></i> </div>
+                    <div class="text-white text-lg font-extrabold">University Activities</div>
+                </div>
+                <p class="text-sm text-gray-400 max-w-xs leading-relaxed">ระบบจัดการกิจกรรมและเอกสารสำหรับมหาวิทยาลัย</p>
             </div>
+            <nav class="flex flex-col gap-3 text-sm">
+                <p class="text-white font-semibold mb-1">เมนู</p>
+                <a href="/activities" class="text-gray-400 hover:text-white transition-colors no-underline"><i class="fa-regular fa-calendar mr-2"></i>กิจกรรมทั้งหมด</a>
+                <a href="/#about" class="text-gray-400 hover:text-white transition-colors no-underline"><i class="fa-regular fa-circle-info mr-2"></i>เกี่ยวกับระบบ</a>
+                <a href="/login" class="text-gray-400 hover:text-white transition-colors no-underline"><i class="fa-solid fa-user-gear mr-2"></i>สำหรับผู้ดูแล</a>
+            </nav>
         </div>
-        <p class="text-xs text-gray-600">© {{ date('Y') }} University Activities. สงวนลิขสิทธิ์</p>
+        <div class="flex flex-wrap justify-between items-center gap-4">
+            <p class="text-xs text-gray-500">© {{ date('Y') }} University Activities. สงวนลิขสิทธิ์ทั้งหมด</p>
+            <p class="text-xs text-gray-600">พัฒนาด้วย <i class="fa-solid fa-heart text-red-500 mx-1"></i> สำหรับมหาวิทยาลัย</p>
+        </div>
     </div>
 </footer>
 @endsection
@@ -151,6 +172,8 @@ function renderActivity(a) {
     if (a.category) {
         $('#detail-category').append(a.category.name);
     }
+
+    $('#detail-participants').append((a.participants_count ?? 0) + ' คน');
 
     if (a.pdf_url) {
         $('#pdf-preview-wrap').removeClass('hidden');
