@@ -28,7 +28,7 @@
                 <i class="fa-solid fa-layer-group text-[10px]"></i>
                 {{ $siteDesc }}
             </div>
-            <h1 class="text-white font-black leading-tight mb-5 fade-up-2" style="font-size: clamp(2rem, 5vw, 3.5rem);">
+            <h1 class="text-white font-black leading-tight mb-5 fade-up-2 text-3xl sm:text-4xl lg:text-5xl">
                 {{ $heroTitle }}
             </h1>
             <p class="text-gray-400 text-base sm:text-lg max-w-lg leading-relaxed mb-8 fade-up-3">

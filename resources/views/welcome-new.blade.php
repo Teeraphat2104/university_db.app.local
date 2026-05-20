@@ -31,7 +31,7 @@
             </div>
 
             <!-- Headline -->
-            <h1 class="text-gray-900 font-black leading-tight mb-6 fade-up-2" style="font-size: clamp(2rem, 5vw, 3rem);">
+            <h1 class="text-gray-900 font-black leading-tight mb-6 fade-up-2 text-3xl sm:text-4xl">
                 กิจกรรมมหาวิทยาลัย<br>
                 <em class="not-italic text-indigo-600">ทุกที่ ทุกเวลา</em>
             </h1>

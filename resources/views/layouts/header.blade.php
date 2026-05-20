@@ -4,7 +4,7 @@
         <a href="/" class="nav-brand">
             <span class="nav-brand-icon">
                 @if ($logo)
-                    <img src="{{ Storage::disk('public')->url($logo) }}" alt="{{ $siteName }}" style="width:24px;height:24px;object-fit:contain">
+                    <img src="{{ Storage::disk('public')->url($logo) }}" alt="{{ $siteName }}" class="w-6 h-6 object-contain">
                 @else
                     <i class="fa-solid fa-book"></i>
                 @endif

@@ -79,21 +79,20 @@
     </div>
 
     <div class="card">
-        <div class="card-body" style="padding:0">
+        <div class="card-body p-0">
             <table class="data-table" id="categories-table">
                 <thead>
                     <tr>
-                        <th style="width:60px">ID</th>
+                        <th class="w-14">ID</th>
                         <th>ชื่อหมวดหมู่</th>
-                        <th style="width:120px">สถานะ</th>
-                        <th style="width:140px">การดำเนินการ</th>
+                        <th class="w-28">สถานะ</th>
+                        <th class="w-36">การดำเนินการ</th>
                     </tr>
                 </thead>
                 <tbody id="categories-tbody">
                     <tr>
                         <td colspan="4" class="loading-cell">
-                            <i class="fa-solid fa-spinner fa-spin"
-                                style="font-size:1.5rem;display:block;margin-bottom:0.75rem"></i>
+                            <i class="fa-solid fa-spinner fa-spin text-2xl block mb-3"></i>
                             กำลังโหลด...
                         </td>
                     </tr>
@@ -102,7 +101,7 @@
         </div>
     </div>
 
-    <div id="empty-state" class="empty-state cat-empty" style="display:none">
+    <div id="empty-state" class="empty-state cat-empty hidden">
         <div class="cat-empty-icon">
             <i class="fa-regular fa-folder-open"></i>
         </div>
@@ -118,7 +117,7 @@
         <form id="category-form">
             <div class="dialog-header">
                 <h3 id="modal-title">เพิ่มหมวดหมู่</h3>
-                <button type="button" class="btn btn-sm btn-muted" onclick="closeModal()" style="padding:0.375rem 0.5rem">
+                <button type="button" class="btn btn-sm btn-muted py-1.5 px-2" onclick="closeModal()">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
@@ -153,7 +152,7 @@
         $(function() {
             if (!token) {
                 $('#categories-tbody').html(
-                    '<tr><td colspan="4" class="loading-cell">กรุณา <a href="/login" style="color:var(--primary)">เข้าสู่ระบบ</a> ก่อน</td></tr>'
+                    '<tr><td colspan="4" class="loading-cell">กรุณา <a href="/login" class="text-indigo-600">เข้าสู่ระบบ</a> ก่อน</td></tr>'
                     );
                 return;
             }
@@ -185,14 +184,14 @@
                             '<td class="cat-name-cell">' + $('<span>').text(cat.name).html() + '</td>' +
                             '<td>' + statusHtml + '</td>' +
                             '<td>' +
-                            '<div style="display:flex;gap:0.5rem">' +
-                            '<button class="btn btn-sm btn-secondary" onclick="openEditModal(' + cat
+                            '<div class="flex gap-2">' +
+                            '<button class="btn btn-sm btn-secondary p-1.5" onclick="openEditModal(' + cat
                             .id + ',\'' + $('<span>').text(cat.name).html().replace(/'/g, "\\'") +
                             '\',' + cat.status +
-                            ')" style="padding:0.375rem"><i class="fa-regular fa-pen-to-square"></i></button>' +
-                            '<button class="btn btn-sm btn-secondary" onclick="deleteCategory(' + cat
+                            ')"><i class="fa-regular fa-pen-to-square"></i></button>' +
+                            '<button class="btn btn-sm btn-secondary p-1.5 text-red-500" onclick="deleteCategory(' + cat
                             .id +
-                            ')" style="padding:0.375rem;color:var(--danger)"><i class="fa-regular fa-trash-can"></i></button>' +
+                            ')"><i class="fa-regular fa-trash-can"></i></button>' +
                             '</div>' +
                             '</td>' +
                             '</tr>';
@@ -203,11 +202,11 @@
                 error: function(xhr) {
                     if (xhr.status === 401) {
                         $('#categories-tbody').html(
-                            '<tr><td colspan="4" class="loading-cell">เซสชันหมดอายุ กรุณา <a href="/login" style="color:var(--primary)">เข้าสู่ระบบ</a> อีกครั้ง</td></tr>'
+                            '<tr><td colspan="4" class="loading-cell">เซสชันหมดอายุ กรุณา <a href="/login" class="text-indigo-600">เข้าสู่ระบบ</a> อีกครั้ง</td></tr>'
                             );
                     } else {
                         $('#categories-tbody').html(
-                            '<tr><td colspan="4" class="loading-cell" style="color:var(--danger)">เกิดข้อผิดพลาดในการโหลดข้อมูล</td></tr>'
+                            '<tr><td colspan="4" class="loading-cell text-red-500">เกิดข้อผิดพลาดในการโหลดข้อมูล</td></tr>'
                             );
                     }
                 }

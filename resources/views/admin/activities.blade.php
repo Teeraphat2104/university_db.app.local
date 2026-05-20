@@ -253,7 +253,7 @@
         </button>
     </div>
 
-    <div class="card" style="margin-bottom:1.5rem">
+    <div class="card mb-6">
         <div class="card-body filter-bar">
             <div class="filter-input-wrap">
                 <input type="text" id="filter-keyword" placeholder="ค้นหากิจกรรม...">
@@ -261,7 +261,7 @@
             <select id="filter-category" class="filter-select">
                 <option value="">ทุกหมวดหมู่</option>
             </select>
-            <select id="filter-status" class="filter-select" style="min-width:130px">
+            <select id="filter-status" class="filter-select min-w-[130px]">
                 <option value="">ทุกสถานะ</option>
                 <option value="1">เปิดใช้งาน</option>
                 <option value="0">ปิดใช้งาน</option>
@@ -274,25 +274,24 @@
     </div>
 
     <div class="card">
-        <div class="card-body" style="padding:0">
+        <div class="card-body p-0">
             <table class="data-table" id="activities-table">
                 <thead>
                     <tr>
-                        <th style="width:40px"><input type="checkbox" id="select-all" class="table-checkbox"></th>
+                        <th class="w-10"><input type="checkbox" id="select-all" class="table-checkbox"></th>
                         <th>ชื่อกิจกรรม</th>
                         <th>หมวดหมู่</th>
                         <th>วันที่</th>
                         <th>สถานที่</th>
                         <th>ผู้เข้าร่วม</th>
                         <th>สถานะ</th>
-                        <th style="width:100px">การดำเนินการ</th>
+                        <th class="w-24">การดำเนินการ</th>
                     </tr>
                 </thead>
                 <tbody id="activities-tbody">
                     <tr>
                         <td colspan="8" class="loading-cell">
-                            <i class="bi bi-arrow-repeat bi-spin"
-                                style="font-size:1.5rem;display:block;margin-bottom:0.75rem"></i>
+                            <i class="bi bi-arrow-repeat bi-spin text-2xl block mb-3"></i>
                             กำลังโหลด...
                         </td>
                     </tr>
@@ -309,13 +308,13 @@
     <dialog id="view-modal" class="modal-lg">
         <div class="dialog-header">
             <h3 id="view-modal-title">รายละเอียดกิจกรรม</h3>
-            <button type="button" class="btn btn-sm btn-muted" onclick="closeViewModal()" style="padding:0.375rem 0.5rem">
+                        <button type="button" class="btn btn-sm btn-muted py-1.5 px-2" onclick="closeViewModal()">
                 <i class="bi bi-x-lg"></i>
             </button>
         </div>
         <div class="dialog-body" id="view-modal-body">
             <div class="view-grid">
-                <div id="view-cover-wrap" style="display:none">
+                <div id="view-cover-wrap" class="hidden">
                     <img id="view-cover" src="" alt="cover" class="view-cover-img">
                 </div>
                 <div class="view-full">
@@ -347,8 +346,7 @@
         <form id="activity-form">
             <div class="dialog-header">
                 <h3 id="form-modal-title">สร้างกิจกรรมใหม่</h3>
-                <button type="button" class="btn btn-sm btn-muted" onclick="closeFormModal()"
-                    style="padding:0.375rem 0.5rem">
+                <button type="button" class="btn btn-sm btn-muted py-1.5 px-2" onclick="closeFormModal()">
                     <i class="bi bi-x-lg"></i>
                 </button>
             </div>
@@ -379,10 +377,10 @@
                 <div class="form-full">
                     <label class="field-label">รูปปก</label>
                     <input type="file" id="form-cover" name="cover_image" accept="image/*">
-                    <div id="form-cover-existing" class="file-existing" style="display:none;margin-top:0.5rem">
+                    <div id="form-cover-existing" class="file-existing hidden mt-2">
                         <div class="fe-img-thumb" onclick="previewImage($(this).find('img').attr('src'))">
                             <img id="form-cover-preview" src="" alt="" class="form-cover-preview">
-                            <div class="fe-img-overlay"><i class="bi bi-fullscreen" style="font-size:12px"></i></div>
+                            <div class="fe-img-overlay"><i class="bi bi-fullscreen text-xs"></i></div>
                         </div>
                         <span class="fe-label">รูปปกปัจจุบัน</span>
                     </div>
@@ -390,7 +388,7 @@
                 <div class="form-full">
                     <label class="field-label">ไฟล์ PDF</label>
                     <input type="file" id="form-pdf" name="pdf_file" accept=".pdf">
-                    <div id="form-pdf-existing" class="file-existing" style="display:none;margin-top:0.5rem">
+                    <div id="form-pdf-existing" class="file-existing hidden mt-2">
                         <div class="fe-pdf-chip" onclick="window.open($(this).data('url'), '_blank')">
                             <i class="bi bi-file-pdf"></i>
                             <span>PDF ปัจจุบัน</span>
@@ -413,7 +411,7 @@
         </form>
     </dialog>
 
-    <div id="empty-state" class="empty-state" style="display:none">
+    <div id="empty-state" class="empty-state hidden">
         <div class="empty-state-icon">
             <i class="bi bi-calendar"></i>
         </div>
@@ -445,7 +443,7 @@
         $(function() {
             if (!token) {
                 $('#activities-tbody').html(
-                    '<tr><td colspan="8" class="loading-cell">กรุณา <a href="/login" style="color:var(--primary)">เข้าสู่ระบบ</a> ก่อน</td></tr>'
+                    '<tr><td colspan="8" class="loading-cell">กรุณา <a href="/login" class="text-indigo-600">เข้าสู่ระบบ</a> ก่อน</td></tr>'
                 );
                 return;
             }
@@ -515,25 +513,19 @@
                         var catSafe = $('<span>').text(catName).html();
                         tbody.append('<tr>' +
                             '<td><input type="checkbox" class="row-check table-checkbox"></td>' +
-                            '<td><div style="display:flex;align-items:center;gap:1rem"><div class="activity-avatar">' +
-                            initial + '</div><div><p style="font-weight:600;margin-bottom:2px">' +
+                            '<td><div class="flex items-center gap-4"><div class="activity-avatar">' +
+                            initial + '</div><div><p class="font-semibold mb-0.5">' +
                             titleSafe + '</p></div></div></td>' +
                             '<td><span class="badge badge-primary">' + catSafe + '</span></td>' +
                             '<td>' + (act.activity_date || '-') + '</td>' +
                             '<td>' + (act.location || '-') + '</td>' +
-                            '<td><span style="font-weight:600">' + (act.participants_count || 0) +
+                            '<td><span class="font-semibold">' + (act.participants_count || 0) +
                             '</span></td>' +
                             '<td>' + statusHtml + '</td>' +
-                            '<td><div style="display:flex;gap:0.5rem">' +
-                            '<button class="btn btn-sm btn-secondary" onclick="viewActivity(' + act
-                            .id +
-                            ')" style="padding:0.375rem" title="ดู"><i class="bi bi-eye"></i></button>' +
-                            '<button class="btn btn-sm btn-secondary" onclick="openEditModal(' + act
-                            .id +
-                            ')" style="padding:0.375rem" title="แก้ไข"><i class="bi bi-pencil-square"></i></button>' +
-                            '<button class="btn btn-sm btn-secondary" onclick="confirmDelete(' + act
-                            .id +
-                            ')" style="padding:0.375rem;color:var(--danger)" title="ลบ"><i class="bi bi-trash"></i></button>' +
+                            '<td><div class="flex gap-2">' +
+                            '<button class="btn btn-sm btn-secondary p-1.5" onclick="viewActivity(' + act.id + ')" title="ดู"><i class="bi bi-eye"></i></button>' +
+                            '<button class="btn btn-sm btn-secondary p-1.5" onclick="openEditModal(' + act.id + ')" title="แก้ไข"><i class="bi bi-pencil-square"></i></button>' +
+                            '<button class="btn btn-sm btn-secondary p-1.5 text-red-500" onclick="confirmDelete(' + act.id + ')" title="ลบ"><i class="bi bi-trash"></i></button>' +
                             '</div></td></tr>');
                     });
                     if (json.meta) {
@@ -545,11 +537,11 @@
                 error: function(xhr) {
                     if (xhr.status === 401) {
                         $('#activities-tbody').html(
-                            '<tr><td colspan="8" class="loading-cell">เซสชันหมดอายุ กรุณา <a href="/login" style="color:var(--primary)">เข้าสู่ระบบ</a> อีกครั้ง</td></tr>'
+                            '<tr><td colspan="8" class="loading-cell">เซสชันหมดอายุ กรุณา <a href="/login" class="text-indigo-600">เข้าสู่ระบบ</a> อีกครั้ง</td></tr>'
                         );
                     } else {
                         $('#activities-tbody').html(
-                            '<tr><td colspan="8" style="text-align:center;padding:3rem;color:var(--danger)">เกิดข้อผิดพลาดในการโหลดข้อมูล</td></tr>'
+                            '<tr><td colspan="8" class="text-center p-12 text-red-500">เกิดข้อผิดพลาดในการโหลดข้อมูล</td></tr>'
                         );
                     }
                 }

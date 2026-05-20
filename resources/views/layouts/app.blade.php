@@ -53,7 +53,7 @@
                         <i class="fa-solid fa-gear"></i>
                         ตั้งค่า
                     </a>
-                    <a href="#" onclick="logout();return false;" class="nav-item" style="color:var(--danger)">
+                    <a href="#" onclick="logout();return false;" class="nav-item text-red-500">
                         <i class="fa-solid fa-right-from-bracket"></i>
                         ออกจากระบบ
                     </a>

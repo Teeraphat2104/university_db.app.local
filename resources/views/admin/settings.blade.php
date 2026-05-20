@@ -162,19 +162,19 @@
 
 @section('content')
     <div class="settings-page">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem">
+        <div class="flex items-center justify-between mb-6">
             <div>
-                <h2 style="font-size:24px;font-weight:700;margin-bottom:0.25rem">ตั้งค่าระบบ</h2>
-                <p style="color:var(--text-muted)">จัดการค่าต่างๆ ของเว็บไซต์</p>
+                <h2 class="text-2xl font-bold mb-1">ตั้งค่าระบบ</h2>
+                <p class="text-gray-500">จัดการค่าต่างๆ ของเว็บไซต์</p>
             </div>
         </div>
 
-        <div id="settings-loading" style="text-align:center;padding:3rem;color:var(--text-muted)">
-            <i class="bi bi-arrow-repeat bi-spin" style="font-size:1.5rem;display:block;margin-bottom:0.75rem"></i>
+        <div id="settings-loading" class="text-center p-12 text-gray-500">
+            <i class="bi bi-arrow-repeat bi-spin text-2xl block mb-3"></i>
             กำลังโหลด...
         </div>
 
-        <form id="settings-form" style="display:none">
+        <form id="settings-form" class="hidden">
             <div id="settings-groups"></div>
             <div class="save-bar">
                 <button type="submit" class="btn btn-primary" id="save-btn">
@@ -223,7 +223,7 @@
         $(function() {
             if (!token) {
                 $('#settings-loading').html(
-                    'กรุณา <a href="/login" style="color:var(--primary)">เข้าสู่ระบบ</a> ก่อน');
+                    'กรุณา <a href="/login" class="text-indigo-600">เข้าสู่ระบบ</a> ก่อน');
                 return;
             }
             loadSettings();
@@ -241,7 +241,7 @@
                 error: function(xhr) {
                     if (xhr.status === 401) {
                         $('#settings-loading').html(
-                            'เซสชันหมดอายุ กรุณา <a href="/login" style="color:var(--primary)">เข้าสู่ระบบ</a> อีกครั้ง'
+                            'เซสชันหมดอายุ กรุณา <a href="/login" class="text-indigo-600">เข้าสู่ระบบ</a> อีกครั้ง'
                             );
                     } else {
                         $('#settings-loading').html('เกิดข้อผิดพลาดในการโหลดข้อมูล');
@@ -309,7 +309,7 @@
             var required = ['site_name', 'contact_email'].includes(key);
 
             var field = '<div class="field-row">';
-            field += '<label class="field-label">' + label + (required ? ' <span style="color:var(--danger)">*</span>' :
+            field += '<label class="field-label">' + label + (required ? ' <span class="text-red-500">*</span>' :
                 '') + '</label>';
 
             switch (type) {
@@ -329,7 +329,7 @@
                 case 'image':
                     var hasFile = setting.url ? true : false;
                     field += '<input type="file" id="setting-' + key + '" name="settings[' + key +
-                        ']" accept="image/*" style="padding:0;border:none">';
+                        ']" accept="image/*" class="p-0 border-0">';
                     if (hasFile) {
                         field += '<div class="logo-preview-wrap">';
                         if (key === 'favicon') {
@@ -337,7 +337,7 @@
                         } else {
                             field += '<img src="' + setting.url + '" class="image-preview">';
                         }
-                        field += '<span style="font-size:12px;color:var(--text-muted)">อัปโหลดใหม่เพื่อเปลี่ยน</span>';
+                        field += '<span class="text-xs text-gray-500">อัปโหลดใหม่เพื่อเปลี่ยน</span>';
                         field += '</div>';
                     }
                     break;

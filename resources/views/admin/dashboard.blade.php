@@ -240,7 +240,7 @@
             </span>
         </div>
     </div>
-    <div class="stats-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <div class="stat-card stat-card-colored stat-card-purple">
             <div class="stat-header">
                 <div class="stat-icon">
@@ -250,7 +250,7 @@
             <p class="stat-value">24</p>
             <p class="stat-label">กิจกรรมทั้งหมด</p>
             <div class="stat-trend-colored">
-                <i class="bi bi-arrow-up" style="font-size:10px"></i>
+                <i class="bi bi-arrow-up text-[10px]"></i>
                 <span>12% จากเดือนก่อน</span>
             </div>
         </div>
@@ -263,7 +263,7 @@
             <p class="stat-value">1,234</p>
             <p class="stat-label">นักศึกษาทั้งหมด</p>
             <div class="stat-trend-colored">
-                <i class="bi bi-arrow-up" style="font-size:10px"></i>
+                <i class="bi bi-arrow-up text-[10px]"></i>
                 <span>8% จากเดือนก่อน</span>
             </div>
         </div>
@@ -276,7 +276,7 @@
             <p class="stat-value">856</p>
             <p class="stat-label">ผู้เข้าร่วม</p>
             <div class="stat-trend-colored">
-                รออนุมัติ: <strong style="color:white">12</strong>
+                        รออนุมัติ: <strong class="text-white">12</strong>
             </div>
         </div>
         <div class="stat-card stat-card-colored stat-card-red">
@@ -288,7 +288,7 @@
             <p class="stat-value">3</p>
             <p class="stat-label">กิจกรรมวันนี้</p>
             <div class="stat-trend-colored">
-                กำลังดำเนิน: <strong style="color:white">1</strong>
+                กำลังดำเนิน: <strong class="text-white">1</strong>
             </div>
         </div>
     </div>
