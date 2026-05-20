@@ -3,49 +3,229 @@
 @section('title', 'Dashboard - Admin')
 
 @section('style')
-    .dash-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
-    .dash-title { font-size: 24px; font-weight: 700; margin-bottom: 0.25rem; }
-    .dash-subtitle { color: var(--text-muted); }
-    .dash-header-right { display: flex; gap: 0.75rem; }
-    .dash-date { font-size: 14px; color: var(--text-muted); display: flex; align-items: center; gap: 0.5rem; }
-    .stat-card-colored { border: none !important; }
-    .stat-card-colored .stat-header .stat-icon { background: rgba(255,255,255,0.2) !important; }
-    .stat-card-colored .stat-value { color: white; }
-    .stat-card-colored .stat-label { color: rgba(255,255,255,0.8); }
-    .stat-trend-colored { margin-top: 0.75rem; display: flex; align-items: center; gap: 0.5rem; font-size: 12px; color: rgba(255,255,255,0.7); }
-    .stat-card-purple { background: linear-gradient(135deg,#6366F1,#8B5CF6); }
-    .stat-card-green { background: linear-gradient(135deg,#10B981,#34D399); }
-    .stat-card-amber { background: linear-gradient(135deg,#F59E0B,#FBBF24); }
-    .stat-card-red { background: linear-gradient(135deg,#EF4444,#F87171); }
-    .dash-grid-2 { display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
-    .card-body-no-pad { padding: 0; }
-    .category-item { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; border-radius: var(--radius); }
-    .category-item-blue { background: #EEF2FF; }
-    .category-item-blue span { font-weight: 600; color: var(--primary); }
-    .category-item-green { background: #DCFCE7; }
-    .category-item-green span { font-weight: 600; color: var(--success); }
-    .category-item-amber { background: #FEF3C7; }
-    .category-item-amber span { font-weight: 600; color: #B45309; }
-    .category-item-red { background: #FEE2E2; }
-    .category-item-red span { font-weight: 600; color: var(--danger); }
-    .cat-val { font-weight: 700; }
-    .cat-val-blue { color: var(--primary); }
-    .cat-val-green { color: var(--success); }
-    .cat-val-amber { color: #B45309; }
-    .cat-val-red { color: var(--danger); }
-    .dash-grid-half { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-    .rank-num { width: 32px; height: 32px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; flex-shrink: 0; }
-    .student-name { font-weight: 600; }
-    .student-dept { font-size: 12px; color: var(--text-muted); }
-    .action-list { display: flex; flex-direction: column; gap: 0.75rem; }
-    .action-list .btn { justify-content: flex-start; }
-    .activity-name { font-weight: 600; }
-    .activity-cat { font-size: 12px; color: var(--text-muted); }
-    .cat-wrap { display: flex; flex-direction: column; gap: 0.75rem; }
-    .cat-row { display: flex; justify-content: space-between; align-items: center; }
-    .top-student-row { display: flex; align-items: center; gap: 1rem; }
-    .top-student-info { flex: 1; }
-    .dash-charts { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    <style>
+        .dash-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .dash-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .dash-subtitle {
+            color: var(--text-muted);
+        }
+
+        .dash-header-right {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .dash-date {
+            font-size: 14px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stat-card-colored {
+            border: none !important;
+        }
+
+        .stat-card-colored .stat-header .stat-icon {
+            background: rgba(255, 255, 255, 0.2) !important;
+        }
+
+        .stat-card-colored .stat-value {
+            color: white;
+        }
+
+        .stat-card-colored .stat-label {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .stat-trend-colored {
+            margin-top: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .stat-card-purple {
+            background: linear-gradient(135deg, #6366F1, #8B5CF6);
+        }
+
+        .stat-card-green {
+            background: linear-gradient(135deg, #10B981, #34D399);
+        }
+
+        .stat-card-amber {
+            background: linear-gradient(135deg, #F59E0B, #FBBF24);
+        }
+
+        .stat-card-red {
+            background: linear-gradient(135deg, #EF4444, #F87171);
+        }
+
+        .dash-grid-2 {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-body-no-pad {
+            padding: 0;
+        }
+
+        .category-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            border-radius: var(--radius);
+        }
+
+        .category-item-blue {
+            background: #EEF2FF;
+        }
+
+        .category-item-blue span {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .category-item-green {
+            background: #DCFCE7;
+        }
+
+        .category-item-green span {
+            font-weight: 600;
+            color: var(--success);
+        }
+
+        .category-item-amber {
+            background: #FEF3C7;
+        }
+
+        .category-item-amber span {
+            font-weight: 600;
+            color: #B45309;
+        }
+
+        .category-item-red {
+            background: #FEE2E2;
+        }
+
+        .category-item-red span {
+            font-weight: 600;
+            color: var(--danger);
+        }
+
+        .cat-val {
+            font-weight: 700;
+        }
+
+        .cat-val-blue {
+            color: var(--primary);
+        }
+
+        .cat-val-green {
+            color: var(--success);
+        }
+
+        .cat-val-amber {
+            color: #B45309;
+        }
+
+        .cat-val-red {
+            color: var(--danger);
+        }
+
+        .dash-grid-half {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .rank-num {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .student-name {
+            font-weight: 600;
+        }
+
+        .student-dept {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .action-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .action-list .btn {
+            justify-content: flex-start;
+        }
+
+        .activity-name {
+            font-weight: 600;
+        }
+
+        .activity-cat {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .cat-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .cat-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .top-student-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .top-student-info {
+            flex: 1;
+        }
+
+        .dash-charts {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -230,9 +410,12 @@
             </div>
             <div class="card-body">
                 <div class="action-list">
-                    <a href="/admin/activities/create" class="btn btn-primary"><i class="bi bi-plus"></i> สร้างกิจกรรมใหม่</a>
-                    <a href="/admin/participants/import" class="btn btn-secondary"><i class="bi bi-upload"></i> นำเข้าข้อมูลผู้เข้าร่วม</a>
-                    <a href="/admin/reports/export" class="btn btn-secondary"><i class="bi bi-file-earmark-arrow-up"></i> ส่งออกรายงาน</a>
+                    <a href="/admin/activities/create" class="btn btn-primary"><i class="bi bi-plus"></i>
+                        สร้างกิจกรรมใหม่</a>
+                    <a href="/admin/participants/import" class="btn btn-secondary"><i class="bi bi-upload"></i>
+                        นำเข้าข้อมูลผู้เข้าร่วม</a>
+                    <a href="/admin/reports/export" class="btn btn-secondary"><i class="bi bi-file-earmark-arrow-up"></i>
+                        ส่งออกรายงาน</a>
                 </div>
             </div>
         </div>

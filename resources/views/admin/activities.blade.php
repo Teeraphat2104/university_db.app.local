@@ -3,44 +3,242 @@
 @section('title', 'กิจกรรมทั้งหมด - Admin')
 
 @section('style')
-    .act-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
-    .act-title { font-size: 24px; font-weight: 700; margin-bottom: 0.25rem; }
-    .act-subtitle { color: var(--text-muted); }
-    .filter-bar { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
-    .filter-input-wrap { flex: 1; min-width: 200px; }
-    .filter-input-wrap input { width: 100%; }
-    .filter-select { padding: 0.625rem 1rem; border: 1px solid var(--border); border-radius: var(--radius); font-size: 14px; background: var(--surface); min-width: 150px; }
-    .table-checkbox { width: 18px; height: 18px; cursor: pointer; }
-    .loading-cell { text-align: center; padding: 3rem; color: var(--text-muted); }
-    .pagination-wrap { display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; }
-    .pagination-info { color: var(--text-muted); font-size: 14px; }
-    .pagination-btns { display: flex; gap: 0.5rem; }
-    .view-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-    .view-cover-img { width: 100%; border-radius: var(--radius-lg); max-height: 300px; object-fit: cover; }
-    .view-full { grid-column: 1 / -1; }
-    .view-title-lg { font-size: 1.25rem; font-weight: 700; margin: 0 0 0.75rem; }
-    .view-desc { color: var(--text-secondary); line-height: 1.6; margin: 0 0 1rem; font-size: 14px; }
-    .view-meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; font-size: 14px; }
-    .view-meta-label { color: var(--text-muted); }
-    .view-meta-value { font-weight: 600; }
-    .pdf-section { margin-top: 1.5rem; display: none; }
-    .pdf-section hr { border: none; border-top: 1px solid var(--border); margin-bottom: 1rem; }
-    .pdf-label { font-weight: 700; margin: 0 0 0.5rem; }
-    .pdf-label i { color: #DC2626; }
-    .pdf-frame { width: 100%; height: 500px; border: 1px solid var(--border); border-radius: var(--radius-lg); }
-    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-    .form-full { grid-column: 1 / -1; }
-    .form-cover-preview { width: 64px; height: 64px; object-fit: cover; display: block; }
-    .empty-state-icon { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg,#EEF2FF,#E0E7FF); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; }
-    .empty-state-icon i { font-size: 32px; color: var(--primary); }
-    .empty-state h3 { font-size: 18px; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem; }
-    .empty-state p { color: var(--text-muted); margin-bottom: 1.5rem; }
-    .skeleton-loading { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: skeleton 1.5s infinite; border-radius: var(--radius); }
-    .activity-avatar { width: 48px; height: 48px; border-radius: var(--radius); background: linear-gradient(135deg,#667eea,#764ba2); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; flex-shrink: 0; }
-    @keyframes skeleton { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-    .page-title-section { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
-    .page-title-section h2 { font-size: 24px; font-weight: 700; margin-bottom: 0.25rem; }
-    .page-title-section p { color: var(--text-muted); }
+    <style>
+        .act-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .act-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .act-subtitle {
+            color: var(--text-muted);
+        }
+
+        .filter-bar {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-input-wrap {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .filter-input-wrap input {
+            width: 100%;
+        }
+
+        .filter-select {
+            padding: 0.625rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 14px;
+            background: var(--surface);
+            min-width: 150px;
+        }
+
+        .table-checkbox {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .loading-cell {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+        }
+
+        .pagination-wrap {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.5rem;
+        }
+
+        .pagination-info {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .pagination-btns {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .view-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .view-cover-img {
+            width: 100%;
+            border-radius: var(--radius-lg);
+            max-height: 300px;
+            object-fit: cover;
+        }
+
+        .view-full {
+            grid-column: 1 / -1;
+        }
+
+        .view-title-lg {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 0 0 0.75rem;
+        }
+
+        .view-desc {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin: 0 0 1rem;
+            font-size: 14px;
+        }
+
+        .view-meta-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            font-size: 14px;
+        }
+
+        .view-meta-label {
+            color: var(--text-muted);
+        }
+
+        .view-meta-value {
+            font-weight: 600;
+        }
+
+        .pdf-section {
+            margin-top: 1.5rem;
+            display: none;
+        }
+
+        .pdf-section hr {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin-bottom: 1rem;
+        }
+
+        .pdf-label {
+            font-weight: 700;
+            margin: 0 0 0.5rem;
+        }
+
+        .pdf-label i {
+            color: #DC2626;
+        }
+
+        .pdf-frame {
+            width: 100%;
+            height: 500px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-full {
+            grid-column: 1 / -1;
+        }
+
+        .form-cover-preview {
+            width: 64px;
+            height: 64px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .empty-state-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #EEF2FF, #E0E7FF);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+        }
+
+        .empty-state-icon i {
+            font-size: 32px;
+            color: var(--primary);
+        }
+
+        .empty-state h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-state p {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .skeleton-loading {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: skeleton 1.5s infinite;
+            border-radius: var(--radius);
+        }
+
+        .activity-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius);
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        @keyframes skeleton {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        .page-title-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .page-title-section h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .page-title-section p {
+            color: var(--text-muted);
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -93,7 +291,8 @@
                 <tbody id="activities-tbody">
                     <tr>
                         <td colspan="8" class="loading-cell">
-                            <i class="bi bi-arrow-repeat bi-spin" style="font-size:1.5rem;display:block;margin-bottom:0.75rem"></i>
+                            <i class="bi bi-arrow-repeat bi-spin"
+                                style="font-size:1.5rem;display:block;margin-bottom:0.75rem"></i>
                             กำลังโหลด...
                         </td>
                     </tr>
@@ -123,11 +322,16 @@
                     <h3 id="view-title" class="view-title-lg"></h3>
                     <p id="view-desc" class="view-desc"></p>
                     <div class="view-meta-grid">
-                        <div><span class="view-meta-label">หมวดหมู่:</span> <span id="view-category" class="view-meta-value"></span></div>
-                        <div><span class="view-meta-label">วันที่:</span> <span id="view-date" class="view-meta-value"></span></div>
-                        <div><span class="view-meta-label">สถานที่:</span> <span id="view-location" class="view-meta-value"></span></div>
-                        <div><span class="view-meta-label">ผู้เข้าร่วม:</span> <span id="view-participants" class="view-meta-value"></span></div>
-                        <div><span class="view-meta-label">สถานะ:</span> <span id="view-status" class="view-meta-value"></span></div>
+                        <div><span class="view-meta-label">หมวดหมู่:</span> <span id="view-category"
+                                class="view-meta-value"></span></div>
+                        <div><span class="view-meta-label">วันที่:</span> <span id="view-date"
+                                class="view-meta-value"></span></div>
+                        <div><span class="view-meta-label">สถานที่:</span> <span id="view-location"
+                                class="view-meta-value"></span></div>
+                        <div><span class="view-meta-label">ผู้เข้าร่วม:</span> <span id="view-participants"
+                                class="view-meta-value"></span></div>
+                        <div><span class="view-meta-label">สถานะ:</span> <span id="view-status"
+                                class="view-meta-value"></span></div>
                     </div>
                 </div>
             </div>
@@ -143,7 +347,8 @@
         <form id="activity-form">
             <div class="dialog-header">
                 <h3 id="form-modal-title">สร้างกิจกรรมใหม่</h3>
-                <button type="button" class="btn btn-sm btn-muted" onclick="closeFormModal()" style="padding:0.375rem 0.5rem">
+                <button type="button" class="btn btn-sm btn-muted" onclick="closeFormModal()"
+                    style="padding:0.375rem 0.5rem">
                     <i class="bi bi-x-lg"></i>
                 </button>
             </div>
@@ -241,7 +446,7 @@
             if (!token) {
                 $('#activities-tbody').html(
                     '<tr><td colspan="8" class="loading-cell">กรุณา <a href="/login" style="color:var(--primary)">เข้าสู่ระบบ</a> ก่อน</td></tr>'
-                    );
+                );
                 return;
             }
             loadCategories();
@@ -297,7 +502,7 @@
                     if (!json.data || json.data.length === 0) {
                         tbody.html(
                             '<tr><td colspan="8" class="loading-cell">ไม่พบกิจกรรม</td></tr>'
-                            );
+                        );
                         return;
                     }
                     $.each(json.data, function(i, act) {
@@ -341,11 +546,11 @@
                     if (xhr.status === 401) {
                         $('#activities-tbody').html(
                             '<tr><td colspan="8" class="loading-cell">เซสชันหมดอายุ กรุณา <a href="/login" style="color:var(--primary)">เข้าสู่ระบบ</a> อีกครั้ง</td></tr>'
-                            );
+                        );
                     } else {
                         $('#activities-tbody').html(
                             '<tr><td colspan="8" style="text-align:center;padding:3rem;color:var(--danger)">เกิดข้อผิดพลาดในการโหลดข้อมูล</td></tr>'
-                            );
+                        );
                     }
                 }
             });

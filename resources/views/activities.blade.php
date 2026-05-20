@@ -52,15 +52,16 @@
     </div>
 </section>
 
+@php $siteName = setting('site_name', 'University Activities'); $siteDesc = setting('site_description', 'ระบบจัดการกิจกรรมและเอกสารของมหาวิทยาลัย'); $footerText = setting('footer_text', '© ' . date('Y') . ' University Activities. สงวนลิขสิทธิ์ทั้งหมด'); $fbUrl = setting('facebook_url'); $lineUrl = setting('line_url'); $ytUrl = setting('youtube_url'); @endphp
 <footer class="bg-gray-950 text-gray-400 py-12 px-6">
     <div class="max-w-6xl mx-auto">
         <div class="flex flex-wrap justify-between gap-8 pb-8 border-b border-white/10 mb-6">
             <div>
                 <div class="flex items-center gap-3 mb-3">
                     <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center text-white shadow-lg shadow-indigo-500/30"> <i class="fa-solid fa-graduation-cap"></i> </div>
-                    <div class="text-white text-lg font-extrabold">University Activities</div>
+                    <div class="text-white text-lg font-extrabold">{{ $siteName }}</div>
                 </div>
-                <p class="text-sm text-gray-400 max-w-xs leading-relaxed">ระบบจัดการกิจกรรมและเอกสารสำหรับมหาวิทยาลัย</p>
+                <p class="text-sm text-gray-400 max-w-xs leading-relaxed">{{ $siteDesc }}</p>
             </div>
             <nav class="flex flex-col gap-3 text-sm">
                 <p class="text-white font-semibold mb-1">เมนู</p>
@@ -70,7 +71,7 @@
             </nav>
         </div>
         <div class="flex flex-wrap justify-between items-center gap-4">
-            <p class="text-xs text-gray-500">© {{ date('Y') }} University Activities. สงวนลิขสิทธิ์ทั้งหมด</p>
+            <p class="text-xs text-gray-500">{{ $footerText }}</p>
             <p class="text-xs text-gray-600">พัฒนาด้วย <i class="fa-solid fa-heart text-red-500 mx-1"></i> สำหรับมหาวิทยาลัย</p>
         </div>
     </div>

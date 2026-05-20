@@ -43,5 +43,5 @@ Route::get('/admin/reports', function () {
 });
 
 Route::get('/admin/settings', function () {
-    return view('admin.dashboard');
-});
+    return view('admin.settings');
+})->name('admin.settings');

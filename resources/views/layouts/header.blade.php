@@ -1,11 +1,16 @@
+@php $logo = setting('logo'); $siteName = setting('site_name', 'University Activities'); @endphp
 <header class="nav-bar">
     <div class="nav-inner">
         <a href="/" class="nav-brand">
             <span class="nav-brand-icon">
-                <i class="fa-solid fa-book"></i>
+                @if ($logo)
+                    <img src="{{ Storage::disk('public')->url($logo) }}" alt="{{ $siteName }}" style="width:24px;height:24px;object-fit:contain">
+                @else
+                    <i class="fa-solid fa-book"></i>
+                @endif
             </span>
             <div class="nav-brand-text">
-                <strong>กิจกรรมมหาวิทยาลัย</strong>
+                <strong>{{ $siteName }}</strong>
                 <span>University Activities</span>
             </div>
         </a>

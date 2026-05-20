@@ -5,6 +5,7 @@ use App\Http\Controllers\PublicController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\SettingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +36,10 @@ Route::prefix('admin')->group(function () {
 
         Route::apiResource('categories', CategoryController::class);
         Route::apiResource('activities', ActivityController::class);
+
+        // Settings management
+        Route::get('/settings',  [SettingController::class, 'index']);
+        Route::put('/settings',  [SettingController::class, 'update']);
 
         // Excel import & participants management
         Route::post('/activities/{id}/import-excel',     [ActivityController::class, 'importExcel']);

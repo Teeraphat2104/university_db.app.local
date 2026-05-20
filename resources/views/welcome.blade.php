@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'University Activities - ระบบจัดการกิจกรรมมหาวิทยาลัย')
+@section('title', setting('site_name', 'University Activities') . ' - ' . setting('site_description', 'ระบบจัดการกิจกรรมมหาวิทยาลัย'))
 
 @section('style')
     @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
@@ -11,9 +11,12 @@
     .fade-up-5 { animation: fadeUp .6s ease-out .5s backwards; }
     .hero-gradient { background: radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%); }
     .hero-gradient-2 { background: radial-gradient(circle, rgba(139,92,246,0.10) 0%, transparent 70%); }
+    .social-link { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.06); color: var(--color-gray-400); display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; font-size: 1rem; }
+    .social-link:hover { background: var(--primary-color, #6366F1); color: #fff; transform: translateY(-2px); text-decoration: none; }
 @endsection
 
 @section('content')
+@php $heroTitle = setting('hero_title', 'จัดการกิจกรรมมหาวิทยาลัย ให้ง่ายยิ่งขึ้น'); $heroSub = setting('hero_subtitle', 'ระบบครบวงจรสำหรับจัดการกิจกรรม อัปโหลดเอกสาร และติดตามข้อมูลอย่างมีประสิทธิภาพ'); $siteName = setting('site_name', 'University Activities'); $siteDesc = setting('site_description', 'ระบบจัดการกิจกรรมและเอกสารของมหาวิทยาลัย'); $footerText = setting('footer_text', '© ' . date('Y') . ' University Activities. สงวนลิขสิทธิ์ทั้งหมด'); $fbUrl = setting('facebook_url'); $lineUrl = setting('line_url'); $ytUrl = setting('youtube_url'); @endphp
 <div id="public-view">
     <section class="relative min-h-[600px] flex items-center overflow-hidden bg-gradient-to-br from-gray-950 via-indigo-950 to-gray-950 pt-16">
         <div class="absolute inset-0 pointer-events-none">
@@ -23,13 +26,13 @@
         <div class="relative z-10 max-w-6xl mx-auto px-6 py-20 w-full">
             <div class="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/30 rounded-full px-4 py-1.5 text-indigo-300 text-xs font-semibold mb-6 backdrop-blur fade-up-1">
                 <i class="fa-solid fa-layer-group text-[10px]"></i>
-                ระบบจัดการกิจกรรมมหาวิทยาลัย
+                {{ $siteDesc }}
             </div>
             <h1 class="text-white font-black leading-tight mb-5 fade-up-2" style="font-size: clamp(2rem, 5vw, 3.5rem);">
-                จัดการกิจกรรม<em class="not-italic bg-gradient-to-r from-indigo-300 to-purple-300 bg-clip-text text-transparent">มหาวิทยาลัย</em><br>ให้ง่ายยิ่งขึ้น
+                {{ $heroTitle }}
             </h1>
             <p class="text-gray-400 text-base sm:text-lg max-w-lg leading-relaxed mb-8 fade-up-3">
-                ระบบครบวงจรสำหรับจัดการกิจกรรม อัปโหลดเอกสาร และติดตามข้อมูลอย่างมีประสิทธิภาพ
+                {{ $heroSub }}
             </p>
             <div class="flex flex-wrap gap-3 mb-12 fade-up-4">
                 <a href="/activities" class="inline-flex items-center gap-2 px-6 py-3 text-sm font-bold text-white bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full shadow-lg shadow-indigo-500/30 hover:shadow-xl hover:shadow-indigo-500/40 hover:-translate-y-0.5 transition-all no-underline">
@@ -159,14 +162,16 @@
                 <div>
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center text-white shadow-lg shadow-indigo-500/30"> <i class="fa-solid fa-graduation-cap"></i> </div>
-                        <div class="text-white text-lg font-extrabold">University Activities</div>
+                        <div class="text-white text-lg font-extrabold">{{ $siteName }}</div>
                     </div>
-                    <p class="text-sm text-gray-400 max-w-xs leading-relaxed mb-4">ระบบจัดการกิจกรรมและเอกสารสำหรับมหาวิทยาลัย</p>
+                    <p class="text-sm text-gray-400 max-w-xs leading-relaxed mb-4">{{ $siteDesc }}</p>
+                    @if ($fbUrl || $lineUrl || $ytUrl)
                     <div class="flex gap-2">
-                        <a href="#" class="w-9 h-9 bg-white/5 hover:bg-indigo-500 rounded-full flex items-center justify-center text-gray-400 hover:text-white transition-all no-underline"><i class="fa-brands fa-facebook text-sm"></i></a>
-                        <a href="#" class="w-9 h-9 bg-white/5 hover:bg-indigo-500 rounded-full flex items-center justify-center text-gray-400 hover:text-white transition-all no-underline"><i class="fa-brands fa-line text-sm"></i></a>
-                        <a href="#" class="w-9 h-9 bg-white/5 hover:bg-indigo-500 rounded-full flex items-center justify-center text-gray-400 hover:text-white transition-all no-underline"><i class="fa-brands fa-youtube text-sm"></i></a>
+                        @if ($fbUrl) <a href="{{ $fbUrl }}" class="social-link" target="_blank"><i class="fa-brands fa-facebook text-sm"></i></a> @endif
+                        @if ($lineUrl) <a href="{{ $lineUrl }}" class="social-link" target="_blank"><i class="fa-brands fa-line text-sm"></i></a> @endif
+                        @if ($ytUrl) <a href="{{ $ytUrl }}" class="social-link" target="_blank"><i class="fa-brands fa-youtube text-sm"></i></a> @endif
                     </div>
+                    @endif
                 </div>
                 <nav class="flex flex-col gap-3 text-sm">
                     <p class="text-white font-semibold mb-1">เมนู</p>
@@ -176,7 +181,7 @@
                 </nav>
             </div>
             <div class="flex flex-wrap justify-between items-center gap-4">
-                <p class="text-xs text-gray-500">© {{ date('Y') }} University Activities. สงวนลิขสิทธิ์ทั้งหมด</p>
+                <p class="text-xs text-gray-500">{{ $footerText }}</p>
                 <p class="text-xs text-gray-600">พัฒนาด้วย <i class="fa-solid fa-heart text-red-500 mx-1"></i> สำหรับมหาวิทยาลัย</p>
             </div>
         </div>
