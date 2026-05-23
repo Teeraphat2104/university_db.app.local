@@ -2,184 +2,50 @@
 
 @section('title', 'ตั้งค่าระบบ - Admin')
 
-@section('style')
-    <style>
-        .settings-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .settings-group:last-child {
-            margin-bottom: 0;
-        }
-
-        .field-hint {
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-top: 0.25rem;
-        }
-
-        .color-preview {
-            width: 36px;
-            height: 36px;
-            border-radius: var(--radius);
-            border: 2px solid var(--border);
-            flex-shrink: 0;
-        }
-
-        .color-input-wrap {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .color-input-wrap input[type="color"] {
-            width: 48px;
-            height: 36px;
-            padding: 2px;
-            border-radius: var(--radius);
-            cursor: pointer;
-        }
-
-        .color-input-wrap input[type="text"] {
-            flex: 1;
-        }
-
-        .image-preview {
-            width: 80px;
-            height: 80px;
-            border-radius: var(--radius);
-            object-fit: cover;
-            border: 1px solid var(--border);
-        }
-
-        .image-preview-sm {
-            width: 32px;
-            height: 32px;
-            border-radius: 4px;
-            object-fit: cover;
-        }
-
-        .logo-preview-wrap {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-top: 0.5rem;
-        }
-
-        .favicon-preview {
-            width: 32px;
-            height: 32px;
-            border-radius: 4px;
-            object-fit: cover;
-            border: 1px solid var(--border);
-        }
-
-        .save-bar {
-            position: sticky;
-            bottom: 0;
-            background: var(--surface);
-            border-top: 1px solid var(--border);
-            padding: 1rem 0;
-            margin-top: 1.5rem;
-            display: flex;
-            justify-content: flex-end;
-        }
-
-        .saving-spinner {
-            display: none;
-        }
-
-        .saving .saving-text {
-            display: none;
-        }
-
-        .saving .saving-spinner {
-            display: inline-flex;
-        }
-
-        .group-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: var(--radius);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-        }
-
-        .group-icon.general {
-            background: #DBEAFE;
-            color: var(--primary);
-        }
-
-        .group-icon.appearance {
-            background: #F3E8FF;
-            color: #9333EA;
-        }
-
-        .group-icon.contact {
-            background: #DCFCE7;
-            color: var(--success);
-        }
-
-        .group-icon.footer {
-            background: #FEF3C7;
-            color: #B45309;
-        }
-
-        .group-header {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1rem;
-        }
-
-        .group-header h3 {
-            font-size: 16px;
-            font-weight: 700;
-            margin: 0;
-        }
-
-        .group-header p {
-            font-size: 13px;
-            color: var(--text-muted);
-            margin: 2px 0 0;
-        }
-
-        .field-row {
-            margin-bottom: 1rem;
-        }
-
-        .field-row:last-child {
-            margin-bottom: 0;
-        }
-    </style>
-@endsection
-
 @section('content')
-    <div class="container-fluid">
-        <div class="flex items-center justify-between mb-6">
-            <div>
-                <h2 class="text-2xl font-bold mb-1">ตั้งค่าระบบ</h2>
-                <p class="text-gray-500">จัดการค่าต่างๆ ของเว็บไซต์</p>
-            </div>
-        </div>
-
-        <div id="settings-loading" class="text-center p-12 text-gray-500">
-            <i class="fa-solid fa-rotate fa-spin text-2xl block mb-3"></i>
-            กำลังโหลด...
-        </div>
-
-        <form id="settings-form" class="hidden">
-            <div id="settings-groups"></div>
-            <div class="save-bar">
-                <button type="submit" class="btn btn-primary" id="save-btn">
-                    <span class="saving-text"><i class="fa-solid fa-check"></i> บันทึกการตั้งค่า</span>
-                    <span class="saving-spinner"><i class="fa-solid fa-rotate fa-spin"></i> กำลังบันทึก...</span>
-                </button>
-            </div>
-        </form>
+<div class="page-header">
+    <div>
+        <h2 class="page-title">ตั้งค่าระบบ</h2>
+        <p class="page-subtitle">จัดการค่าต่างๆ ของเว็บไซต์</p>
     </div>
+</div>
+
+<div id="settings-loading" class="text-center p-12 text-gray-500">
+    <i class="fa-solid fa-rotate fa-spin text-2xl block mb-3"></i>
+    กำลังโหลด...
+</div>
+
+<form id="settings-form" class="hidden">
+    <div id="settings-groups" style="display:flex;flex-direction:column;gap:1.5rem;"></div>
+    <div class="save-bar">
+        <button type="submit" class="btn btn-primary" id="save-btn">
+            <span class="saving-text"><i class="fa-solid fa-check"></i> บันทึกการตั้งค่า</span>
+            <span class="saving-spinner"><i class="fa-solid fa-rotate fa-spin"></i> กำลังบันทึก...</span>
+        </button>
+    </div>
+</form>
+
+<style>
+    .settings-group:last-child { margin-bottom:0; }
+    .color-input-wrap { display:flex; align-items:center; gap:.75rem; }
+    .color-input-wrap input[type="color"] { width:48px; height:36px; padding:2px; border-radius:var(--radius); cursor:pointer; }
+    .color-input-wrap input[type="text"] { flex:1; }
+    .color-preview { width:36px; height:36px; border-radius:var(--radius); border:2px solid var(--border); flex-shrink:0; }
+    .image-preview { width:80px; height:80px; border-radius:var(--radius); object-fit:cover; border:1px solid var(--border); }
+    .favicon-preview { width:32px; height:32px; border-radius:4px; object-fit:cover; border:1px solid var(--border); }
+    .logo-preview-wrap { display:flex; align-items:center; gap:.75rem; margin-top:.5rem; }
+    .saving-spinner { display:none; }
+    .saving .saving-text { display:none; }
+    .saving .saving-spinner { display:inline-flex; }
+    .group-header { display:flex; align-items:center; gap:.75rem; }
+    .group-icon { width:36px; height:36px; border-radius:var(--radius); display:flex; align-items:center; justify-content:center; font-size:16px; }
+    .group-icon.general { background:#DBEAFE; color:var(--primary); }
+    .group-icon.appearance { background:#F3E8FF; color:#9333EA; }
+    .group-icon.contact { background:#DCFCE7; color:var(--success); }
+    .group-icon.footer { background:#FEF3C7; color:#B45309; }
+    .field-row { margin-bottom:1rem; }
+    .field-row:last-child { margin-bottom:0; }
+</style>
 @endsection
 
 @section('script')

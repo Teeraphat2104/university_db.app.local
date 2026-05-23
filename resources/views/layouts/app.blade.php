@@ -14,6 +14,42 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+    <style>
+        /* ── Page Header ── */
+        .page-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; }
+        .page-title { font-size:1.5rem; font-weight:700; margin-bottom:.15rem; }
+        .page-subtitle { color:var(--text-muted); font-size:.875rem; }
+
+        /* ── Loading / Empty ── */
+        .loading-cell { text-align:center; padding:3rem; color:var(--text-muted); }
+        .empty-state-icon { width:80px; height:80px; border-radius:50%; background:linear-gradient(135deg,#EEF2FF,#E0E7FF); display:flex; align-items:center; justify-content:center; margin:0 auto 1rem; }
+        .empty-state-icon i { font-size:2rem; color:var(--primary); }
+        .empty-state h3 { font-size:1.125rem; font-weight:700; color:var(--text-primary); margin-bottom:.5rem; }
+        .empty-state p { color:var(--text-muted); margin-bottom:1.5rem; }
+
+        /* ── Filter Bar ── */
+        .filter-bar { display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+        .filter-bar .filter-input { flex:1; min-width:200px; }
+
+        /* ── Form Grid ── */
+        .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+        .form-full { grid-column:1/-1; }
+
+        /* ── Table Avatar ── */
+        .table-avatar { width:44px; height:44px; border-radius:var(--radius); background:linear-gradient(135deg,#667eea,#764ba2); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; flex-shrink:0; }
+
+        /* ── Pagination ── */
+        .pag-bar { display:flex; justify-content:space-between; align-items:center; margin-top:1.5rem; }
+        .pag-info { color:var(--text-muted); font-size:.875rem; }
+        .pag-btns { display:flex; gap:.5rem; }
+
+        /* ── Detail Grid ── */
+        .detail-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; }
+        .detail-cover { width:100%; border-radius:var(--radius-lg); max-height:300px; object-fit:cover; }
+
+        /* ── Save Bar ── */
+        .save-bar { position:sticky; bottom:0; background:var(--surface); border-top:1px solid var(--border); padding:1rem 0; margin-top:1.5rem; display:flex; justify-content:flex-end; }
+    </style>
     @yield('style')
 </head>
 <body>

@@ -2,426 +2,158 @@
 
 @section('title', 'กิจกรรมทั้งหมด - Admin')
 
-@section('style')
-    <style>
-        .act-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .act-title {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-        }
-
-        .act-subtitle {
-            color: var(--text-muted);
-        }
-
-        .filter-bar {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .filter-input-wrap {
-            flex: 1;
-            min-width: 200px;
-        }
-
-        .filter-input-wrap input {
-            width: 100%;
-        }
-
-        .filter-select {
-            padding: 0.625rem 1rem;
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            font-size: 14px;
-            background: var(--surface);
-            min-width: 150px;
-        }
-
-        .table-checkbox {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-        }
-
-        .loading-cell {
-            text-align: center;
-            padding: 3rem;
-            color: var(--text-muted);
-        }
-
-        .pagination-wrap {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 1.5rem;
-        }
-
-        .pagination-info {
-            color: var(--text-muted);
-            font-size: 14px;
-        }
-
-        .pagination-btns {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .view-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-        }
-
-        .view-cover-img {
-            width: 100%;
-            border-radius: var(--radius-lg);
-            max-height: 300px;
-            object-fit: cover;
-        }
-
-        .view-full {
-            grid-column: 1 / -1;
-        }
-
-        .view-title-lg {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin: 0 0 0.75rem;
-        }
-
-        .view-desc {
-            color: var(--text-secondary);
-            line-height: 1.6;
-            margin: 0 0 1rem;
-            font-size: 14px;
-        }
-
-        .view-meta-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            font-size: 14px;
-        }
-
-        .view-meta-label {
-            color: var(--text-muted);
-        }
-
-        .view-meta-value {
-            font-weight: 600;
-        }
-
-        .pdf-section {
-            margin-top: 1.5rem;
-            display: none;
-        }
-
-        .pdf-section hr {
-            border: none;
-            border-top: 1px solid var(--border);
-            margin-bottom: 1rem;
-        }
-
-        .pdf-label {
-            font-weight: 700;
-            margin: 0 0 0.5rem;
-        }
-
-        .pdf-label i {
-            color: #DC2626;
-        }
-
-        .pdf-frame {
-            width: 100%;
-            height: 500px;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
-        .form-full {
-            grid-column: 1 / -1;
-        }
-
-        .form-cover-preview {
-            width: 64px;
-            height: 64px;
-            object-fit: cover;
-            display: block;
-        }
-
-        .empty-state-icon {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #EEF2FF, #E0E7FF);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1rem;
-        }
-
-        .empty-state-icon i {
-            font-size: 32px;
-            color: var(--primary);
-        }
-
-        .empty-state h3 {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .empty-state p {
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
-        }
-
-        .skeleton-loading {
-            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-            background-size: 200% 100%;
-            animation: skeleton 1.5s infinite;
-            border-radius: var(--radius);
-        }
-
-        .activity-avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: var(--radius);
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 700;
-            flex-shrink: 0;
-        }
-
-        @keyframes skeleton {
-            0% {
-                background-position: 200% 0;
-            }
-
-            100% {
-                background-position: -200% 0;
-            }
-        }
-
-        .page-title-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .page-title-section h2 {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-        }
-
-        .page-title-section p {
-            color: var(--text-muted);
-        }
-    </style>
-@endsection
-
 @section('content')
-    <div class="page-title-section">
-        <div>
-            <h2>กิจกรรมทั้งหมด</h2>
-            <p>จัดการกิจกรรมของมหาวิทยาลัย</p>
-        </div>
-        <button class="btn btn-primary" onclick="openCreateModal()">
-            <i class="fa-solid fa-plus"></i>
-            สร้างกิจกรรมใหม่
-        </button>
+<div class="page-header">
+    <div>
+        <h2 class="page-title">กิจกรรมทั้งหมด</h2>
+        <p class="page-subtitle">จัดการกิจกรรมของมหาวิทยาลัย</p>
     </div>
+    <button class="btn btn-primary" onclick="openCreateModal()">
+        <i class="fa-solid fa-plus"></i> สร้างกิจกรรมใหม่
+    </button>
+</div>
 
-    <div class="card mb-6">
-        <div class="card-body filter-bar">
-            <div class="filter-input-wrap">
-                <input type="text" id="filter-keyword" placeholder="ค้นหากิจกรรม...">
+<div class="card mb-6">
+    <div class="card-body filter-bar">
+        <div class="filter-input"><input type="text" id="filter-keyword" placeholder="ค้นหากิจกรรม..."></div>
+        <select id="filter-category" style="padding:.625rem 1rem;border:1px solid var(--border);border-radius:var(--radius);font-size:14px;background:var(--surface);min-width:150px;">
+            <option value="">ทุกหมวดหมู่</option>
+        </select>
+        <select id="filter-status" style="padding:.625rem 1rem;border:1px solid var(--border);border-radius:var(--radius);font-size:14px;background:var(--surface);min-width:130px;">
+            <option value="">ทุกสถานะ</option>
+            <option value="1">เปิดใช้งาน</option>
+            <option value="0">ปิดใช้งาน</option>
+        </select>
+        <button class="btn btn-secondary" onclick="applyFilters()"><i class="fa-solid fa-filter"></i> กรอง</button>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body p-0">
+        <table class="data-table" id="activities-table">
+            <thead>
+                <tr>
+                    <th style="width:40px"><input type="checkbox" id="select-all" style="width:18px;height:18px;cursor:pointer;"></th>
+                    <th>ชื่อกิจกรรม</th>
+                    <th>หมวดหมู่</th>
+                    <th>วันที่</th>
+                    <th>สถานที่</th>
+                    <th>ผู้เข้าร่วม</th>
+                    <th>สถานะ</th>
+                    <th style="width:120px">การดำเนินการ</th>
+                </tr>
+            </thead>
+            <tbody id="activities-tbody">
+                <tr><td colspan="8" class="loading-cell"><i class="fa-solid fa-rotate fa-spin text-2xl block mb-3"></i>กำลังโหลด...</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="pag-bar">
+    <p id="pagination-info" class="pag-info"></p>
+    <div id="pagination-btns" class="pag-btns"></div>
+</div>
+
+<dialog id="view-modal" class="modal-lg">
+    <div class="dialog-header">
+        <h3>รายละเอียดกิจกรรม</h3>
+        <button type="button" class="btn btn-sm btn-muted py-1.5 px-2" onclick="closeViewModal()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="dialog-body">
+        <div class="detail-grid">
+            <div id="view-cover-wrap" class="hidden"><img id="view-cover" src="" alt="cover" class="detail-cover"></div>
+            <div style="grid-column:1/-1">
+                <h3 id="view-title" style="font-size:1.25rem;font-weight:700;margin:0 0 .75rem"></h3>
+                <p id="view-desc" style="color:var(--text-secondary);line-height:1.6;margin:0 0 1rem;font-size:14px"></p>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;font-size:14px">
+                    <div><span style="color:var(--text-muted)">หมวดหมู่:</span> <span id="view-category" style="font-weight:600"></span></div>
+                    <div><span style="color:var(--text-muted)">วันที่:</span> <span id="view-date" style="font-weight:600"></span></div>
+                    <div><span style="color:var(--text-muted)">สถานที่:</span> <span id="view-location" style="font-weight:600"></span></div>
+                    <div><span style="color:var(--text-muted)">ผู้เข้าร่วม:</span> <span id="view-participants" style="font-weight:600"></span></div>
+                    <div><span style="color:var(--text-muted)">สถานะ:</span> <span id="view-status" style="font-weight:600"></span></div>
+                </div>
             </div>
-            <select id="filter-category" class="filter-select">
-                <option value="">ทุกหมวดหมู่</option>
-            </select>
-            <select id="filter-status" class="filter-select min-w-[130px]">
-                <option value="">ทุกสถานะ</option>
-                <option value="1">เปิดใช้งาน</option>
-                <option value="0">ปิดใช้งาน</option>
-            </select>
-            <button class="btn btn-secondary" onclick="applyFilters()">
-                <i class="fa-solid fa-filter"></i>
-                กรอง
-            </button>
+        </div>
+        <div id="view-pdf-wrap" style="margin-top:1.5rem;display:none">
+            <hr style="border:none;border-top:1px solid var(--border);margin-bottom:1rem">
+            <p style="font-weight:700;margin:0 0 .5rem"><i class="fa-regular fa-file-pdf" style="color:#DC2626"></i> เอกสาร PDF</p>
+            <iframe id="view-pdf" src="" style="width:100%;height:500px;border:1px solid var(--border);border-radius:var(--radius-lg)"></iframe>
         </div>
     </div>
+</dialog>
 
-    <div class="card">
-        <div class="card-body p-0">
-            <table class="data-table" id="activities-table">
-                <thead>
-                    <tr>
-                        <th class="w-10"><input type="checkbox" id="select-all" class="table-checkbox"></th>
-                        <th>ชื่อกิจกรรม</th>
-                        <th>หมวดหมู่</th>
-                        <th>วันที่</th>
-                        <th>สถานที่</th>
-                        <th>ผู้เข้าร่วม</th>
-                        <th>สถานะ</th>
-                        <th class="w-24">การดำเนินการ</th>
-                    </tr>
-                </thead>
-                <tbody id="activities-tbody">
-                    <tr>
-                        <td colspan="8" class="loading-cell">
-                            <i class="fa-solid fa-rotate fa-spin text-2xl block mb-3"></i>
-                            กำลังโหลด...
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div class="pagination-wrap">
-        <p id="pagination-info" class="pagination-info"></p>
-        <div id="pagination-btns" class="pagination-btns"></div>
-    </div>
-
-    <dialog id="view-modal" class="modal-lg">
+<dialog id="form-modal" class="modal-lg">
+    <form id="activity-form">
         <div class="dialog-header">
-            <h3 id="view-modal-title">รายละเอียดกิจกรรม</h3>
-                        <button type="button" class="btn btn-sm btn-muted py-1.5 px-2" onclick="closeViewModal()">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
+            <h3 id="form-modal-title">สร้างกิจกรรมใหม่</h3>
+            <button type="button" class="btn btn-sm btn-muted py-1.5 px-2" onclick="closeFormModal()"><i class="fa-solid fa-xmark"></i></button>
         </div>
-        <div class="dialog-body" id="view-modal-body">
-            <div class="view-grid">
-                <div id="view-cover-wrap" class="hidden">
-                    <img id="view-cover" src="" alt="cover" class="view-cover-img">
-                </div>
-                <div class="view-full">
-                    <h3 id="view-title" class="view-title-lg"></h3>
-                    <p id="view-desc" class="view-desc"></p>
-                    <div class="view-meta-grid">
-                        <div><span class="view-meta-label">หมวดหมู่:</span> <span id="view-category"
-                                class="view-meta-value"></span></div>
-                        <div><span class="view-meta-label">วันที่:</span> <span id="view-date"
-                                class="view-meta-value"></span></div>
-                        <div><span class="view-meta-label">สถานที่:</span> <span id="view-location"
-                                class="view-meta-value"></span></div>
-                        <div><span class="view-meta-label">ผู้เข้าร่วม:</span> <span id="view-participants"
-                                class="view-meta-value"></span></div>
-                        <div><span class="view-meta-label">สถานะ:</span> <span id="view-status"
-                                class="view-meta-value"></span></div>
+        <div class="dialog-body form-grid">
+            <input type="hidden" id="form-id">
+            <div class="form-full">
+                <label class="field-label">ชื่อกิจกรรม</label>
+                <input type="text" id="form-title" name="title" required placeholder="กรุณากรอกชื่อกิจกรรม">
+            </div>
+            <div>
+                <label class="field-label">หมวดหมู่</label>
+                <select id="form-category-id" name="category_id" required><option value="">เลือกหมวดหมู่</option></select>
+            </div>
+            <div>
+                <label class="field-label">วันที่จัดกิจกรรม</label>
+                <input type="date" id="form-activity-date" name="activity_date">
+            </div>
+            <div class="form-full">
+                <label class="field-label">สถานที่</label>
+                <input type="text" id="form-location" name="location" placeholder="กรุณากรอกสถานที่">
+            </div>
+            <div class="form-full">
+                <label class="field-label">รายละเอียด</label>
+                <textarea id="form-description" name="description" rows="4" placeholder="กรุณากรอกรายละเอียด"></textarea>
+            </div>
+            <div class="form-full">
+                <label class="field-label">รูปปก</label>
+                <input type="file" id="form-cover" name="cover_image" accept="image/*">
+                <div id="form-cover-existing" class="file-existing hidden mt-2">
+                    <div class="fe-img-thumb" onclick="previewImage($(this).find('img').attr('src'))">
+                        <img id="form-cover-preview" src="" alt="" style="width:64px;height:64px;object-fit:cover;display:block;">
+                        <div class="fe-img-overlay"><i class="fa-solid fa-expand text-xs"></i></div>
                     </div>
+                    <span class="fe-label">รูปปกปัจจุบัน</span>
                 </div>
             </div>
-            <div id="view-pdf-wrap" class="pdf-section">
-                <hr>
-                <p class="pdf-label"><i class="fa-regular fa-file-pdf"></i> เอกสาร PDF</p>
-                <iframe id="view-pdf" src="" class="pdf-frame"></iframe>
+            <div class="form-full">
+                <label class="field-label">ไฟล์ PDF</label>
+                <input type="file" id="form-pdf" name="pdf_file" accept=".pdf">
+                <div id="form-pdf-existing" class="file-existing hidden mt-2">
+                    <div class="fe-pdf-chip" onclick="window.open($(this).data('url'), '_blank')">
+                        <i class="fa-regular fa-file-pdf"></i>
+                        <span>PDF ปัจจุบัน</span>
+                    </div>
+                    <span class="fe-label">ไฟล์ PDF ปัจจุบัน (อัปโหลดแทนที่หากต้องการเปลี่ยน)</span>
+                </div>
+            </div>
+            <div>
+                <label class="field-label">สถานะ</label>
+                <select id="form-status" name="status">
+                    <option value="1">เปิดใช้งาน</option>
+                    <option value="0">ปิดใช้งาน</option>
+                </select>
             </div>
         </div>
-    </dialog>
+        <div class="dialog-footer">
+            <button type="button" class="btn btn-muted" onclick="closeFormModal()">ยกเลิก</button>
+            <button type="submit" class="btn btn-primary" id="form-submit-btn">บันทึก</button>
+        </div>
+    </form>
+</dialog>
 
-    <dialog id="form-modal" class="modal-lg">
-        <form id="activity-form">
-            <div class="dialog-header">
-                <h3 id="form-modal-title">สร้างกิจกรรมใหม่</h3>
-                <button type="button" class="btn btn-sm btn-muted py-1.5 px-2" onclick="closeFormModal()">
-                <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-            <div class="dialog-body form-grid">
-                <input type="hidden" id="form-id">
-                <div class="form-full">
-                    <label class="field-label">ชื่อกิจกรรม</label>
-                    <input type="text" id="form-title" name="title" required placeholder="กรุณากรอกชื่อกิจกรรม">
-                </div>
-                <div>
-                    <label class="field-label">หมวดหมู่</label>
-                    <select id="form-category-id" name="category_id" required>
-                        <option value="">เลือกหมวดหมู่</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="field-label">วันที่จัดกิจกรรม</label>
-                    <input type="date" id="form-activity-date" name="activity_date">
-                </div>
-                <div class="form-full">
-                    <label class="field-label">สถานที่</label>
-                    <input type="text" id="form-location" name="location" placeholder="กรุณากรอกสถานที่">
-                </div>
-                <div class="form-full">
-                    <label class="field-label">รายละเอียด</label>
-                    <textarea id="form-description" name="description" rows="4" placeholder="กรุณากรอกรายละเอียด"></textarea>
-                </div>
-                <div class="form-full">
-                    <label class="field-label">รูปปก</label>
-                    <input type="file" id="form-cover" name="cover_image" accept="image/*">
-                    <div id="form-cover-existing" class="file-existing hidden mt-2">
-                        <div class="fe-img-thumb" onclick="previewImage($(this).find('img').attr('src'))">
-                            <img id="form-cover-preview" src="" alt="" class="form-cover-preview">
-                            <div class="fe-img-overlay"><i class="fa-solid fa-expand text-xs"></i></div>
-                        </div>
-                        <span class="fe-label">รูปปกปัจจุบัน</span>
-                    </div>
-                </div>
-                <div class="form-full">
-                    <label class="field-label">ไฟล์ PDF</label>
-                    <input type="file" id="form-pdf" name="pdf_file" accept=".pdf">
-                    <div id="form-pdf-existing" class="file-existing hidden mt-2">
-                        <div class="fe-pdf-chip" onclick="window.open($(this).data('url'), '_blank')">
-                            <i class="fa-regular fa-file-pdf"></i>
-                            <span>PDF ปัจจุบัน</span>
-                        </div>
-                        <span class="fe-label">ไฟล์ PDF ปัจจุบัน (อัปโหลดแทนที่หากต้องการเปลี่ยน)</span>
-                    </div>
-                </div>
-                <div>
-                    <label class="field-label">สถานะ</label>
-                    <select id="form-status" name="status">
-                        <option value="1">เปิดใช้งาน</option>
-                        <option value="0">ปิดใช้งาน</option>
-                    </select>
-                </div>
-            </div>
-            <div class="dialog-footer">
-                <button type="button" class="btn btn-muted" onclick="closeFormModal()">ยกเลิก</button>
-                <button type="submit" class="btn btn-primary" id="form-submit-btn">บันทึก</button>
-            </div>
-        </form>
-    </dialog>
-
-    <div id="empty-state" class="empty-state hidden">
-        <div class="empty-state-icon">
-            <i class="fa-regular fa-calendar"></i>
-        </div>
-        <h3>ยังไม่มีกิจกรรม</h3>
-        <p>เริ่มสร้างกิจกรรมแรกของคุณ</p>
-        <button class="btn btn-primary" onclick="openCreateModal()">
-            <i class="fa-solid fa-plus"></i>
-            สร้างกิจกรรมใหม่
-        </button>
-    </div>
+<div id="empty-state" class="empty-state hidden">
+    <div class="empty-state-icon"><i class="fa-regular fa-calendar"></i></div>
+    <h3>ยังไม่มีกิจกรรม</h3>
+    <p>เริ่มสร้างกิจกรรมแรกของคุณ</p>
+    <button class="btn btn-primary" onclick="openCreateModal()"><i class="fa-solid fa-plus"></i> สร้างกิจกรรมใหม่</button>
+</div>
 @endsection
 
 @section('script')

@@ -2,138 +2,61 @@
 
 @section('title', 'จัดการหมวดหมู่ - Admin')
 
-@section('style')
-    <style>
-        .cat-page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .cat-page-header h2 {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-        }
-
-        .cat-page-header p {
-            color: var(--text-muted);
-        }
-
-        .cat-id-cell {
-            font-weight: 600;
-            color: var(--text-muted);
-        }
-
-        .cat-name-cell {
-            font-weight: 600;
-        }
-
-        .cat-empty-icon {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #FEF3C7, #FDE68A);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1rem;
-        }
-
-        .cat-empty-icon i {
-            font-size: 32px;
-            color: #B45309;
-        }
-
-        .cat-empty h3 {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .cat-empty p {
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
-        }
-
-        .loading-cell {
-            text-align: center;
-            padding: 3rem;
-            color: var(--text-muted);
-        }
-    </style>
-@endsection
-
 @section('content')
-    <div class="cat-page-header">
-        <div>
-            <h2>หมวดหมู่กิจกรรม</h2>
-            <p>จัดการหมวดหมู่สำหรับกิจกรรมของมหาวิทยาลัย</p>
-        </div>
-        <button class="btn btn-primary" onclick="openCreateModal()">
-            <i class="fa-solid fa-plus"></i>
-            เพิ่มหมวดหมู่
-        </button>
+<div class="page-header">
+    <div>
+        <h2 class="page-title">หมวดหมู่กิจกรรม</h2>
+        <p class="page-subtitle">จัดการหมวดหมู่สำหรับกิจกรรมของมหาวิทยาลัย</p>
     </div>
+    <button class="btn btn-primary" onclick="openCreateModal()">
+        <i class="fa-solid fa-plus"></i> เพิ่มหมวดหมู่
+    </button>
+</div>
 
-    <div class="card">
-        <div class="card-body p-0">
-            <table class="data-table" id="categories-table">
-                <thead>
-                    <tr>
-                        <th class="w-14">ID</th>
-                        <th>ชื่อหมวดหมู่</th>
-                        <th class="w-28">สถานะ</th>
-                        <th class="w-36">การดำเนินการ</th>
-                    </tr>
-                </thead>
-                <tbody id="categories-tbody">
-                    <tr>
-                        <td colspan="4" class="loading-cell">
-                            <i class="fa-solid fa-spinner fa-spin text-2xl block mb-3"></i>
-                            กำลังโหลด...
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+<div class="card">
+    <div class="card-body p-0">
+        <table class="data-table" id="categories-table">
+            <thead>
+                <tr>
+                    <th class="w-14">ID</th>
+                    <th>ชื่อหมวดหมู่</th>
+                    <th class="w-28">สถานะ</th>
+                    <th class="w-36">การดำเนินการ</th>
+                </tr>
+            </thead>
+            <tbody id="categories-tbody">
+                <tr><td colspan="4" class="loading-cell"><i class="fa-solid fa-spinner fa-spin text-2xl block mb-3"></i>กำลังโหลด...</td></tr>
+            </tbody>
+        </table>
     </div>
+</div>
 
-    <div id="empty-state" class="empty-state cat-empty hidden">
-        <div class="cat-empty-icon">
-            <i class="fa-regular fa-folder-open"></i>
+<div id="empty-state" class="empty-state hidden">
+    <div class="empty-state-icon"><i class="fa-regular fa-folder-open"></i></div>
+    <h3>ยังไม่มีหมวดหมู่</h3>
+    <p>สร้างหมวดหมู่แรกเพื่อจัดการกิจกรรม</p>
+    <button class="btn btn-primary" onclick="openCreateModal()"><i class="fa-solid fa-plus"></i> สร้างหมวดหมู่</button>
+</div>
+
+<dialog id="category-modal" class="modal-sm">
+    <form id="category-form">
+        <div class="dialog-header">
+            <h3 id="modal-title">เพิ่มหมวดหมู่</h3>
+            <button type="button" class="btn btn-sm btn-muted py-1.5 px-2" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
         </div>
-        <h3>ยังไม่มีหมวดหมู่</h3>
-        <p>สร้างหมวดหมู่แรกเพื่อจัดการกิจกรรม</p>
-        <button class="btn btn-primary" onclick="openCreateModal()">
-            <i class="fa-solid fa-plus"></i>
-            สร้างหมวดหมู่
-        </button>
-    </div>
-
-    <dialog id="category-modal" class="modal-sm">
-        <form id="category-form">
-            <div class="dialog-header">
-                <h3 id="modal-title">เพิ่มหมวดหมู่</h3>
-                <button type="button" class="btn btn-sm btn-muted py-1.5 px-2" onclick="closeModal()">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
+        <div class="dialog-body">
+            <input type="hidden" id="category-id">
+            <div>
+                <label class="field-label">ชื่อหมวดหมู่</label>
+                <input type="text" id="category-name" name="name" required placeholder="กรุณากรอกชื่อหมวดหมู่">
             </div>
-            <div class="dialog-body">
-                <input type="hidden" id="category-id">
-                <div>
-                    <label class="field-label">ชื่อหมวดหมู่</label>
-                    <input type="text" id="category-name" name="name" required placeholder="กรุณากรอกชื่อหมวดหมู่">
-                </div>
-            </div>
-            <div class="dialog-footer">
-                <button type="button" class="btn btn-muted" onclick="closeModal()">ยกเลิก</button>
-                <button type="submit" class="btn btn-primary" id="modal-submit-btn">บันทึก</button>
-            </div>
-        </form>
-    </dialog>
+        </div>
+        <div class="dialog-footer">
+            <button type="button" class="btn btn-muted" onclick="closeModal()">ยกเลิก</button>
+            <button type="submit" class="btn btn-primary" id="modal-submit-btn">บันทึก</button>
+        </div>
+    </form>
+</dialog>
 @endsection
 
 @section('script')
