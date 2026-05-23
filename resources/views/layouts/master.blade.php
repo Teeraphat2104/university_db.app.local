@@ -16,7 +16,7 @@
     @endif
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/air-datepicker@3/air-datepicker.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <style>:root { --primary-color: {{ setting('primary_color', '#6366F1') }}; }</style>
     @yield('style')
 </head>
