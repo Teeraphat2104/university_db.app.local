@@ -3,48 +3,32 @@
 @section('title', 'ตั้งค่าระบบ - Admin')
 
 @section('content')
-<div class="page-header">
+<div class="d-flex align-items-center justify-content-between mb-4">
     <div>
-        <h2 class="page-title">ตั้งค่าระบบ</h2>
-        <p class="page-subtitle">จัดการค่าต่างๆ ของเว็บไซต์</p>
+        <h4 class="fw-bold py-3 mb-0">ตั้งค่าระบบ</h4>
+        <p class="text-muted mb-0">จัดการค่าต่างๆ ของเว็บไซต์</p>
     </div>
 </div>
 
-<div id="settings-loading" class="text-center" style="padding:3rem;color:var(--gray-500)">
-    <i class="fa-solid fa-arrows-rotate fa-spin d-block" style="font-size:1.5rem;margin-bottom:.75rem"></i>
+<div id="settings-loading" class="text-center py-5 text-muted">
+    <div class="spinner-border spinner-border-sm mb-2" role="status"></div><br>
     กำลังโหลด...
 </div>
 
-<form id="settings-form" class="d-none" style="display:none">
-    <div id="settings-groups" style="display:flex;flex-direction:column;gap:1.5rem;"></div>
-    <div class="save-bar">
+<form id="settings-form" class="d-none">
+    <div id="settings-groups" class="d-flex flex-column gap-4"></div>
+    <div class="d-flex justify-content-end mt-4 pt-3 border-top">
         <button type="submit" class="btn btn-primary" id="save-btn">
-            <span class="saving-text"><i class="fa-solid fa-check"></i> บันทึกการตั้งค่า</span>
-            <span class="saving-spinner"><i class="fa-solid fa-arrows-rotate fa-spin"></i> กำลังบันทึก...</span>
+            <span class="saving-text"><i class="bx bx-check me-1"></i> บันทึกการตั้งค่า</span>
+            <span class="saving-spinner d-none"><span class="spinner-border spinner-border-sm me-1"></span> กำลังบันทึก...</span>
         </button>
     </div>
 </form>
 
 <style>
-    .settings-group:last-child { margin-bottom:0; }
-    .color-input-wrap { display:flex; align-items:center; gap:.75rem; }
-    .color-input-wrap input[type="color"] { width:48px; height:36px; padding:2px; border-radius:var(--radius); cursor:pointer; }
-    .color-input-wrap input[type="text"] { flex:1; }
-    .color-preview { width:36px; height:36px; border-radius:var(--radius); border:2px solid var(--border); flex-shrink:0; }
-    .image-preview { width:80px; height:80px; border-radius:var(--radius); object-fit:cover; border:1px solid var(--border); }
-    .favicon-preview { width:32px; height:32px; border-radius:4px; object-fit:cover; border:1px solid var(--border); }
-    .logo-preview-wrap { display:flex; align-items:center; gap:.75rem; margin-top:.5rem; }
-    .saving-spinner { display:none; }
-    .saving .saving-text { display:none; }
-    .saving .saving-spinner { display:inline-flex; }
-    .group-header { display:flex; align-items:center; gap:.75rem; }
-    .group-icon { width:36px; height:36px; border-radius:var(--radius); display:flex; align-items:center; justify-content:center; font-size:16px; }
-    .group-icon.general { background:#DBEAFE; color:var(--primary); }
-    .group-icon.appearance { background:#F3E8FF; color:#9333EA; }
-    .group-icon.contact { background:#DCFCE7; color:var(--success); }
-    .group-icon.footer { background:#FEF3C7; color:#B45309; }
-    .field-row { margin-bottom:1rem; }
-    .field-row:last-child { margin-bottom:0; }
+    .saving .saving-text { display: none; }
+    .saving .saving-spinner { display: inline-flex !important; }
+    .settings-icon { width:36px; height:36px; display:flex; align-items:center; justify-content:center; border-radius:.5rem; font-size:1rem; }
 </style>
 @endsection
 
@@ -53,39 +37,17 @@
         var API = '/api/admin/settings';
         var token = localStorage.getItem('admin_token');
         var groupMeta = {
-            general: {
-                label: 'ทั่วไป',
-                icon: 'fa-solid fa-gear',
-                css: 'general'
-            },
-            appearance: {
-                label: 'ลักษณะเว็บ',
-                icon: 'fa-solid fa-palette',
-                css: 'appearance'
-            },
-            contact: {
-                label: 'ช่องทางติดต่อ',
-                icon: 'fa-regular fa-envelope',
-                css: 'contact'
-            },
-            footer: {
-                label: 'ท้ายเว็บ',
-                icon: 'fa-regular fa-rectangle-list',
-                css: 'footer'
-            },
+            general: { label: 'ทั่วไป', icon: 'bx bx-cog', bg: 'bg-label-primary' },
+            appearance: { label: 'ลักษณะเว็บ', icon: 'bx bx-palette', bg: 'bg-label-info' },
+            contact: { label: 'ช่องทางติดต่อ', icon: 'bx bx-envelope', bg: 'bg-label-success' },
+            footer: { label: 'ท้ายเว็บ', icon: 'bx bx-receipt', bg: 'bg-label-warning' },
         };
 
-        function getHeaders() {
-            return {
-                'Authorization': 'Bearer ' + token,
-                'Accept': 'application/json'
-            };
-        }
+        function getHeaders() { return { 'Authorization': 'Bearer ' + token, 'Accept': 'application/json' }; }
 
         $(function() {
             if (!token) {
-                $('#settings-loading').html(
-                    'กรุณา <a href="/login" style="color:#4F46E5">เข้าสู่ระบบ</a> ก่อน');
+                $('#settings-loading').html('กรุณา <a href="/login" class="text-primary">เข้าสู่ระบบ</a> ก่อน');
                 return;
             }
             loadSettings();
@@ -93,21 +55,11 @@
 
         function loadSettings() {
             $.ajax({
-                url: API,
-                method: 'GET',
-                headers: getHeaders(),
-                success: function(json) {
-                    if (!json.data) return;
-                    renderSettings(json.data);
-                },
+                url: API, method: 'GET', headers: getHeaders(),
+                success: function(json) { if (json.data) renderSettings(json.data); },
                 error: function(xhr) {
-                    if (xhr.status === 401) {
-                        $('#settings-loading').html(
-                            'เซสชันหมดอายุ กรุณา <a href="/login" style="color:#4F46E5">เข้าสู่ระบบ</a> อีกครั้ง'
-                            );
-                    } else {
-                        $('#settings-loading').html('เกิดข้อผิดพลาดในการโหลดข้อมูล');
-                    }
+                    if (xhr.status === 401) $('#settings-loading').html('เซสชันหมดอายุ กรุณา <a href="/login" class="text-primary">เข้าสู่ระบบ</a> อีกครั้ง');
+                    else $('#settings-loading').html('เกิดข้อผิดพลาดในการโหลดข้อมูล');
                 }
             });
         }
@@ -115,33 +67,15 @@
         function renderSettings(groups) {
             var $container = $('#settings-groups').empty();
             var order = ['general', 'appearance', 'contact', 'footer'];
-
             $.each(order, function(_, groupKey) {
                 var items = groups[groupKey];
                 if (!items || !items.length) return;
-
-                var meta = groupMeta[groupKey] || {
-                    label: groupKey,
-                    icon: 'fa-regular fa-circle',
-                    css: ''
-                };
-                var html = '<div class="card settings-group">' +
-                    '<div class="card-header">' +
-                    '<div class="group-header">' +
-                    '<div class="group-icon ' + meta.css + '"><i class="' + meta.icon + '"></i></div>' +
-                    '<div><h3>' + meta.label + '</h3></div>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="card-body">';
-
-                $.each(items, function(_, setting) {
-                    html += renderField(setting);
-                });
-
+                var meta = groupMeta[groupKey] || { label: groupKey, icon: 'bx bx-circle', bg: '' };
+                var html = '<div class="card"><div class="card-header d-flex align-items-center gap-3"><div class="settings-icon ' + meta.bg + '"><i class="' + meta.icon + '"></i></div><h5 class="mb-0">' + meta.label + '</h5></div><div class="card-body">';
+                $.each(items, function(_, setting) { html += renderField(setting); });
                 html += '</div></div>';
                 $container.append(html);
             });
-
             $('#settings-loading').addClass('d-none');
             $('#settings-form').removeClass('d-none');
             bindColorPreview();
@@ -152,66 +86,42 @@
             var val = setting.value || '';
             var type = setting.type;
             var labels = {
-                site_name: 'ชื่อระบบ',
-                site_description: 'คำอธิบายระบบ',
-                academic_year: 'ปีการศึกษา',
-                primary_color: 'สีหลัก',
-                logo: 'โลโก้',
-                favicon: 'Favicon',
-                hero_title: 'หัวข้อหน้าแรก',
-                hero_subtitle: 'คำอธิบายหน้าแรก',
-                contact_email: 'อีเมลติดต่อ',
-                contact_phone: 'เบอร์โทรศัพท์',
-                facebook_url: 'Facebook',
-                line_url: 'Line',
-                youtube_url: 'YouTube',
+                site_name: 'ชื่อระบบ', site_description: 'คำอธิบายระบบ', academic_year: 'ปีการศึกษา',
+                primary_color: 'สีหลัก', logo: 'โลโก้', favicon: 'Favicon',
+                hero_title: 'หัวข้อหน้าแรก', hero_subtitle: 'คำอธิบายหน้าแรก',
+                contact_email: 'อีเมลติดต่อ', contact_phone: 'เบอร์โทรศัพท์',
+                facebook_url: 'Facebook', line_url: 'Line', youtube_url: 'YouTube',
                 footer_text: 'ข้อความท้ายเว็บ',
             };
             var label = labels[key] || key;
             var required = ['site_name', 'contact_email'].includes(key);
-
-            var field = '<div class="field-row">';
-            field += '<label class="field-label">' + label + (required ? ' <span style="color:#EF4444">*</span>' :
-                '') + '</label>';
-
+            var field = '<div class="mb-3">';
+            field += '<label class="form-label">' + label + (required ? ' <span class="text-danger">*</span>' : '') + '</label>';
             switch (type) {
                 case 'textarea':
-                    field += '<textarea id="setting-' + key + '" name="settings[' + key + ']" rows="3">' + $('<span>').text(
-                        val).html() + '</textarea>';
+                    field += '<textarea id="setting-' + key + '" name="settings[' + key + ']" class="form-control" rows="3">' + $('<span>').text(val).html() + '</textarea>';
                     break;
                 case 'color':
-                    field += '<div class="color-input-wrap">';
-                    field += '<input type="color" id="setting-color-' + key + '" value="' + (val || '#6366F1') + '">';
-                    field += '<input type="text" id="setting-' + key + '" name="settings[' + key + ']" value="' + $(
-                        '<span>').text(val).html() + '" placeholder="#6366F1">';
-                    field += '<div class="color-preview" id="preview-' + key + '" style="background:' + (val || '#6366F1') +
-                        '"></div>';
+                    field += '<div class="d-flex align-items-center gap-2">';
+                    field += '<input type="color" id="setting-color-' + key + '" class="form-control-color" value="' + (val || '#696cff') + '" style="width:48px;height:36px;padding:2px">';
+                    field += '<input type="text" id="setting-' + key + '" name="settings[' + key + ']" class="form-control" value="' + $('<span>').text(val).html() + '" placeholder="#696cff">';
+                    field += '<div class="rounded border flex-shrink-0" style="width:36px;height:36px;background:' + (val || '#696cff') + '"></div>';
                     field += '</div>';
                     break;
                 case 'image':
                     var hasFile = setting.url ? true : false;
-                    field += '<input type="file" id="setting-' + key + '" name="settings[' + key +
-                        ']" accept="image/*" style="padding:0;border:none">';
+                    field += '<input type="file" id="setting-' + key + '" name="settings[' + key + ']" class="form-control" accept="image/*">';
                     if (hasFile) {
-                        field += '<div class="logo-preview-wrap">';
-                        if (key === 'favicon') {
-                            field += '<img src="' + setting.url + '" class="favicon-preview">';
-                        } else {
-                            field += '<img src="' + setting.url + '" class="image-preview">';
-                        }
-                        field += '<span style="font-size:.75rem;color:var(--gray-500)">อัปโหลดใหม่เพื่อเปลี่ยน</span>';
-                        field += '</div>';
+                        var previewClass = key === 'favicon' ? 'rounded" style="width:32px;height:32px;object-fit:cover' : 'rounded" style="width:80px;height:80px;object-fit:cover';
+                        field += '<div class="d-flex align-items-center gap-2 mt-2"><img src="' + setting.url + '" class="' + previewClass + '"><small class="text-muted">อัปโหลดใหม่เพื่อเปลี่ยน</small></div>';
                     }
                     break;
                 case 'email':
-                    field += '<input type="email" id="setting-' + key + '" name="settings[' + key + ']" value="' + $(
-                        '<span>').text(val).html() + '" placeholder="email@example.com">';
+                    field += '<input type="email" id="setting-' + key + '" name="settings[' + key + ']" class="form-control" value="' + $('<span>').text(val).html() + '" placeholder="email@example.com">';
                     break;
                 default:
-                    field += '<input type="text" id="setting-' + key + '" name="settings[' + key + ']" value="' + $(
-                        '<span>').text(val).html() + '" placeholder="' + label + '">';
+                    field += '<input type="text" id="setting-' + key + '" name="settings[' + key + ']" class="form-control" value="' + $('<span>').text(val).html() + '" placeholder="' + label + '">';
             }
-
             field += '</div>';
             return field;
         }
@@ -220,19 +130,9 @@
             $('input[type="color"]').each(function() {
                 var key = this.id.replace('setting-color-', '');
                 var textInput = $('#setting-' + key);
-                var preview = $('#preview-' + key);
-
-                $(this).on('input', function() {
-                    var c = $(this).val();
-                    textInput.val(c);
-                    preview.css('background', c);
-                });
-
-                textInput.on('input', function() {
-                    var c = $(this).val();
-                    $('#setting-color-' + key).val(c);
-                    preview.css('background', c);
-                });
+                var preview = $(this).siblings('div.rounded');
+                $(this).on('input', function() { var c = $(this).val(); textInput.val(c); preview.css('background', c); });
+                textInput.on('input', function() { var c = $(this).val(); $('#setting-color-' + key).val(c); preview.css('background', c); });
             });
         }
 
@@ -240,59 +140,29 @@
             e.preventDefault();
             var btn = $('#save-btn');
             btn.addClass('saving').prop('disabled', true);
-
             var fd = new FormData();
             fd.append('_method', 'PUT');
-
-            $('.field-row').each(function() {
+            $('.mb-3').each(function() {
                 var input = $(this).find('input, textarea, select');
                 if (input.length === 0) return;
                 var name = input.attr('name');
                 if (!name) return;
-
-                if (input.attr('type') === 'file') {
-                    var file = input[0].files[0];
-                    if (file) fd.append(name, file);
-                } else if (input.attr('type') === 'color') {
-                    // skip color picker input, use text input
-                } else {
-                    fd.append(name, input.val());
-                }
+                if (input.attr('type') === 'file') { var file = input[0].files[0]; if (file) fd.append(name, file); }
+                else if (input.attr('type') !== 'color') { fd.append(name, input.val()); }
             });
-
             $.ajax({
-                url: API,
-                method: 'POST',
-                headers: {
-                    'Authorization': 'Bearer ' + token,
-                    'Accept': 'application/json'
-                },
-                data: fd,
-                processData: false,
-                contentType: false,
-                success: function() {
-                    showToast('บันทึกการตั้งค่าสำเร็จ', 'success');
-                    btn.removeClass('saving').prop('disabled', false);
-                },
-                error: function(xhr) {
-                    var msg = 'เกิดข้อผิดพลาด';
-                    try {
-                        msg = JSON.parse(xhr.responseText).message || msg;
-                    } catch (e) {}
-                    showToast(msg, 'error');
-                    btn.removeClass('saving').prop('disabled', false);
-                }
+                url: API, method: 'POST',
+                headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/json' },
+                data: fd, processData: false, contentType: false,
+                success: function() { showToast('บันทึกการตั้งค่าสำเร็จ', 'success'); btn.removeClass('saving').prop('disabled', false); },
+                error: function(xhr) { var msg = 'เกิดข้อผิดพลาด'; try { msg = JSON.parse(xhr.responseText).message || msg; } catch(e) {} showToast(msg, 'error'); btn.removeClass('saving').prop('disabled', false); }
             });
         });
 
         function showToast(msg, type) {
             $('.toast').remove();
             $('<div class="toast ' + (type || 'info') + '">').text(msg).appendTo('body');
-            setTimeout(function() {
-                $('.toast').fadeOut(300, function() {
-                    $(this).remove();
-                });
-            }, 3000);
+            setTimeout(function() { $('.toast').fadeOut(300, function() { $(this).remove(); }); }, 3000);
         }
     </script>
 @endsection

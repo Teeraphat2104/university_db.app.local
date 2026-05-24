@@ -1,0 +1,47 @@
+.toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    max-width: 360px;
+    padding: .875rem 1.125rem;
+    border-radius: 12px;
+    font-size: .875rem;
+    font-weight: 500;
+    z-index: 9999;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, .10);
+    animation: toast-in .22s ease;
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    color: #fff;
+}
+.toast.info { background: #696cff; }
+.toast.success { background: #10B981; }
+.toast.error { background: #EF4444; }
+@keyframes toast-in {
+    from { opacity: 0; transform: translateY(10px) scale(.96); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.detail-cover { width: 100%; border-radius: .75rem; grid-column: 1/-1; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+.form-full { grid-column: 1/-1; }
+.field-label { display: block; font-size: .8125rem; font-weight: 600; color: #475569; margin-bottom: .375rem; }
+.file-existing { display: flex; align-items: center; gap: .75rem; }
+.fe-img-thumb { position: relative; width: 64px; height: 64px; border-radius: .5rem; overflow: hidden; border: 1px solid #e2e8f0; cursor: pointer; }
+.fe-img-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.fe-img-overlay { position: absolute; inset: 0; background: rgba(0,0,0,.3); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity .15s; }
+.fe-img-thumb:hover .fe-img-overlay { opacity: 1; }
+.fe-img-overlay i { color: #fff; font-size: .75rem; }
+.fe-pdf-chip { display: flex; align-items: center; gap: .5rem; padding: .5rem .75rem; background: #FEF2F2; color: #DC2626; border-radius: .5rem; cursor: pointer; font-size: .8125rem; font-weight: 600; }
+.fe-label { font-size: .75rem; color: #94a3b8; }
+
+.pag-bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.pag-info { font-size: .875rem; color: var(--bs-gray-500); margin: 0; }
+.pag-btns { display: flex; gap: .375rem; align-items: center; }
+
+.table-checkbox { width: 18px; height: 18px; cursor: pointer; }
+.activity-avatar { width: 36px; height: 36px; border-radius: 999px; background: #EEF2FF; color: #4F46E5; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: .875rem; flex-shrink: 0; }
+.cat-id-cell { font-weight: 700; color: #64748B; }
+.cat-name-cell { font-weight: 600; }

@@ -1,7 +1,7 @@
 {
     "private": true,
     "scripts": {
-        "build": "copy /y resources\\css\\admin.css public\\css\\admin.css >nul && echo Build complete"
+        "build": "echo Build complete (Sneat assets served from public/sneat-1.0.0/)"
     },
     "devDependencies": {
         "axios": "^1.11.0"

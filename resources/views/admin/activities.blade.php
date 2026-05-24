@@ -2,157 +2,165 @@
 
 @section('title', 'กิจกรรมทั้งหมด - Admin')
 
+@section('style')
+<style>
+dialog::backdrop { background: rgba(0,0,0,.45); }
+</style>
+@endsection
+
 @section('content')
-<div class="page-header">
+<div class="d-flex align-items-center justify-content-between mb-4">
     <div>
-        <h2 class="page-title">กิจกรรมทั้งหมด</h2>
-        <p class="page-subtitle">จัดการกิจกรรมของมหาวิทยาลัย</p>
+        <h4 class="fw-bold py-3 mb-0">กิจกรรมทั้งหมด</h4>
+        <p class="text-muted mb-0">จัดการกิจกรรมของมหาวิทยาลัย</p>
     </div>
     <button class="btn btn-primary" onclick="openCreateModal()">
-        <i class="fa-solid fa-plus"></i> สร้างกิจกรรมใหม่
+        <i class="bx bx-plus me-1"></i> สร้างกิจกรรมใหม่
     </button>
 </div>
 
-<div class="card mb-6">
-    <div class="card-body filter-bar">
-        <div class="filter-input"><input type="text" id="filter-keyword" placeholder="ค้นหากิจกรรม..."></div>
-        <select id="filter-category" style="padding:.625rem 1rem;border:1px solid var(--border);border-radius:var(--radius);font-size:14px;background:var(--surface);min-width:150px;">
+<div class="card mb-4">
+    <div class="card-body d-flex flex-wrap align-items-center gap-2">
+        <div style="min-width:200px">
+            <input type="text" id="filter-keyword" class="form-control form-control-sm" placeholder="ค้นหากิจกรรม...">
+        </div>
+        <select id="filter-category" class="form-select form-select-sm" style="min-width:150px">
             <option value="">ทุกหมวดหมู่</option>
         </select>
-        <select id="filter-status" style="padding:.625rem 1rem;border:1px solid var(--border);border-radius:var(--radius);font-size:14px;background:var(--surface);min-width:130px;">
+        <select id="filter-status" class="form-select form-select-sm" style="min-width:130px">
             <option value="">ทุกสถานะ</option>
             <option value="1">เปิดใช้งาน</option>
             <option value="0">ปิดใช้งาน</option>
         </select>
-        <button class="btn btn-secondary" onclick="applyFilters()"><i class="fa-solid fa-filter"></i> กรอง</button>
+        <button class="btn btn-outline-secondary btn-sm" onclick="applyFilters()"><i class="bx bx-filter me-1"></i> กรอง</button>
     </div>
 </div>
 
 <div class="card">
-    <div class="card-body p-0">
-        <table class="data-table" id="activities-table">
-            <thead>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-light">
                 <tr>
-                    <th style="width:40px"><input type="checkbox" id="select-all" style="width:18px;height:18px;cursor:pointer;"></th>
+                    <th style="width:40px"><input type="checkbox" id="select-all" class="form-check-input" style="cursor:pointer;"></th>
                     <th>ชื่อกิจกรรม</th>
                     <th>หมวดหมู่</th>
                     <th>วันที่</th>
                     <th>สถานที่</th>
                     <th>ผู้เข้าร่วม</th>
                     <th>สถานะ</th>
-                    <th style="width:120px">การดำเนินการ</th>
+                    <th class="text-center" style="width:120px">การดำเนินการ</th>
                 </tr>
             </thead>
             <tbody id="activities-tbody">
-                <tr><td colspan="8" class="loading-cell"><i class="fa-solid fa-arrows-rotate fa-spin d-block" style="font-size:1.5rem;margin-bottom:.75rem"></i>กำลังโหลด...</td></tr>
+                <tr><td colspan="8" class="text-center py-5 text-muted"><div class="spinner-border spinner-border-sm mb-2" role="status"></div><br>กำลังโหลด...</td></tr>
             </tbody>
         </table>
     </div>
 </div>
 
-    <div class="pag-bar" style="margin-top:1rem">
-    <p id="pagination-info" class="pag-info"></p>
-    <div id="pagination-btns" class="pag-btns"></div>
+<div class="d-flex align-items-center justify-content-between mt-3">
+    <p id="pagination-info" class="mb-0 text-muted small"></p>
+    <div id="pagination-btns" class="d-flex gap-1"></div>
 </div>
 
-<dialog id="view-modal" class="modal-lg">
-    <div class="dialog-header">
-        <h3>รายละเอียดกิจกรรม</h3>
-        <button type="button" class="btn btn-sm btn-muted" style="padding:.375rem .5rem" onclick="closeViewModal()"><i class="fa-solid fa-xmark"></i></button>
+<dialog id="view-modal" class="modal-lg" style="border:none;border-radius:.75rem;padding:0;max-width:700px;width:90vw">
+    <div class="d-flex align-items-center justify-content-between px-4 py-3 border-bottom">
+        <h5 class="mb-0">รายละเอียดกิจกรรม</h5>
+        <button type="button" class="btn btn-sm btn-icon btn-outline-secondary" onclick="closeViewModal()"><i class="bx bx-x"></i></button>
     </div>
-    <div class="dialog-body">
-        <div class="detail-grid">
-            <div id="view-cover-wrap" class="d-none"><img id="view-cover" src="" alt="cover" class="detail-cover"></div>
-            <div style="grid-column:1/-1">
-                <h3 id="view-title" style="font-size:1.25rem;font-weight:700;margin:0 0 .75rem"></h3>
-                <p id="view-desc" style="color:var(--text-secondary);line-height:1.6;margin:0 0 1rem;font-size:14px"></p>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;font-size:14px">
-                    <div><span style="color:var(--text-muted)">หมวดหมู่:</span> <span id="view-category" style="font-weight:600"></span></div>
-                    <div><span style="color:var(--text-muted)">วันที่:</span> <span id="view-date" style="font-weight:600"></span></div>
-                    <div><span style="color:var(--text-muted)">สถานที่:</span> <span id="view-location" style="font-weight:600"></span></div>
-                    <div><span style="color:var(--text-muted)">ผู้เข้าร่วม:</span> <span id="view-participants" style="font-weight:600"></span></div>
-                    <div><span style="color:var(--text-muted)">สถานะ:</span> <span id="view-status" style="font-weight:600"></span></div>
-                </div>
-            </div>
+    <div class="p-4">
+        <div id="view-cover-wrap" class="d-none mb-3">
+            <img id="view-cover" src="" alt="cover" class="w-100 rounded" style="max-height:300px;object-fit:cover">
         </div>
-        <div id="view-pdf-wrap" style="margin-top:1.5rem;display:none">
-            <hr style="border:none;border-top:1px solid var(--border);margin-bottom:1rem">
-            <p style="font-weight:700;margin:0 0 .5rem"><i class="fa-solid fa-file-pdf" style="color:#DC2626"></i> เอกสาร PDF</p>
-            <iframe id="view-pdf" src="" style="width:100%;height:500px;border:1px solid var(--border);border-radius:var(--radius-lg)"></iframe>
+        <h4 id="view-title" class="mb-2 fw-bold"></h4>
+        <p id="view-desc" class="text-muted mb-3" style="line-height:1.6"></p>
+        <div class="row g-3 mb-3">
+            <div class="col-6"><small class="text-muted d-block">หมวดหมู่:</small><span id="view-category" class="fw-semibold"></span></div>
+            <div class="col-6"><small class="text-muted d-block">วันที่:</small><span id="view-date" class="fw-semibold"></span></div>
+            <div class="col-6"><small class="text-muted d-block">สถานที่:</small><span id="view-location" class="fw-semibold"></span></div>
+            <div class="col-6"><small class="text-muted d-block">ผู้เข้าร่วม:</small><span id="view-participants" class="fw-semibold"></span></div>
+            <div class="col-6"><small class="text-muted d-block">สถานะ:</small><span id="view-status" class="fw-semibold"></span></div>
+        </div>
+        <div id="view-pdf-wrap" class="d-none">
+            <hr>
+            <p class="fw-semibold mb-2"><i class="bx bxs-file-pdf text-danger me-1"></i> เอกสาร PDF</p>
+            <iframe id="view-pdf" src="" class="w-100 rounded border" style="height:500px"></iframe>
         </div>
     </div>
 </dialog>
 
-<dialog id="form-modal" class="modal-lg">
+<dialog id="form-modal" class="modal-lg" style="border:none;border-radius:.75rem;padding:0;max-width:700px;width:90vw">
     <form id="activity-form">
-        <div class="dialog-header">
-            <h3 id="form-modal-title">สร้างกิจกรรมใหม่</h3>
-            <button type="button" class="btn btn-sm btn-muted" style="padding:.375rem .5rem" onclick="closeFormModal()"><i class="fa-solid fa-xmark"></i></button>
+        <div class="d-flex align-items-center justify-content-between px-4 py-3 border-bottom">
+            <h5 id="form-modal-title" class="mb-0">สร้างกิจกรรมใหม่</h5>
+            <button type="button" class="btn btn-sm btn-icon btn-outline-secondary" onclick="closeFormModal()"><i class="bx bx-x"></i></button>
         </div>
-        <div class="dialog-body form-grid">
+        <div class="p-4">
             <input type="hidden" id="form-id">
-            <div class="form-full">
-                <label class="field-label">ชื่อกิจกรรม</label>
-                <input type="text" id="form-title" name="title" required placeholder="กรุณากรอกชื่อกิจกรรม">
+            <div class="mb-3">
+                <label class="form-label">ชื่อกิจกรรม <span class="text-danger">*</span></label>
+                <input type="text" id="form-title" name="title" class="form-control" required placeholder="กรุณากรอกชื่อกิจกรรม">
             </div>
-            <div>
-                <label class="field-label">หมวดหมู่</label>
-                <select id="form-category-id" name="category_id" required><option value="">เลือกหมวดหมู่</option></select>
-            </div>
-            <div>
-                <label class="field-label">วันที่จัดกิจกรรม</label>
-                <input type="date" id="form-activity-date" name="activity_date">
-            </div>
-            <div class="form-full">
-                <label class="field-label">สถานที่</label>
-                <input type="text" id="form-location" name="location" placeholder="กรุณากรอกสถานที่">
-            </div>
-            <div class="form-full">
-                <label class="field-label">รายละเอียด</label>
-                <textarea id="form-description" name="description" rows="4" placeholder="กรุณากรอกรายละเอียด"></textarea>
-            </div>
-            <div class="form-full">
-                <label class="field-label">รูปปก</label>
-                <input type="file" id="form-cover" name="cover_image" accept="image/*">
-                <div id="form-cover-existing" class="file-existing d-none mt-2">
-                    <div class="fe-img-thumb" onclick="previewImage($(this).find('img').attr('src'))">
-                        <img id="form-cover-preview" src="" alt="" style="width:64px;height:64px;object-fit:cover;display:block;">
-                        <div class="fe-img-overlay"><i class="fa-solid fa-expand" style="font-size:.75rem"></i></div>
-                    </div>
-                    <span class="fe-label">รูปปกปัจจุบัน</span>
+            <div class="row g-3 mb-3">
+                <div class="col-6">
+                    <label class="form-label">หมวดหมู่ <span class="text-danger">*</span></label>
+                    <select id="form-category-id" name="category_id" class="form-select" required><option value="">เลือกหมวดหมู่</option></select>
+                </div>
+                <div class="col-6">
+                    <label class="form-label">วันที่จัดกิจกรรม</label>
+                    <input type="date" id="form-activity-date" name="activity_date" class="form-control">
                 </div>
             </div>
-            <div class="form-full">
-                <label class="field-label">ไฟล์ PDF</label>
-                <input type="file" id="form-pdf" name="pdf_file" accept=".pdf">
-                <div id="form-pdf-existing" class="file-existing d-none mt-2">
-                    <div class="fe-pdf-chip" onclick="window.open($(this).data('url'), '_blank')">
-                        <i class="fa-solid fa-file-pdf"></i>
-                        <span>PDF ปัจจุบัน</span>
+            <div class="mb-3">
+                <label class="form-label">สถานที่</label>
+                <input type="text" id="form-location" name="location" class="form-control" placeholder="กรุณากรอกสถานที่">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">รายละเอียด</label>
+                <textarea id="form-description" name="description" class="form-control" rows="4" placeholder="กรุณากรอกรายละเอียด"></textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">รูปปก</label>
+                <input type="file" id="form-cover" name="cover_image" class="form-control" accept="image/*">
+                <div id="form-cover-existing" class="d-none mt-2 d-flex align-items-center gap-2">
+                    <div class="position-relative" style="width:64px;height:64px;cursor:pointer" onclick="previewImage($(this).find('img').attr('src'))">
+                        <img id="form-cover-preview" src="" alt="" style="width:64px;height:64px;object-fit:cover;border-radius:.375rem">
+                        <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center" style="background:rgba(0,0,0,.3);border-radius:.375rem;opacity:0;transition:opacity .15s" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0"><i class="bx bx-expand text-white" style="font-size:.75rem"></i></div>
                     </div>
-                    <span class="fe-label">ไฟล์ PDF ปัจจุบัน (อัปโหลดแทนที่หากต้องการเปลี่ยน)</span>
+                    <small class="text-muted">รูปปกปัจจุบัน</small>
                 </div>
             </div>
-            <div>
-                <label class="field-label">สถานะ</label>
-                <select id="form-status" name="status">
+            <div class="mb-3">
+                <label class="form-label">ไฟล์ PDF</label>
+                <input type="file" id="form-pdf" name="pdf_file" class="form-control" accept=".pdf">
+                <div id="form-pdf-existing" class="d-none mt-2 d-flex align-items-center gap-2">
+                    <div class="d-inline-flex align-items-center gap-1 px-3 py-1 rounded-pill border text-danger" style="cursor:pointer" onclick="window.open($(this).data('url'), '_blank')">
+                        <i class="bx bxs-file-pdf"></i>
+                        <span class="small fw-semibold">PDF ปัจจุบัน</span>
+                    </div>
+                    <small class="text-muted">(อัปโหลดแทนที่หากต้องการเปลี่ยน)</small>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">สถานะ</label>
+                <select id="form-status" name="status" class="form-select">
                     <option value="1">เปิดใช้งาน</option>
                     <option value="0">ปิดใช้งาน</option>
                 </select>
             </div>
         </div>
-        <div class="dialog-footer">
-            <button type="button" class="btn btn-muted" onclick="closeFormModal()">ยกเลิก</button>
+        <div class="d-flex align-items-center justify-content-end gap-2 px-4 py-3 border-top">
+            <button type="button" class="btn btn-outline-secondary" onclick="closeFormModal()">ยกเลิก</button>
             <button type="submit" class="btn btn-primary" id="form-submit-btn">บันทึก</button>
         </div>
     </form>
 </dialog>
 
-<div id="empty-state" class="empty-state d-none">
-    <div class="empty-state-icon"><i class="fa-regular fa-calendar"></i></div>
-    <h3>ยังไม่มีกิจกรรม</h3>
-    <p>เริ่มสร้างกิจกรรมแรกของคุณ</p>
-    <button class="btn btn-primary" onclick="openCreateModal()"><i class="fa-solid fa-plus"></i> สร้างกิจกรรมใหม่</button>
+<div id="empty-state" class="text-center py-5 d-none">
+    <div class="mb-3 text-muted" style="font-size:3rem"><i class="bx bx-calendar"></i></div>
+    <h5>ยังไม่มีกิจกรรม</h5>
+    <p class="text-muted mb-3">เริ่มสร้างกิจกรรมแรกของคุณ</p>
+    <button class="btn btn-primary" onclick="openCreateModal()"><i class="bx bx-plus me-1"></i> สร้างกิจกรรมใหม่</button>
 </div>
 @endsection
 
@@ -174,9 +182,7 @@
 
         $(function() {
             if (!token) {
-                $('#activities-tbody').html(
-                    '<tr><td colspan="8" class="loading-cell">กรุณา <a href="/login" style="color:#4F46E5">เข้าสู่ระบบ</a> ก่อน</td></tr>'
-                );
+                $('#activities-tbody').html('<tr><td colspan="8" class="text-center py-5 text-muted">กรุณา <a href="/login" class="text-primary">เข้าสู่ระบบ</a> ก่อน</td></tr>');
                 return;
             }
             loadCategories();
@@ -192,8 +198,7 @@
                     allCategories = json.data || [];
                     var opts = '';
                     $.each(allCategories, function(i, cat) {
-                        opts += '<option value="' + cat.id + '">' + $('<span>').text(cat.name).html() +
-                            '</option>';
+                        opts += '<option value="' + cat.id + '">' + $('<span>').text(cat.name).html() + '</option>';
                     });
                     $('#filter-category').append(opts);
                     $('#form-category-id').append(opts);
@@ -210,10 +215,7 @@
         }
 
         function loadActivities(page) {
-            var params = {
-                page: page,
-                per_page: 10
-            };
+            var params = { page: page, per_page: 10 };
             var keyword = $('#filter-keyword').val();
             var categoryId = $('#filter-category').val();
             var status = $('#filter-status').val();
@@ -230,34 +232,27 @@
                     var tbody = $('#activities-tbody');
                     tbody.empty();
                     if (!json.data || json.data.length === 0) {
-                        tbody.html(
-                            '<tr><td colspan="8" class="loading-cell">ไม่พบกิจกรรม</td></tr>'
-                        );
+                        tbody.html('<tr><td colspan="8" class="text-center py-5 text-muted">ไม่พบกิจกรรม</td></tr>');
                         return;
                     }
                     $.each(json.data, function(i, act) {
                         var catName = act.category ? act.category.name : '-';
-                        var statusHtml = act.status ?
-                            '<span class="badge badge-success">เปิดใช้งาน</span>' :
-                            '<span class="badge badge-warning">ปิดใช้งาน</span>';
+                        var statusHtml = act.status ? '<span class="badge bg-label-success">เปิดใช้งาน</span>' : '<span class="badge bg-label-warning">ปิดใช้งาน</span>';
                         var initial = $('<span>').text(act.title).html().charAt(0).toUpperCase();
                         var titleSafe = $('<span>').text(act.title).html();
                         var catSafe = $('<span>').text(catName).html();
                         tbody.append('<tr>' +
-                            '<td><input type="checkbox" class="row-check table-checkbox"></td>' +
-                            '<td><div class="d-flex align-items-center" style="gap:1rem"><div class="activity-avatar">' +
-                            initial + '</div><div><p class="fw-semibold" style="margin-bottom:2px">' +
-                            titleSafe + '</p></div></div></td>' +
-                            '<td><span class="badge badge-primary">' + catSafe + '</span></td>' +
+                            '<td><input type="checkbox" class="row-check form-check-input"></td>' +
+                            '<td><div class="d-flex align-items-center gap-3"><div class="avatar avatar-sm"><span class="avatar-initial rounded bg-label-primary">' + initial + '</span></div><div><div class="fw-semibold">' + titleSafe + '</div></div></div></td>' +
+                            '<td><span class="badge bg-label-info">' + catSafe + '</span></td>' +
                             '<td>' + (act.activity_date || '-') + '</td>' +
                             '<td>' + (act.location || '-') + '</td>' +
-                            '<td><span class="fw-semibold">' + (act.participants_count || 0) +
-                            '</span></td>' +
+                            '<td><span class="fw-semibold">' + (act.participants_count || 0) + '</span></td>' +
                             '<td>' + statusHtml + '</td>' +
-                            '<td><div class="d-flex" style="gap:.5rem">' +
-                            '<button class="btn btn-sm btn-secondary" style="padding:6px" onclick="viewActivity(' + act.id + ')" title="\u0e14\u0e39"><i class="fa-regular fa-eye"></i></button>' +
-                            '<button class="btn btn-sm btn-secondary" style="padding:6px" onclick="openEditModal(' + act.id + ')" title="\u0e41\u0e01\u0e49\u0e44\u0e02"><i class="fa-solid fa-pen-to-square"></i></button>' +
-                            '<button class="btn btn-sm btn-secondary" style="padding:6px;color:#EF4444" onclick="confirmDelete(' + act.id + ')" title="\u0e25\u0e1a"><i class="fa-solid fa-trash-can"></i></button>' +
+                            '<td><div class="d-flex justify-content-center gap-1">' +
+                            '<button class="btn btn-sm btn-icon btn-outline-secondary" onclick="viewActivity(' + act.id + ')" title="ดู"><i class="bx bx-show"></i></button>' +
+                            '<button class="btn btn-sm btn-icon btn-outline-secondary" onclick="openEditModal(' + act.id + ')" title="แก้ไข"><i class="bx bx-pencil"></i></button>' +
+                            '<button class="btn btn-sm btn-icon btn-outline-danger" onclick="confirmDelete(' + act.id + ')" title="ลบ"><i class="bx bx-trash"></i></button>' +
                             '</div></td></tr>');
                     });
                     if (json.meta) {
@@ -268,44 +263,32 @@
                 },
                 error: function(xhr) {
                     if (xhr.status === 401) {
-                        $('#activities-tbody').html(
-                            '<tr><td colspan="8" class="loading-cell">เซสชันหมดอายุ กรุณา <a href="/login" style="color:#4F46E5">เข้าสู่ระบบ</a> อีกครั้ง</td></tr>'
-                        );
+                        $('#activities-tbody').html('<tr><td colspan="8" class="text-center py-5 text-muted">เซสชันหมดอายุ กรุณา <a href="/login" class="text-primary">เข้าสู่ระบบ</a> อีกครั้ง</td></tr>');
                     } else {
-                        $('#activities-tbody').html(
-                            '<tr><td colspan="8" style="text-align:center;padding:3rem;color:#EF4444">เกิดข้อผิดพลาดในการโหลดข้อมูล</td></tr>'
-                        );
+                        $('#activities-tbody').html('<tr><td colspan="8" class="text-center py-5 text-danger">เกิดข้อผิดพลาดในการโหลดข้อมูล</td></tr>');
                     }
                 }
             });
         }
 
         function updatePagination(meta) {
-            $('#pagination-info').text('แสดง ' + ((meta.current_page - 1) * meta.per_page + 1) + '-' + Math.min(meta
-                .current_page * meta.per_page, meta.total) + ' จาก ' + meta.total + ' รายการ');
+            $('#pagination-info').text('แสดง ' + ((meta.current_page - 1) * meta.per_page + 1) + '-' + Math.min(meta.current_page * meta.per_page, meta.total) + ' จาก ' + meta.total + ' รายการ');
             var btns = $('#pagination-btns').empty();
-            var prevBtn = $('<button class="btn btn-sm btn-secondary">').text('ก่อนหน้า');
+            var prevBtn = $('<button class="btn btn-sm btn-outline-secondary">').html('<i class="bx bx-chevron-left"></i>');
             if (meta.current_page <= 1) prevBtn.prop('disabled', true);
-            prevBtn.on('click', function() {
-                if (meta.current_page > 1) loadActivities(meta.current_page - 1);
-            });
+            prevBtn.on('click', function() { if (meta.current_page > 1) loadActivities(meta.current_page - 1); });
             btns.append(prevBtn);
             var sp = Math.max(1, meta.current_page - 2);
             var ep = Math.min(meta.last_page, sp + 4);
             sp = Math.max(1, ep - 4);
             for (var p = sp; p <= ep; p++)(function(page) {
-                var btn = $('<button class="btn btn-sm ' + (page === meta.current_page ? 'btn-primary' :
-                    'btn-secondary') + '">').text(page);
-                btn.on('click', function() {
-                    loadActivities(page);
-                });
+                var btn = $('<button class="btn btn-sm ' + (page === meta.current_page ? 'btn-primary' : 'btn-outline-secondary') + '">').text(page);
+                btn.on('click', function() { loadActivities(page); });
                 btns.append(btn);
             })(p);
-            var nextBtn = $('<button class="btn btn-sm btn-secondary">').text('ถัดไป');
+            var nextBtn = $('<button class="btn btn-sm btn-outline-secondary">').html('<i class="bx bx-chevron-right"></i>');
             if (meta.current_page >= meta.last_page) nextBtn.prop('disabled', true);
-            nextBtn.on('click', function() {
-                if (meta.current_page < meta.last_page) loadActivities(meta.current_page + 1);
-            });
+            nextBtn.on('click', function() { if (meta.current_page < meta.last_page) loadActivities(meta.current_page + 1); });
             btns.append(nextBtn);
         }
 
@@ -323,8 +306,7 @@
                     $('#view-date').text(act.activity_date || '-');
                     $('#view-location').text(act.location || '-');
                     $('#view-participants').text(act.participants_count || 0);
-                    $('#view-status').html(act.status ? '<span class="badge badge-success">เปิดใช้งาน</span>' :
-                        '<span class="badge badge-warning">ปิดใช้งาน</span>');
+                    $('#view-status').html(act.status ? '<span class="badge bg-label-success">เปิดใช้งาน</span>' : '<span class="badge bg-label-warning">ปิดใช้งาน</span>');
                     if (act.cover_image_url) {
                         $('#view-cover').attr('src', act.cover_image_url);
                         $('#view-cover-wrap').removeClass('d-none');
@@ -333,21 +315,17 @@
                     }
                     if (act.pdf_url) {
                         $('#view-pdf').attr('src', act.pdf_url);
-                        $('#view-pdf-wrap').show();
+                        $('#view-pdf-wrap').removeClass('d-none');
                     } else {
-                        $('#view-pdf-wrap').hide();
+                        $('#view-pdf-wrap').addClass('d-none');
                     }
                     $('#view-modal')[0].showModal();
                 },
-                error: function() {
-                    showToast('ไม่สามารถโหลดข้อมูลกิจกรรม', 'error');
-                }
+                error: function() { showToast('ไม่สามารถโหลดข้อมูลกิจกรรม', 'error'); }
             });
         }
 
-        function closeViewModal() {
-            $('#view-modal')[0].close();
-        }
+        function closeViewModal() { $('#view-modal')[0].close(); }
 
         function openCreateModal() {
             $('#form-modal-title').text('สร้างกิจกรรมใหม่');
@@ -378,7 +356,6 @@
                     $('#form-description').val(act.description || '');
                     $('#form-status').val(act.status.toString());
                     $('#form-cover, #form-pdf').val('');
-
                     if (act.cover_image_url) {
                         $('#form-cover-preview').attr('src', act.cover_image_url);
                         $('#form-cover-existing').removeClass('d-none');
@@ -386,24 +363,19 @@
                         $('#form-cover-existing').addClass('d-none');
                     }
                     if (act.pdf_url) {
-                        $('#form-pdf-existing .fe-pdf-chip').data('url', act.pdf_url);
+                        $('#form-pdf-existing .d-inline-flex').data('url', act.pdf_url);
                         $('#form-pdf-existing').removeClass('d-none');
                     } else {
                         $('#form-pdf-existing').addClass('d-none');
                     }
-
                     $('#activity-form').off('submit').on('submit', handleEdit);
                     $('#form-modal')[0].showModal();
                 },
-                error: function() {
-                    showToast('ไม่สามารถโหลดข้อมูลกิจกรรม', 'error');
-                }
+                error: function() { showToast('ไม่สามารถโหลดข้อมูลกิจกรรม', 'error'); }
             });
         }
 
-        function closeFormModal() {
-            $('#form-modal')[0].close();
-        }
+        function closeFormModal() { $('#form-modal')[0].close(); }
 
         function getFormData() {
             var fd = new FormData();
@@ -423,39 +395,19 @@
         function handleCreate(e) {
             e.preventDefault();
             var btn = $('#form-submit-btn');
-            btn.prop('disabled', true).text('กำลังบันทึก...');
-
+            btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-1"></span>กำลังบันทึก...');
             $.ajax({
-                url: API,
-                method: 'POST',
-                headers: {
-                    'Authorization': 'Bearer ' + token,
-                    'Accept': 'application/json'
-                },
-                data: getFormData(),
-                processData: false,
-                contentType: false,
-                success: function() {
-                    closeFormModal();
-                    loadActivities(1);
-                    showToast('สร้างกิจกรรมสำเร็จ', 'success');
-                },
+                url: API, method: 'POST',
+                headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/json' },
+                data: getFormData(), processData: false, contentType: false,
+                success: function() { closeFormModal(); loadActivities(1); showToast('สร้างกิจกรรมสำเร็จ', 'success'); },
                 error: function(xhr) {
                     var msg = 'เกิดข้อผิดพลาด';
                     if (xhr.responseJSON && xhr.responseJSON.errors) {
                         var errs = xhr.responseJSON.errors;
-                        if (typeof errs === 'object') {
-                            var lines = [];
-                            $.each(errs, function(k, v) {
-                                lines.push(v);
-                            });
-                            msg = lines.join('\n');
-                        } else if (typeof errs === 'string') {
-                            msg = errs;
-                        }
-                    } else if (xhr.responseJSON && xhr.responseJSON.message) {
-                        msg = xhr.responseJSON.message;
-                    }
+                        if (typeof errs === 'object') { var lines = []; $.each(errs, function(k, v) { lines.push(v); }); msg = lines.join('\n'); }
+                        else if (typeof errs === 'string') msg = errs;
+                    } else if (xhr.responseJSON && xhr.responseJSON.message) msg = xhr.responseJSON.message;
                     showToast(msg, 'error');
                     btn.prop('disabled', false).text('บันทึก');
                 }
@@ -466,42 +418,21 @@
             e.preventDefault();
             var id = $('#form-id').val();
             var btn = $('#form-submit-btn');
-            btn.prop('disabled', true).text('กำลังอัปเดต...');
-
+            btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-1"></span>กำลังอัปเดต...');
             var fd = getFormData();
             fd.append('_method', 'PUT');
-
             $.ajax({
-                url: API + '/' + id,
-                method: 'POST',
-                headers: {
-                    'Authorization': 'Bearer ' + token,
-                    'Accept': 'application/json'
-                },
-                data: fd,
-                processData: false,
-                contentType: false,
-                success: function() {
-                    closeFormModal();
-                    loadActivities(currentPage);
-                    showToast('อัปเดตกิจกรรมสำเร็จ', 'success');
-                },
+                url: API + '/' + id, method: 'POST',
+                headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/json' },
+                data: fd, processData: false, contentType: false,
+                success: function() { closeFormModal(); loadActivities(currentPage); showToast('อัปเดตกิจกรรมสำเร็จ', 'success'); },
                 error: function(xhr) {
                     var msg = 'เกิดข้อผิดพลาด';
                     if (xhr.responseJSON && xhr.responseJSON.errors) {
                         var errs = xhr.responseJSON.errors;
-                        if (typeof errs === 'object') {
-                            var lines = [];
-                            $.each(errs, function(k, v) {
-                                lines.push(v);
-                            });
-                            msg = lines.join('\n');
-                        } else if (typeof errs === 'string') {
-                            msg = errs;
-                        }
-                    } else if (xhr.responseJSON && xhr.responseJSON.message) {
-                        msg = xhr.responseJSON.message;
-                    }
+                        if (typeof errs === 'object') { var lines = []; $.each(errs, function(k, v) { lines.push(v); }); msg = lines.join('\n'); }
+                        else if (typeof errs === 'string') msg = errs;
+                    } else if (xhr.responseJSON && xhr.responseJSON.message) msg = xhr.responseJSON.message;
                     showToast(msg, 'error');
                     btn.prop('disabled', false).text('อัปเดต');
                 }
@@ -510,34 +441,16 @@
 
         function confirmDelete(id) {
             Swal.fire({
-                title: 'คุณแน่ใจหรือไม่?',
-                text: 'การลบกิจกรรมนี้จะไม่สามารถกู้คืนได้',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#DC2626',
-                cancelButtonColor: '#64748B',
-                confirmButtonText: 'ใช่, ลบเลย',
-                cancelButtonText: 'ยกเลิก'
+                title: 'คุณแน่ใจหรือไม่?', text: 'การลบกิจกรรมนี้จะไม่สามารถกู้คืนได้', icon: 'warning',
+                showCancelButton: true, confirmButtonColor: '#DC2626', cancelButtonColor: '#64748B',
+                confirmButtonText: 'ใช่, ลบเลย', cancelButtonText: 'ยกเลิก'
             }).then(function(result) {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: API + '/' + id,
-                        method: 'DELETE',
-                        headers: {
-                            'Authorization': 'Bearer ' + token,
-                            'Accept': 'application/json'
-                        },
-                        success: function() {
-                            loadActivities(currentPage);
-                            Swal.fire('ลบแล้ว!', 'กิจกรรมถูกลบเรียบร้อย', 'success');
-                        },
-                        error: function(xhr) {
-                            var msg = 'เกิดข้อผิดพลาด';
-                            try {
-                                msg = JSON.parse(xhr.responseText).message || msg;
-                            } catch (e) {}
-                            Swal.fire('ผิดพลาด!', msg, 'error');
-                        }
+                        url: API + '/' + id, method: 'DELETE',
+                        headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/json' },
+                        success: function() { loadActivities(currentPage); Swal.fire('ลบแล้ว!', 'กิจกรรมถูกลบเรียบร้อย', 'success'); },
+                        error: function(xhr) { var msg = 'เกิดข้อผิดพลาด'; try { msg = JSON.parse(xhr.responseText).message || msg; } catch(e) {} Swal.fire('ผิดพลาด!', msg, 'error'); }
                     });
                 }
             });
@@ -546,11 +459,7 @@
         function showToast(msg, type) {
             $('.toast').remove();
             $('<div class="toast ' + (type || 'info') + '">').text(msg).appendTo('body');
-            setTimeout(function() {
-                $('.toast').fadeOut(300, function() {
-                    $(this).remove();
-                });
-            }, 3000);
+            setTimeout(function() { $('.toast').fadeOut(300, function() { $(this).remove(); }); }, 3000);
         }
     </script>
 @endsection
