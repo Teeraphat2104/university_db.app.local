@@ -43,6 +43,7 @@
         .hero-gradient-2 {
             background: radial-gradient(circle, rgba(139, 92, 246, 0.08) 0%, transparent 70%);
         }
+
     </style>
 @endsection
 

@@ -1,111 +1,614 @@
-@extends('layouts.master')
+<!doctype html>
+<html lang="th">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>เข้าสู่ระบบ - ผู้ดูแลระบบ</title>
+    <meta name="description" content="ระบบจัดการกิจกรรมและเอกสารของมหาวิทยาลัย">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    @php $favicon = setting('favicon'); @endphp
+    @if ($favicon)
+        <link rel="icon" type="image/png" href="{{ Storage::disk('public')->url($favicon) }}">
+    @else
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    @endif
+    <style>
+        :root { --primary-color: {{ setting('primary_color', '#6366F1') }}; }
 
-@section('title', 'เข้าสู่ระบบ - ผู้ดูแลระบบ')
+        .split-layout {
+            display: flex;
+            min-height: 100vh;
+        }
 
-@section('content')
-<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-950 via-indigo-950 to-gray-950 p-6">
-    <div class="w-full max-w-sm bg-white rounded-3xl shadow-2xl p-8 relative overflow-hidden">
-        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 rounded-full -translate-y-1/2 translate-x-1/2"></div>
-        <div class="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-br from-purple-500/10 to-indigo-500/10 rounded-full translate-y-1/2 -translate-x-1/2"></div>
+        .brand-panel {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(145deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+        }
 
-        <div class="relative">
-            <div class="flex items-center gap-3 mb-6">
-                <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-indigo-500/30"> <i class="fa-solid fa-user-tie text-white text-lg"></i> </div>
-                <div>
-                    <div class="text-sm font-extrabold text-gray-900">ผู้ดูแลระบบ</div>
-                    <div class="text-[10px] font-semibold text-gray-400 tracking-widest uppercase">เข้าสู่ระบบ</div>
+        .brand-panel::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(ellipse at 15% 50%, rgba(99,102,241,.25) 0%, transparent 60%),
+                              radial-gradient(ellipse at 80% 50%, rgba(139,92,246,.15) 0%, transparent 55%);
+            pointer-events: none;
+        }
+
+        .brand-panel::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: .02;
+            pointer-events: none;
+        }
+
+        .brand-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            animation: float 20s ease-in-out infinite;
+            pointer-events: none;
+        }
+        .brand-orb-1 {
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(99,102,241,.12) 0%, transparent 70%);
+            top: -10%; left: -5%;
+        }
+        .brand-orb-2 {
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(139,92,246,.10) 0%, transparent 70%);
+            bottom: 0; right: -3%;
+            animation-delay: -7s;
+        }
+        .brand-orb-3 {
+            width: 200px; height: 200px;
+            background: radial-gradient(circle, rgba(99,102,241,.08) 0%, transparent 70%);
+            top: 40%; left: 55%;
+            animation-delay: -14s;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); }
+            33% { transform: translateY(-25px) scale(1.05); }
+            66% { transform: translateY(15px) scale(.95); }
+        }
+
+        .brand-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 2rem;
+            max-width: 420px;
+        }
+
+        .brand-icon {
+            width: 72px; height: 72px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, #6366F1, #8B5CF6);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 32px rgba(99,102,241,.4);
+            animation: fadeUp .6s ease-out .1s backwards;
+        }
+        .brand-icon i { color: #fff; font-size: 1.75rem; }
+
+        .brand-name {
+            font-size: 1.75rem;
+            font-weight: 900;
+            color: #fff;
+            font-family: 'Manrope', 'Noto Sans Thai', sans-serif;
+            line-height: 1.2;
+            margin: 0 0 .5rem;
+            animation: fadeUp .6s ease-out .2s backwards;
+        }
+        .brand-tagline {
+            font-size: .95rem;
+            color: #94A3B8;
+            line-height: 1.6;
+            margin: 0 0 2.5rem;
+            animation: fadeUp .6s ease-out .3s backwards;
+        }
+
+        .brand-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            animation: fadeUp .6s ease-out .4s backwards;
+        }
+        .brand-stat {
+            background: rgba(255,255,255,.05);
+            border: 1px solid rgba(255,255,255,.09);
+            border-radius: 16px;
+            padding: 1.25rem 1rem;
+            text-align: center;
+            transition: all .3s ease;
+        }
+        .brand-stat:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0,0,0,.15);
+        }
+        .brand-stat-icon { font-size: 1.1rem; color: #818CF8; margin-bottom: .5rem; }
+        .brand-stat-num {
+            font-size: 1.5rem; font-weight: 800; color: #fff;
+            font-family: 'Manrope', 'Noto Sans Thai', sans-serif;
+            line-height: 1; margin-bottom: .25rem;
+        }
+        .brand-stat-label { font-size: .7rem; color: #64748B; font-weight: 500; }
+
+        .brand-footer {
+            position: absolute;
+            bottom: 2rem;
+            left: 0; right: 0;
+            text-align: center;
+            font-size: .75rem;
+            color: #475569;
+            z-index: 1;
+        }
+
+        .form-panel {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+            padding: 2rem;
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .form-header {
+            margin-bottom: 2rem;
+            animation: fadeUp .6s ease-out .1s backwards;
+        }
+        .form-header-icon {
+            width: 48px; height: 48px;
+            background: linear-gradient(135deg, #6366F1, #8B5CF6);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.25rem;
+            box-shadow: 0 4px 16px rgba(99,102,241,.3);
+        }
+        .form-header-icon i { color: #fff; font-size: 1.2rem; }
+        .form-header h2 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #0F172A;
+            font-family: 'Manrope', 'Noto Sans Thai', sans-serif;
+            margin: 0 0 .375rem;
+        }
+        .form-header p {
+            color: #64748B;
+            font-size: .875rem;
+            margin: 0;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+            animation: fadeUp .6s ease-out .15s backwards;
+        }
+        .form-group:nth-child(2) { animation-delay: .2s; }
+        .form-group:nth-child(3) { animation-delay: .25s; }
+
+        .form-label {
+            display: block;
+            font-size: .75rem;
+            font-weight: 600;
+            color: #64748B;
+            margin-bottom: .375rem;
+        }
+
+        .input-wrap {
+            position: relative;
+        }
+        .input-icon {
+            position: absolute;
+            left: .875rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94A3B8;
+            pointer-events: none;
+            font-size: .9rem;
+        }
+        .input-field {
+            width: 100%;
+            padding: .75rem 1rem .75rem 2.75rem;
+            border: 1.5px solid #E2E8F0;
+            border-radius: 12px;
+            font-size: .9rem;
+            font-family: inherit;
+            color: #1E293B;
+            background: #F8FAFC;
+            transition: all .2s;
+            outline: none;
+        }
+        .input-field:focus {
+            border-color: var(--primary-color);
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(99,102,241,.1);
+        }
+        .input-field::placeholder { color: #94A3B8; }
+        .input-field.has-value { background: #fff; border-color: #CBD5E1; }
+
+        .input-toggle {
+            position: absolute;
+            right: .75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #94A3B8;
+            cursor: pointer;
+            padding: .25rem;
+            font-size: .9rem;
+            transition: color .15s;
+        }
+        .input-toggle:hover { color: #64748B; }
+
+        .form-options {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            animation: fadeUp .6s ease-out .3s backwards;
+        }
+        .remember-check {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            cursor: pointer;
+            font-size: .82rem;
+            color: #64748B;
+            user-select: none;
+        }
+        .remember-check input[type="checkbox"] {
+            width: 16px; height: 16px;
+            accent-color: var(--primary-color);
+            cursor: pointer;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: .85rem;
+            background: linear-gradient(135deg, #6366F1, #8B5CF6);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: .95rem;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all .25s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: .5rem;
+            box-shadow: 0 4px 16px rgba(99,102,241,.35);
+            animation: fadeUp .6s ease-out .35s backwards;
+        }
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(99,102,241,.45);
+        }
+        .submit-btn:active:not(:disabled) {
+            transform: translateY(0);
+        }
+        .submit-btn:disabled {
+            opacity: .7;
+            cursor: not-allowed;
+        }
+        .submit-btn .spinner {
+            display: none;
+            width: 18px; height: 18px;
+            border: 2px solid rgba(255,255,255,.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin .6s linear infinite;
+        }
+        .submit-btn.is-loading .spinner { display: block; }
+        .submit-btn.is-loading .btn-text { display: none; }
+        .submit-btn.is-success {
+            background: #10B981;
+            box-shadow: 0 4px 16px rgba(16,185,129,.35);
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .error-banner {
+            display: none;
+            padding: .875rem 1rem;
+            background: #FEF2F2;
+            border: 1px solid #FECACA;
+            border-radius: 12px;
+            color: #B91C1C;
+            font-size: .85rem;
+            font-weight: 500;
+            margin-bottom: 1.25rem;
+            align-items: flex-start;
+            gap: .625rem;
+            animation: slideDown .25s ease;
+        }
+        .error-banner.is-visible { display: flex; }
+        .error-banner i { margin-top: 2px; flex-shrink: 0; }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 1.75rem;
+            animation: fadeUp .6s ease-out .4s backwards;
+        }
+        .form-footer a {
+            color: #64748B;
+            font-size: .85rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: .375rem;
+            transition: color .15s;
+        }
+        .form-footer a:hover { color: var(--primary-color); }
+
+        .test-hint {
+            margin-top: 1.25rem;
+            padding: .75rem 1rem;
+            background: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            text-align: center;
+            animation: fadeUp .6s ease-out .45s backwards;
+        }
+        .test-hint p {
+            font-size: .75rem;
+            color: #94A3B8;
+            margin: 0 0 .5rem;
+        }
+        .test-hint code {
+            font-size: .78rem;
+            color: #475569;
+            background: #fff;
+            padding: .15em .5em;
+            border-radius: 6px;
+            border: 1px solid #E2E8F0;
+        }
+        .test-hint .arrow {
+            color: #CBD5E1;
+            margin: 0 .375rem;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .split-layout { flex-direction: column; }
+            .brand-panel {
+                min-height: auto;
+                padding: 2.5rem 1.5rem 1.5rem;
+            }
+            .brand-content { padding: 0; max-width: none; }
+            .brand-icon { width: 56px; height: 56px; margin-bottom: 1rem; }
+            .brand-icon i { font-size: 1.35rem; }
+            .brand-name { font-size: 1.25rem; }
+            .brand-tagline { font-size: .85rem; margin-bottom: 1.5rem; }
+            .brand-stats { display: none; }
+            .brand-footer { display: none; }
+            .form-panel { padding: 1.5rem; }
+            .form-container { max-width: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="split-layout">
+        <div class="brand-panel">
+            <div class="brand-orb brand-orb-1"></div>
+            <div class="brand-orb brand-orb-2"></div>
+            <div class="brand-orb brand-orb-3"></div>
+
+            <div class="brand-content">
+                <div class="brand-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
                 </div>
-            </div>
-            <h2 class="text-xl font-extrabold text-gray-900 mb-1">ยินดีต้อนรับ</h2>
-            <p class="text-sm text-gray-500 mb-6">เข้าสู่ระบบเพื่อจัดการกิจกรรม</p>
+                <h1 class="brand-name">{{ setting('site_name', 'University Activities') }}</h1>
+                <p class="brand-tagline">ระบบจัดการกิจกรรมและเอกสารของมหาวิทยาลัย</p>
 
-            <div id="login-error" class="hidden mb-4 p-3 bg-red-50 border border-red-200 rounded-xl">
-                <p class="text-sm text-red-600 flex items-center gap-2"><i class="fa-solid fa-circle-exclamation"></i> <span id="error-message"></span></p>
-            </div>
-
-            <form id="admin-login-form" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold text-gray-500 mb-1.5">อีเมล</label>
-                    <div class="relative">
-                        <i class="fa-regular fa-envelope absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
-                        <input type="email" id="admin-email" name="email" required placeholder="admin@example.com" class="w-full pl-10 pr-3.5 py-2.5 text-sm border border-gray-200 rounded-xl focus:border-indigo-400 focus:ring-3 focus:ring-indigo-100 outline-none transition-all">
+                <div class="brand-stats">
+                    <div class="brand-stat">
+                        <div class="brand-stat-icon"><i class="fa-regular fa-calendar"></i></div>
+                        <div class="brand-stat-num" id="stat-activities">-</div>
+                        <div class="brand-stat-label">กิจกรรม</div>
+                    </div>
+                    <div class="brand-stat">
+                        <div class="brand-stat-icon"><i class="fa-regular fa-users"></i></div>
+                        <div class="brand-stat-num" id="stat-participants">-</div>
+                        <div class="brand-stat-label">ผู้เข้าร่วม</div>
+                    </div>
+                    <div class="brand-stat">
+                        <div class="brand-stat-icon"><i class="fa-regular fa-folder"></i></div>
+                        <div class="brand-stat-num" id="stat-categories">-</div>
+                        <div class="brand-stat-label">หมวดหมู่</div>
                     </div>
                 </div>
-                <div>
-                    <label class="block text-xs font-semibold text-gray-500 mb-1.5">รหัสผ่าน</label>
-                    <div class="relative">
-                        <i class="fa-solid fa-lock absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
-                        <input type="password" id="admin-password" name="password" required placeholder="••••••••" class="w-full pl-10 pr-3.5 py-2.5 text-sm border border-gray-200 rounded-xl focus:border-indigo-400 focus:ring-3 focus:ring-indigo-100 outline-none transition-all">
+            </div>
+
+            <div class="brand-footer">
+                &copy; {{ date('Y') }} University Activities System
+            </div>
+        </div>
+
+        <div class="form-panel">
+            <div class="form-container">
+                <div class="form-header">
+                    <div class="form-header-icon">
+                        <i class="fa-solid fa-user-tie"></i>
                     </div>
+                    <h2>ยินดีต้อนรับ</h2>
+                    <p>เข้าสู่ระบบเพื่อจัดการกิจกรรม</p>
                 </div>
-                <button type="submit" class="w-full py-3 text-sm font-bold text-white bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl shadow-lg shadow-indigo-500/30 hover:shadow-xl hover:shadow-indigo-500/40 hover:-translate-y-0.5 transition-all border-none cursor-pointer flex items-center justify-center gap-2">
-                    <span id="btn-text">เข้าสู่ระบบ</span>
-                    <div id="btn-loader" class="hidden"><i class="fa-solid fa-circle-notch fa-spin"></i></div>
-                </button>
-            </form>
-            <div class="mt-6 p-4 bg-gray-50 rounded-xl border border-gray-100">
-                <p class="text-xs text-gray-500 text-center mb-2">ข้อมูลสำหรับทดสอบ</p>
-                <div class="flex items-center justify-center gap-3 text-xs">
-                    <code class="text-gray-600 bg-white px-2 py-1 rounded border">admin@example.com</code>
-                    <i class="fa-solid fa-arrow-right text-gray-400"></i>
-                    <code class="text-gray-600 bg-white px-2 py-1 rounded border">password</code>
+
+                <div id="login-error" class="error-banner">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <span id="error-message"></span>
+                </div>
+
+                <form id="admin-login-form" autocomplete="off">
+                    <div class="form-group">
+                        <label class="form-label" for="admin-email">อีเมล</label>
+                        <div class="input-wrap">
+                            <i class="fa-regular fa-envelope input-icon"></i>
+                            <input type="email" id="admin-email" name="email" required
+                                   placeholder="admin@example.com" autocomplete="email"
+                                   class="input-field">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="admin-password">รหัสผ่าน</label>
+                        <div class="input-wrap">
+                            <i class="fa-solid fa-lock input-icon"></i>
+                            <input type="password" id="admin-password" name="password" required
+                                   placeholder="••••••••" autocomplete="current-password"
+                                   class="input-field">
+                            <button type="button" class="input-toggle" id="toggle-password" tabindex="-1"
+                                    title="แสดง/ซ่อนรหัสผ่าน">
+                                <i class="fa-regular fa-eye" id="toggle-icon"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-options">
+                        <label class="remember-check">
+                            <input type="checkbox" id="remember-email">
+                            จดจำอีเมล
+                        </label>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="login-btn">
+                        <span class="btn-text">เข้าสู่ระบบ</span>
+                        <div class="spinner"></div>
+                    </button>
+                </form>
+
+                <div class="test-hint">
+                    <p>ข้อมูลสำหรับทดสอบ</p>
+                    <code>admin@example.com</code>
+                    <span class="arrow"><i class="fa-solid fa-arrow-right"></i></span>
+                    <code>password</code>
+                </div>
+
+                <div class="form-footer">
+                    <a href="/">
+                        <i class="fa-solid fa-arrow-left"></i> กลับหน้าหลัก
+                    </a>
                 </div>
             </div>
-            <a href="/" class="mt-5 w-full inline-flex items-center justify-center gap-2 text-sm text-gray-500 hover:text-indigo-600 transition-colors text-center no-underline">
-                <i class="fa-solid fa-arrow-left"></i> กลับหน้าหลัก
-            </a>
         </div>
     </div>
-</div>
-@endsection
 
-@section('script')
-<script>
-$('#admin-login-form').on('submit', function (e) {
-    e.preventDefault();
-    var btn = $(this).find('button[type=submit]');
-    var btnText = $('#btn-text');
-    var btnLoader = $('#btn-loader');
-    var errorDiv = $('#login-error');
-    var errorMsg = $('#error-message');
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
+    <script>
+        $(function () {
+            var $form = $('#admin-login-form');
+            var $email = $('#admin-email');
+            var $password = $('#admin-password');
+            var $btn = $('#login-btn');
+            var $errorDiv = $('#login-error');
+            var $errorMsg = $('#error-message');
+            var $toggleBtn = $('#toggle-password');
+            var $toggleIcon = $('#toggle-icon');
+            var $remember = $('#remember-email');
 
-    btn.prop('disabled', true);
-    btnText.addClass('hidden');
-    btnLoader.removeClass('hidden');
-    errorDiv.addClass('hidden');
-
-    $.ajax({
-        url: '/api/admin/login',
-        method: 'POST',
-        data: {
-            email: $('#admin-email').val(),
-            password: $('#admin-password').val()
-        },
-        success: function (json) {
-            if (json.data?.token) {
-                localStorage.setItem('admin_token', json.data.token);
-                window.location.href = '/admin';
-            } else {
-                showError('เข้าสู่ระบบไม่สำเร็จ');
+            if (localStorage.getItem('login_email')) {
+                $email.val(localStorage.getItem('login_email'));
+                $remember.prop('checked', true);
             }
-        },
-        error: function (xhr) {
-            var msg = 'เกิดข้อผิดพลาด';
-            try {
-                var json = JSON.parse(xhr.responseText);
-                msg = json.message || msg;
-            } catch (e) {}
-            showError(msg);
-        }
-    });
 
-    function showError(msg) {
-        errorMsg.text(msg);
-        errorDiv.removeClass('hidden');
-        btn.prop('disabled', false);
-        btnText.removeClass('hidden');
-        btnLoader.addClass('hidden');
-    }
-});
-</script>
-@endsection
+            $email.on('input', function () {
+                $(this).toggleClass('has-value', !!this.value);
+            }).trigger('input');
+            $password.on('input', function () {
+                $(this).toggleClass('has-value', !!this.value);
+            }).trigger('input');
+
+            $toggleBtn.on('click', function () {
+                var isPassword = $password.attr('type') === 'password';
+                $password.attr('type', isPassword ? 'text' : 'password');
+                $toggleIcon.toggleClass('fa-eye', !isPassword).toggleClass('fa-eye-slash', isPassword);
+            });
+
+            $form.on('submit', function (e) {
+                e.preventDefault();
+
+                $btn.prop('disabled', true).addClass('is-loading').removeClass('is-success');
+                $errorDiv.removeClass('is-visible');
+
+                if ($remember.is(':checked')) {
+                    localStorage.setItem('login_email', $email.val());
+                } else {
+                    localStorage.removeItem('login_email');
+                }
+
+                $.ajax({
+                    url: '/api/admin/login',
+                    method: 'POST',
+                    data: {
+                        email: $email.val(),
+                        password: $password.val()
+                    },
+                    success: function (json) {
+                        if (json.data && json.data.token) {
+                            localStorage.setItem('admin_token', json.data.token);
+                            $btn.removeClass('is-loading').addClass('is-success');
+                            $btn.find('.btn-text').text('กำลังนำคุณเข้าสู่ระบบ...');
+                            setTimeout(function () {
+                                window.location.href = '/admin';
+                            }, 400);
+                        } else {
+                            showError('เข้าสู่ระบบไม่สำเร็จ');
+                        }
+                    },
+                    error: function (xhr) {
+                        var msg = 'อีเมลหรือรหัสผ่านไม่ถูกต้อง';
+                        try {
+                            var json = JSON.parse(xhr.responseText);
+                            if (json.message) msg = json.message;
+                        } catch (e) {}
+                        showError(msg);
+                    }
+                });
+            });
+
+            function showError(msg) {
+                $errorMsg.text(msg);
+                $errorDiv.addClass('is-visible');
+                $btn.prop('disabled', false).removeClass('is-loading');
+            }
+
+            $.get('/api/public/home', function (res) {
+                if (res.data && res.data.stats) {
+                    if (res.data.stats.total_activities) $('#stat-activities').text(res.data.stats.total_activities);
+                    if (res.data.stats.total_participants) $('#stat-participants').text(res.data.stats.total_participants);
+                    if (res.data.stats.total_categories) $('#stat-categories').text(res.data.stats.total_categories);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
