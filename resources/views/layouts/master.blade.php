@@ -21,6 +21,8 @@
     <style>
         :root { --primary-color: {{ setting('primary_color', '#6366F1') }}; }
         :root {
+            --bs-primary: #6366F1;
+            --bs-primary-rgb: 99, 102, 241;
             --primary: #6366F1;
             --primary-dark: #4F46E5;
             --primary-light: #EEF2FF;
