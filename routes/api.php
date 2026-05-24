@@ -18,6 +18,7 @@ Route::prefix('public')->group(function () {
     Route::get('/activities',      [PublicController::class, 'activities']);
     Route::get('/activities/{id}', [PublicController::class, 'activityDetail']);
     Route::get('/search',          [PublicController::class, 'search']);
+    Route::post('/activities/{id}/track', [PublicController::class, 'getViewDownload']);
 });
 
 /*

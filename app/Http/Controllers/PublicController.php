@@ -147,6 +147,40 @@ class PublicController extends Controller
         return response()->json($response, $httpCode ?? 500);
     }
 
+    public function getViewDownload(Request $request, string $id)
+    {
+        $response = (object)[];
+
+        try {
+            $activity = Activity::findOrFail($id);
+            $type = $request->input('type');
+
+            if ($type === 'view') {
+                $activity->increment('view_count');
+            } elseif ($type === 'download') {
+                $activity->increment('download_count');
+            }
+
+            $activity = $activity->fresh();
+
+            $response->success = true;
+            $response->message = 'Tracked successfully';
+            $response->data = [
+                'view_count'     => (int) $activity->view_count,
+                'download_count' => (int) $activity->download_count,
+            ];
+
+            $httpCode = 200;
+        } catch (\Exception $e) {
+            $response->success = false;
+            $response->message = 'An error occurred';
+            $response->errors = $e->getMessage();
+            $httpCode = 500;
+        }
+
+        return response()->json($response, $httpCode ?? 500);
+    }
+
     public function search(Request $request)
     {
         $response = (object)[];
@@ -220,6 +254,8 @@ class PublicController extends Controller
             'activity_date'   => $activity->activity_date?->format('Y-m-d'),
             'location'        => $activity->location,
             'status'          => (int) $activity->status,
+            'view_count'      => (int) $activity->view_count,
+            'download_count'  => (int) $activity->download_count,
         ];
     }
 }

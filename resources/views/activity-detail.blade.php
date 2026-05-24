@@ -113,6 +113,17 @@
 @section('script')
     <script>
         var activityId = window.location.pathname.split('/').pop();
+        var trackedView = false;
+        var trackedDownload = false;
+
+        function track(type) {
+            if (type === 'view' && trackedView) return;
+            if (type === 'download' && trackedDownload) return;
+            if (type === 'view') trackedView = true;
+            if (type === 'download') trackedDownload = true;
+            $.post('/api/public/activities/' + activityId + '/track', { type: type });
+        }
+
         $(function() {
             $.getJSON('/api/public/activities/' + activityId, function(json) {
                 if (json.data) renderActivity(json.data);
@@ -125,6 +136,8 @@
             $('#activity-content').removeClass('d-none');
             document.title = a.title + ' - University Activities';
             $('#breadcrumb-title').text(a.title);
+            track('view');
+
             if (a.cover_image_url) {
                 $('#cover-img').attr('src', a.cover_image_url).attr('alt', a.title).removeClass('d-none');
                 $('#cover-placeholder').addClass('d-none');
@@ -144,9 +157,10 @@
             if (a.pdf_url) {
                 $('#pdf-preview-wrap').removeClass('d-none');
                 $('#pdf-preview').attr('src', a.pdf_url);
-                $('#pdf-download-link').attr('href', a.pdf_url);
+                track('download');
+                $('#pdf-download-link').attr('href', a.pdf_url).on('click', function() { track('download'); });
                 $('#pdf-sidebar-wrap').removeClass('d-none');
-                $('#pdf-sidebar-link').attr('href', a.pdf_url);
+                $('#pdf-sidebar-link').attr('href', a.pdf_url).on('click', function() { track('download'); });
             }
         }
 

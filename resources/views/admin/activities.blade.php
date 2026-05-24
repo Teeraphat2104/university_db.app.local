@@ -47,12 +47,14 @@ dialog::backdrop { background: rgba(0,0,0,.45); }
                     <th>วันที่</th>
                     <th>สถานที่</th>
                     <th>ผู้เข้าร่วม</th>
+                    <th style="width:80px">เข้าชม</th>
+                    <th style="width:80px">ดาวน์โหลด</th>
                     <th>สถานะ</th>
                     <th class="text-center" style="width:120px">การดำเนินการ</th>
                 </tr>
             </thead>
             <tbody id="activities-tbody">
-                <tr><td colspan="8" class="text-center py-5 text-muted"><div class="spinner-border spinner-border-sm mb-2" role="status"></div><br>กำลังโหลด...</td></tr>
+                <tr><td colspan="10" class="text-center py-5 text-muted"><div class="spinner-border spinner-border-sm mb-2" role="status"></div><br>กำลังโหลด...</td></tr>
             </tbody>
         </table>
     </div>
@@ -79,6 +81,8 @@ dialog::backdrop { background: rgba(0,0,0,.45); }
             <div class="col-6"><small class="text-muted d-block">วันที่:</small><span id="view-date" class="fw-semibold"></span></div>
             <div class="col-6"><small class="text-muted d-block">สถานที่:</small><span id="view-location" class="fw-semibold"></span></div>
             <div class="col-6"><small class="text-muted d-block">ผู้เข้าร่วม:</small><span id="view-participants" class="fw-semibold"></span></div>
+            <div class="col-6"><small class="text-muted d-block">ยอดเข้าชม:</small><span id="view-count" class="fw-semibold"></span></div>
+            <div class="col-6"><small class="text-muted d-block">ดาวน์โหลด:</small><span id="view-download" class="fw-semibold"></span></div>
             <div class="col-6"><small class="text-muted d-block">สถานะ:</small><span id="view-status" class="fw-semibold"></span></div>
         </div>
         <div id="view-pdf-wrap" class="d-none">
@@ -182,7 +186,7 @@ dialog::backdrop { background: rgba(0,0,0,.45); }
 
         $(function() {
             if (!token) {
-                $('#activities-tbody').html('<tr><td colspan="8" class="text-center py-5 text-muted">กรุณา <a href="/login" class="text-primary">เข้าสู่ระบบ</a> ก่อน</td></tr>');
+                $('#activities-tbody').html('<tr><td colspan="10" class="text-center py-5 text-muted">กรุณา <a href="/login" class="text-primary">เข้าสู่ระบบ</a> ก่อน</td></tr>');
                 return;
             }
             loadCategories();
@@ -232,7 +236,7 @@ dialog::backdrop { background: rgba(0,0,0,.45); }
                     var tbody = $('#activities-tbody');
                     tbody.empty();
                     if (!json.data || json.data.length === 0) {
-                        tbody.html('<tr><td colspan="8" class="text-center py-5 text-muted">ไม่พบกิจกรรม</td></tr>');
+                        tbody.html('<tr><td colspan="10" class="text-center py-5 text-muted">ไม่พบกิจกรรม</td></tr>');
                         return;
                     }
                     $.each(json.data, function(i, act) {
@@ -248,6 +252,8 @@ dialog::backdrop { background: rgba(0,0,0,.45); }
                             '<td>' + (act.activity_date || '-') + '</td>' +
                             '<td>' + (act.location || '-') + '</td>' +
                             '<td><span class="fw-semibold">' + (act.participants_count || 0) + '</span></td>' +
+                            '<td><span class="fw-semibold text-center d-block">' + (act.view_count ?? 0) + '</span></td>' +
+                            '<td><span class="fw-semibold text-center d-block">' + (act.download_count ?? 0) + '</span></td>' +
                             '<td>' + statusHtml + '</td>' +
                             '<td><div class="d-flex justify-content-center gap-1">' +
                             '<button class="btn btn-sm btn-icon btn-outline-secondary" onclick="viewActivity(' + act.id + ')" title="ดู"><i class="bx bx-show"></i></button>' +
@@ -263,9 +269,9 @@ dialog::backdrop { background: rgba(0,0,0,.45); }
                 },
                 error: function(xhr) {
                     if (xhr.status === 401) {
-                        $('#activities-tbody').html('<tr><td colspan="8" class="text-center py-5 text-muted">เซสชันหมดอายุ กรุณา <a href="/login" class="text-primary">เข้าสู่ระบบ</a> อีกครั้ง</td></tr>');
+                        $('#activities-tbody').html('<tr><td colspan="10" class="text-center py-5 text-muted">เซสชันหมดอายุ กรุณา <a href="/login" class="text-primary">เข้าสู่ระบบ</a> อีกครั้ง</td></tr>');
                     } else {
-                        $('#activities-tbody').html('<tr><td colspan="8" class="text-center py-5 text-danger">เกิดข้อผิดพลาดในการโหลดข้อมูล</td></tr>');
+                        $('#activities-tbody').html('<tr><td colspan="10" class="text-center py-5 text-danger">เกิดข้อผิดพลาดในการโหลดข้อมูล</td></tr>');
                     }
                 }
             });
@@ -306,6 +312,8 @@ dialog::backdrop { background: rgba(0,0,0,.45); }
                     $('#view-date').text(act.activity_date || '-');
                     $('#view-location').text(act.location || '-');
                     $('#view-participants').text(act.participants_count || 0);
+                    $('#view-count').text((act.view_count ?? 0) + ' ครั้ง');
+                    $('#view-download').text((act.download_count ?? 0) + ' ครั้ง');
                     $('#view-status').html(act.status ? '<span class="badge bg-label-success">เปิดใช้งาน</span>' : '<span class="badge bg-label-warning">ปิดใช้งาน</span>');
                     if (act.cover_image_url) {
                         $('#view-cover').attr('src', act.cover_image_url);

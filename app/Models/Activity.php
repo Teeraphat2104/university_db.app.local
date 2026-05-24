@@ -23,13 +23,17 @@ class Activity extends Model
         'activity_date',
         'location',
         'status',
+        'view_count',
+        'download_count',
     ];
 
     protected function casts(): array
     {
         return [
-            'status'        => 'boolean',
-            'activity_date' => 'date',
+            'status'          => 'boolean',
+            'activity_date'   => 'date',
+            'view_count'      => 'integer',
+            'download_count'  => 'integer',
         ];
     }
 

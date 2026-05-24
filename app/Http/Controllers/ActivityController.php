@@ -434,6 +434,8 @@ class ActivityController extends Controller
             'activity_date'      => $activity->activity_date?->format('Y-m-d'),
             'location'           => $activity->location,
             'status'             => (int) $activity->status,
+            'view_count'         => (int) $activity->view_count,
+            'download_count'     => (int) $activity->download_count,
         ];
     }
 }
