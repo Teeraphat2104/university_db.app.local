@@ -13,19 +13,19 @@
     </div>
 </div>
 
-<section class="py-10 bg-white">
+<div class="py-10 bg-white">
     <div class="max-w-6xl mx-auto px-6">
         <div class="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
             <h1 class="text-2xl font-extrabold text-gray-900 whitespace-nowrap">กิจกรรมทั้งหมด</h1>
-            <div class="flex flex-wrap gap-2 flex-1">
-                <div class="relative flex-1 max-w-xs">
+            <div class="flex flex-col sm:flex-row gap-2 flex-1">
+                <div class="relative flex-1">
                     <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
                     <input type="text" id="search-input" placeholder="ค้นหากิจกรรม..." class="pl-10 pr-3.5 py-2.5 text-sm border border-gray-200 rounded-xl outline-none focus:border-indigo-400 w-full bg-gray-50 focus:bg-white transition-colors">
                 </div>
-                <select id="filter-category" class="px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl bg-white text-gray-700 outline-none focus:border-indigo-400 min-w-[140px]">
+                <select id="filter-category" class="px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl bg-white text-gray-700 outline-none focus:border-indigo-400 sm:min-w-[140px]">
                     <option value="">ทุกหมวดหมู่</option>
                 </select>
-                <select id="filter-year" class="px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl bg-white text-gray-700 outline-none focus:border-indigo-400 min-w-[120px]">
+                <select id="filter-year" class="px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl bg-white text-gray-700 outline-none focus:border-indigo-400 sm:min-w-[120px]">
                     <option value="">ทุกปี</option>
                     @for ($y = date('Y') + 543; $y >= date('Y') + 543 - 5; $y--)
                         <option value="{{ $y - 543 }}">{{ $y }}</option>
@@ -50,7 +50,7 @@
             <div id="pagination-btns" class="flex gap-2"></div>
         </div>
     </div>
-</section>
+</div>
 
 @php $siteName = setting('site_name', 'University Activities'); $siteDesc = setting('site_description', 'ระบบจัดการกิจกรรมและเอกสารของมหาวิทยาลัย'); $footerText = setting('footer_text', '© ' . date('Y') . ' University Activities. สงวนลิขสิทธิ์ทั้งหมด'); $fbUrl = setting('facebook_url'); $lineUrl = setting('line_url'); $ytUrl = setting('youtube_url'); @endphp
 <footer class="bg-gray-950 text-gray-400 py-12 px-6">
