@@ -111,10 +111,10 @@
                             '<button class="btn btn-sm btn-secondary p-1.5" onclick="openEditModal(' + cat
                             .id + ',\'' + $('<span>').text(cat.name).html().replace(/'/g, "\\'") +
                             '\',' + cat.status +
-                            ')"><i class="fa-regular fa-pen-to-square"></i></button>' +
+                            ')"><i class="fa-solid fa-pen-to-square"></i></button>' +
                             '<button class="btn btn-sm btn-secondary p-1.5 text-red-500" onclick="deleteCategory(' + cat
                             .id +
-                            ')"><i class="fa-regular fa-trash-can"></i></button>' +
+                            ')"><i class="fa-solid fa-trash-can"></i></button>' +
                             '</div>' +
                             '</td>' +
                             '</tr>';

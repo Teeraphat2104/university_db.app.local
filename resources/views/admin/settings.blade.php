@@ -11,7 +11,7 @@
 </div>
 
 <div id="settings-loading" class="text-center p-12 text-gray-500">
-    <i class="fa-solid fa-rotate fa-spin text-2xl block mb-3"></i>
+    <i class="fa-solid fa-arrows-rotate fa-spin text-2xl block mb-3"></i>
     กำลังโหลด...
 </div>
 
@@ -20,7 +20,7 @@
     <div class="save-bar">
         <button type="submit" class="btn btn-primary" id="save-btn">
             <span class="saving-text"><i class="fa-solid fa-check"></i> บันทึกการตั้งค่า</span>
-            <span class="saving-spinner"><i class="fa-solid fa-rotate fa-spin"></i> กำลังบันทึก...</span>
+            <span class="saving-spinner"><i class="fa-solid fa-arrows-rotate fa-spin"></i> กำลังบันทึก...</span>
         </button>
     </div>
 </form>

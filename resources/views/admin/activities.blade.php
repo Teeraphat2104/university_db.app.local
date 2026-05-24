@@ -44,7 +44,7 @@
                 </tr>
             </thead>
             <tbody id="activities-tbody">
-                <tr><td colspan="8" class="loading-cell"><i class="fa-solid fa-rotate fa-spin text-2xl block mb-3"></i>กำลังโหลด...</td></tr>
+                <tr><td colspan="8" class="loading-cell"><i class="fa-solid fa-arrows-rotate fa-spin text-2xl block mb-3"></i>กำลังโหลด...</td></tr>
             </tbody>
         </table>
     </div>
@@ -77,7 +77,7 @@
         </div>
         <div id="view-pdf-wrap" style="margin-top:1.5rem;display:none">
             <hr style="border:none;border-top:1px solid var(--border);margin-bottom:1rem">
-            <p style="font-weight:700;margin:0 0 .5rem"><i class="fa-regular fa-file-pdf" style="color:#DC2626"></i> เอกสาร PDF</p>
+            <p style="font-weight:700;margin:0 0 .5rem"><i class="fa-solid fa-file-pdf" style="color:#DC2626"></i> เอกสาร PDF</p>
             <iframe id="view-pdf" src="" style="width:100%;height:500px;border:1px solid var(--border);border-radius:var(--radius-lg)"></iframe>
         </div>
     </div>
@@ -127,7 +127,7 @@
                 <input type="file" id="form-pdf" name="pdf_file" accept=".pdf">
                 <div id="form-pdf-existing" class="file-existing hidden mt-2">
                     <div class="fe-pdf-chip" onclick="window.open($(this).data('url'), '_blank')">
-                        <i class="fa-regular fa-file-pdf"></i>
+                        <i class="fa-solid fa-file-pdf"></i>
                         <span>PDF ปัจจุบัน</span>
                     </div>
                     <span class="fe-label">ไฟล์ PDF ปัจจุบัน (อัปโหลดแทนที่หากต้องการเปลี่ยน)</span>
@@ -256,8 +256,8 @@
                             '<td>' + statusHtml + '</td>' +
                             '<td><div class="flex gap-2">' +
                             '<button class="btn btn-sm btn-secondary p-1.5" onclick="viewActivity(' + act.id + ')" title="\u0e14\u0e39"><i class="fa-regular fa-eye"></i></button>' +
-                            '<button class="btn btn-sm btn-secondary p-1.5" onclick="openEditModal(' + act.id + ')" title="\u0e41\u0e01\u0e49\u0e44\u0e02"><i class="fa-regular fa-pen-to-square"></i></button>' +
-                            '<button class="btn btn-sm btn-secondary p-1.5 text-red-500" onclick="confirmDelete(' + act.id + ')" title="\u0e25\u0e1a"><i class="fa-regular fa-trash-can"></i></button>' +
+                            '<button class="btn btn-sm btn-secondary p-1.5" onclick="openEditModal(' + act.id + ')" title="\u0e41\u0e01\u0e49\u0e44\u0e02"><i class="fa-solid fa-pen-to-square"></i></button>' +
+                            '<button class="btn btn-sm btn-secondary p-1.5 text-red-500" onclick="confirmDelete(' + act.id + ')" title="\u0e25\u0e1a"><i class="fa-solid fa-trash-can"></i></button>' +
                             '</div></td></tr>');
                     });
                     if (json.meta) {

@@ -436,7 +436,7 @@
                         <div class="brand-stat-label">กิจกรรม</div>
                     </div>
                     <div class="brand-stat">
-                        <div class="brand-stat-icon"><i class="fa-regular fa-users"></i></div>
+                        <div class="brand-stat-icon"><i class="fa-solid fa-users"></i></div>
                         <div class="brand-stat-num" id="stat-participants">-</div>
                         <div class="brand-stat-label">ผู้เข้าร่วม</div>
                     </div>

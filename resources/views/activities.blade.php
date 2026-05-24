@@ -40,7 +40,7 @@
         <div id="activities-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             <div class="col-span-full text-center py-20">
                 <div class="inline-flex items-center justify-center w-20 h-20 bg-indigo-50 rounded-full mb-4">
-                    <i class="fa-regular fa-circle-notch fa-spin text-2xl text-indigo-400"></i>
+                    <i class="fa-solid fa-circle-notch fa-spin text-2xl text-indigo-400"></i>
                 </div>
                 <p class="text-gray-500 font-medium">กำลังโหลดข้อมูล...</p>
             </div>
@@ -89,7 +89,7 @@ var currentKeyword = '';
 function loadActivities(page) {
     page = page || 1;
     var $grid = $('#activities-grid');
-    $grid.html('<div class="col-span-full text-center py-16 text-gray-400"><i class="fa-regular fa-circle-notch fa-spin text-2xl"></i><p class="mt-3 text-sm">กำลังโหลด...</p></div>');
+    $grid.html('<div class="col-span-full text-center py-16 text-gray-400"><i class="fa-solid fa-circle-notch fa-spin text-2xl"></i><p class="mt-3 text-sm">กำลังโหลด...</p></div>');
 
     var params = { per_page: 12, page: page };
     if (currentCategory) params.category_id = currentCategory;

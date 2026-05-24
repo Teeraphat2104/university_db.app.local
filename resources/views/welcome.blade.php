@@ -244,7 +244,7 @@
                 <div id="activities-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
                     <div class="col-span-full text-center py-16">
                         <div class="inline-flex items-center justify-center w-16 h-16 bg-indigo-50 rounded-full mb-4">
-                            <i class="fa-regular fa-circle-notch fa-spin text-xl text-indigo-400"></i>
+                            <i class="fa-solid fa-circle-notch fa-spin text-xl text-indigo-400"></i>
                         </div>
                         <p class="text-gray-500">กำลังโหลดกิจกรรม...</p>
                     </div>

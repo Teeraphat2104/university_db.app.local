@@ -19,7 +19,7 @@
         <div class="max-w-6xl mx-auto px-6">
             <div id="loading" class="text-center py-20">
                 <div class="inline-flex items-center justify-center w-20 h-20 bg-indigo-50 rounded-full mb-4">
-                    <i class="fa-regular fa-circle-notch fa-spin text-2xl text-indigo-400"></i>
+                    <i class="fa-solid fa-circle-notch fa-spin text-2xl text-indigo-400"></i>
                 </div>
                 <p class="text-gray-500 font-medium">กำลังโหลดข้อมูล...</p>
             </div>
@@ -42,7 +42,7 @@
                         <div id="pdf-preview-wrap" class="hidden rounded-2xl overflow-hidden border border-gray-200">
                             <div class="bg-gray-50 px-4 py-3 border-b border-gray-200 flex items-center justify-between">
                                 <span class="text-sm font-semibold text-gray-700"><i
-                                        class="fa-regular fa-file-pdf text-red-500 mr-2"></i>เอกสาร PDF</span>
+                                        class="fa-solid fa-file-pdf text-red-500 mr-2"></i>เอกสาร PDF</span>
                                 <a id="pdf-download-link" href="#" target="_blank"
                                     class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-red-600 bg-red-50 rounded-lg hover:bg-red-100 transition-colors no-underline">
                                     <i class="fa-solid fa-download"></i> ดาวน์โหลด
@@ -87,7 +87,7 @@
                                 <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">ดาวน์โหลด</p>
                                 <a id="pdf-sidebar-link" href="#" target="_blank"
                                     class="flex items-center gap-3 px-4 py-3 bg-red-50 text-red-700 rounded-xl hover:bg-red-100 transition-colors no-underline">
-                                    <i class="fa-regular fa-file-pdf text-lg"></i>
+                                    <i class="fa-solid fa-file-pdf text-lg"></i>
                                     <div>
                                         <p class="text-sm font-bold">ดาวน์โหลด PDF</p>
                                         <p class="text-xs text-red-500">เอกสารประกอบกิจกรรม</p>
