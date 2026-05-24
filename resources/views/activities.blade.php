@@ -3,12 +3,12 @@
 @section('title', 'กิจกรรมทั้งหมด - University Activities')
 
 @section('content')
-<div class="bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 border-b border-white/10">
-    <div class="max-w-6xl mx-auto px-6 py-8">
-        <div class="flex items-center gap-2 text-sm text-white/70">
-            <a href="/" class="hover:text-white transition-colors no-underline">หน้าหลัก</a>
-            <i class="fa-solid fa-chevron-right text-xs text-white/40"></i>
-            <span class="text-white font-medium">กิจกรรมทั้งหมด</span>
+<div class="bg-gray-50 border-b border-gray-100">
+    <div class="max-w-6xl mx-auto px-6 py-4">
+        <div class="flex items-center gap-2 text-sm text-gray-500">
+            <a href="/" class="hover:text-indigo-600 transition-colors no-underline">หน้าหลัก</a>
+            <i class="fa-solid fa-chevron-right text-xs text-gray-300"></i>
+            <span class="text-gray-800 font-medium">กิจกรรมทั้งหมด</span>
         </div>
     </div>
 </div>
