@@ -64,6 +64,136 @@
             transform: translateY(-2px);
             text-decoration: none;
         }
+
+        .hero-gradient-bg {
+            background: linear-gradient(135deg, #030712, #1e1b4b, #030712);
+        }
+
+        .hero-title {
+            font-size: 1.875rem;
+            font-weight: 900;
+            line-height: 1.25;
+        }
+        @media (min-width: 576px) {
+            .hero-title { font-size: 2.25rem; }
+        }
+        @media (min-width: 992px) {
+            .hero-title { font-size: 3rem; }
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+            line-height: 1.625;
+        }
+        @media (min-width: 576px) {
+            .hero-subtitle { font-size: 1.125rem; }
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 900;
+        }
+        @media (min-width: 576px) {
+            .section-title { font-size: 1.875rem; }
+        }
+
+        .py-section {
+            padding-top: 4rem;
+            padding-bottom: 4rem;
+        }
+        @media (min-width: 576px) {
+            .py-section { padding-top: 5rem; padding-bottom: 5rem; }
+        }
+
+        .btn-gradient {
+            background: linear-gradient(to right, #6366F1, #a855f7);
+            border: none;
+            transition: all .2s ease;
+        }
+        .btn-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 25px -5px rgba(99, 102, 241, 0.4);
+            color: #fff;
+        }
+
+        .hero-btn {
+            transition: all .2s ease;
+        }
+        .hero-btn:hover {
+            background: rgba(255, 255, 255, 0.2) !important;
+            color: #fff !important;
+        }
+
+        .stat-card {
+            transition: all .2s ease;
+            cursor: pointer;
+        }
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.15), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card {
+            transition: all .2s ease;
+            border-color: var(--gray-100, #f3f4f6);
+        }
+        .feature-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 25px -5px rgba(99, 102, 241, 0.06), 0 8px 10px -6px rgba(99, 102, 241, 0.04);
+            border-color: #c7d2fe !important;
+        }
+        .feature-card-red:hover {
+            border-color: #fecaca !important;
+            box-shadow: 0 20px 25px -5px rgba(239, 68, 68, 0.06), 0 8px 10px -6px rgba(239, 68, 68, 0.04);
+        }
+        .feature-card-emerald:hover {
+            border-color: #a7f3d0 !important;
+            box-shadow: 0 20px 25px -5px rgba(16, 185, 129, 0.06), 0 8px 10px -6px rgba(16, 185, 129, 0.04);
+        }
+        .feature-card-amber:hover {
+            border-color: #fde68a !important;
+            box-shadow: 0 20px 25px -5px rgba(245, 158, 11, 0.06), 0 8px 10px -6px rgba(245, 158, 11, 0.04);
+        }
+
+        .why-card {
+            transition: all .2s ease;
+        }
+        .why-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.08);
+        }
+
+        .activity-card {
+            transition: all .2s ease;
+        }
+        .activity-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.08);
+        }
+
+        .nav-link-footer {
+            transition: color .2s ease;
+            text-decoration: none;
+        }
+        .nav-link-footer:hover {
+            color: #fff !important;
+        }
+
+        .backdrop-blur {
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+
+        .object-cover {
+            object-fit: cover;
+        }
+
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
     </style>
 @endsection
 
@@ -80,178 +210,183 @@
     @endphp
     <div id="public-view">
         <section
-            class="relative min-h-[600px] flex items-center overflow-hidden bg-gradient-to-br from-gray-950 via-indigo-950 to-gray-950 pt-16">
-            <div class="absolute inset-0 pointer-events-none">
-                <div class="absolute w-[500px] h-[500px] -top-20 -left-20 rounded-full hero-gradient"></div>
-                <div class="absolute w-[400px] h-[400px] -bottom-20 -right-20 rounded-full hero-gradient-2"></div>
+            class="position-relative d-flex align-items-center overflow-hidden hero-gradient-bg" style="min-height:600px;padding-top:4rem;">
+            <div class="position-absolute" style="top:0;right:0;bottom:0;left:0;pointer-events:none;">
+                <div class="position-absolute hero-gradient rounded-circle" style="width:500px;height:500px;top:-80px;left:-80px;"></div>
+                <div class="position-absolute hero-gradient-2 rounded-circle" style="width:400px;height:400px;bottom:-80px;right:-80px;"></div>
             </div>
-            <div class="relative z-10 max-w-6xl mx-auto px-6 py-20 w-full">
+            <div class="position-relative mx-auto w-100" style="max-width:1200px;padding:5rem 1.5rem;z-index:10;">
                 <div
-                    class="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/30 rounded-full px-4 py-1.5 text-indigo-300 text-xs font-semibold mb-6 backdrop-blur fade-up-1">
-                    <i class="fa-solid fa-layer-group text-[10px]"></i>
+                    class="d-inline-flex align-items-center gap-2 rounded-pill fw-semibold mb-5 backdrop-blur" style="padding:0.375rem 1rem;background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.3);color:rgb(165,180,252);font-size:0.75rem;">
+                    <i class="fa-solid fa-layer-group" style="font-size:10px;"></i>
                     {{ $siteDesc }}
                 </div>
-                <h1 class="text-white font-black leading-tight mb-5 fade-up-2 text-3xl sm:text-4xl lg:text-5xl">
+                <h1 class="text-white hero-title mb-4 fade-up-2">
                     {{ $heroTitle }}
                 </h1>
-                <p class="text-gray-400 text-base sm:text-lg max-w-lg leading-relaxed mb-8 fade-up-3">
+                <p class="hero-subtitle fade-up-3" style="color:var(--gray-400);max-width:512px;margin-bottom:2rem;">
                     {{ $heroSub }}
                 </p>
-                <div class="flex flex-wrap gap-3 mb-12 fade-up-4">
+                <div class="d-flex flex-wrap gap-3 mb-5 fade-up-4">
                     <a href="/activities"
-                        class="inline-flex items-center gap-2 px-6 py-3 text-sm font-bold text-white bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full shadow-lg shadow-indigo-500/30 hover:shadow-xl hover:shadow-indigo-500/40 hover:-translate-y-0.5 transition-all no-underline">
+                        class="d-inline-flex align-items-center gap-2 text-decoration-none btn-gradient rounded-pill text-white" style="padding:0.75rem 1.5rem;font-size:0.875rem;font-weight:700;box-shadow:0 10px 15px -3px rgba(99,102,241,0.3);">
                         <i class="fa-solid fa-calendar-check"></i>
                         ดูกิจกรรมทั้งหมด
                     </a>
                     <button type="button" id="open-participant-search-hero"
-                        class="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-white/80 bg-white/10 border border-white/15 rounded-full hover:bg-white/20 hover:text-white transition-all cursor-pointer no-underline">
+                        class="d-inline-flex align-items-center gap-2 hero-btn rounded-pill" style="padding:0.75rem 1.5rem;font-size:0.875rem;font-weight:600;color:rgba(255,255,255,0.8);background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);cursor:pointer;">
                         <i class="fa-solid fa-magnifying-glass"></i>
                         ตรวจสอบการเข้าร่วม
                     </button>
                     <a href="/login"
-                        class="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-white/80 bg-white/10 border border-white/15 rounded-full hover:bg-white/20 hover:text-white transition-all no-underline">
+                        class="d-inline-flex align-items-center gap-2 hero-btn rounded-pill text-decoration-none" style="padding:0.75rem 1.5rem;font-size:0.875rem;font-weight:600;color:rgba(255,255,255,0.8);background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);">
                         <i class="fa-solid fa-user-tie"></i>
                         สำหรับผู้ดูแล
                     </a>
                 </div>
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-lg fade-up-5">
-                    <div
-                        class="bg-white/5 border border-white/10 rounded-2xl p-4 text-center hover:-translate-y-1 hover:shadow-lg transition-all">
-                        <i class="fa-regular fa-calendar text-indigo-400 text-lg mb-2 block"></i>
-                        <p class="text-white text-2xl font-extrabold font-display leading-none mb-1" id="stat-activities">0
-                        </p>
-                        <p class="text-gray-500 text-xs font-medium">กิจกรรม</p>
-                    </div>
-                    <div
-                        class="bg-white/5 border border-white/10 rounded-2xl p-4 text-center hover:-translate-y-1 hover:shadow-lg transition-all">
-                        <i class="fa-regular fa-rectangle-list text-indigo-400 text-lg mb-2 block"></i>
-                        <p class="text-white text-2xl font-extrabold font-display leading-none mb-1" id="stat-categories">0
-                        </p>
-                        <p class="text-gray-500 text-xs font-medium">หมวดหมู่</p>
-                    </div>
-                    <div
-                        class="bg-white/5 border border-white/10 rounded-2xl p-4 text-center hover:-translate-y-1 hover:shadow-lg transition-all">
-                        <i class="fa-regular fa-file-lines text-indigo-400 text-lg mb-2 block"></i>
-                        <p class="text-white text-2xl font-extrabold font-display leading-none mb-1" id="stat-documents">0
-                        </p>
-                        <p class="text-gray-500 text-xs font-medium">เอกสาร</p>
-                    </div>
-                    <div class="bg-white/5 border border-white/10 rounded-2xl p-4 text-center hover:-translate-y-1 hover:shadow-lg transition-all cursor-pointer"
-                        id="stat-registered-wrap">
-                        <i class="fa-regular fa-user text-indigo-400 text-lg mb-2 block"></i>
-                        <p class="text-white text-2xl font-extrabold font-display leading-none mb-1" id="stat-registered">0
-                        </p>
-                        <p class="text-gray-500 text-xs font-medium">ผู้เข้าร่วม</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="about" class="py-16 sm:py-20 bg-white border-b border-gray-100">
-            <div class="max-w-6xl mx-auto px-6">
-                <div class="text-center max-w-lg mx-auto mb-12">
-                    <span
-                        class="inline-flex items-center gap-1.5 bg-indigo-50 text-indigo-600 text-xs font-bold rounded-full px-3.5 py-1 mb-4 border border-indigo-100">ฟีเจอร์</span>
-                    <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-3">ครบทุกความต้องการ</h2>
-                    <p class="text-gray-500 text-sm leading-relaxed">ระบบออกแบบมาเพื่อมหาวิทยาลัยโดยเฉพาะ</p>
-                </div>
-                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                    <div
-                        class="bg-white border border-gray-100 rounded-2xl p-6 hover:border-indigo-200 hover:shadow-lg hover:shadow-indigo-500/5 hover:-translate-y-1.5 transition-all">
-                        <div
-                            class="w-11 h-11 bg-indigo-50 text-indigo-500 rounded-xl flex items-center justify-center text-lg mb-4">
-                            <i class="fa-solid fa-calendar-days"></i> </div>
-                        <h3 class="text-sm font-bold text-gray-800 mb-1.5">จัดการกิจกรรม</h3>
-                        <p class="text-xs text-gray-500 leading-relaxed">สร้าง แก้ไข และติดตามกิจกรรมต่างๆ ได้อย่างมีระบบ
-                        </p>
-                    </div>
-                    <div
-                        class="bg-white border border-gray-100 rounded-2xl p-6 hover:border-red-200 hover:shadow-lg hover:shadow-red-500/5 hover:-translate-y-1.5 transition-all">
-                        <div
-                            class="w-11 h-11 bg-red-50 text-red-500 rounded-xl flex items-center justify-center text-lg mb-4">
-                            <i class="fa-solid fa-file-pdf"></i> </div>
-                        <h3 class="text-sm font-bold text-gray-800 mb-1.5">จัดการเอกสาร PDF</h3>
-                        <p class="text-xs text-gray-500 leading-relaxed">อัปโหลดและแชร์เอกสาร PDF ประกอบกิจกรรมได้ทันที</p>
-                    </div>
-                    <div
-                        class="bg-white border border-gray-100 rounded-2xl p-6 hover:border-emerald-200 hover:shadow-lg hover:shadow-emerald-500/5 hover:-translate-y-1.5 transition-all">
-                        <div
-                            class="w-11 h-11 bg-emerald-50 text-emerald-500 rounded-xl flex items-center justify-center text-lg mb-4">
-                            <i class="fa-solid fa-users"></i> </div>
-                        <h3 class="text-sm font-bold text-gray-800 mb-1.5">รองรับผู้เข้าร่วม</h3>
-                        <p class="text-xs text-gray-500 leading-relaxed">บริหารจัดการรายชื่อผู้เข้าร่วมกิจกรรมได้ง่าย</p>
-                    </div>
-                    <div
-                        class="bg-white border border-gray-100 rounded-2xl p-6 hover:border-amber-200 hover:shadow-lg hover:shadow-amber-500/5 hover:-translate-y-1.5 transition-all">
-                        <div
-                            class="w-11 h-11 bg-amber-50 text-amber-500 rounded-xl flex items-center justify-center text-lg mb-4">
-                            <i class="fa-solid fa-chart-bar"></i> </div>
-                        <h3 class="text-sm font-bold text-gray-800 mb-1.5">สถิติและรายงาน</h3>
-                        <p class="text-xs text-gray-500 leading-relaxed">ดูภาพรวมและสร้างรายงานได้อย่างรวดเร็ว</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="py-16 sm:py-20 bg-gray-50">
-            <div class="max-w-6xl mx-auto px-6">
-                <div class="text-center max-w-lg mx-auto mb-12">
-                    <span
-                        class="inline-flex items-center gap-1.5 bg-indigo-50 text-indigo-600 text-xs font-bold rounded-full px-3.5 py-1 mb-4 border border-indigo-100">ไฮไลท์</span>
-                    <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-3">ทำไมต้องเลือกระบบของเรา?</h2>
-                    <p class="text-gray-500 text-sm leading-relaxed">ประสบการณ์การใช้งานที่ได้รับการพัฒนาอย่างต่อเนื่อง</p>
-                </div>
-                <div class="grid sm:grid-cols-3 gap-5">
-                    <div
-                        class="bg-white border border-gray-100 rounded-2xl p-8 text-center hover:shadow-xl hover:-translate-y-1 transition-all">
-                        <div
-                            class="w-14 h-14 bg-indigo-50 text-indigo-500 rounded-full flex items-center justify-center text-xl mx-auto mb-5">
-                            <i class="fa-solid fa-shield-halved"></i> </div>
-                        <h3 class="text-base font-bold text-gray-800 mb-2">ความปลอดภัยสูง</h3>
-                        <p class="text-sm text-gray-500 leading-relaxed">
-                            ข้อมูลของคุณได้รับการปกป้องด้วยมาตรฐานการรักษาความปลอดภัยระดับสากล</p>
-                    </div>
-                    <div
-                        class="bg-white border border-gray-100 rounded-2xl p-8 text-center hover:shadow-xl hover:-translate-y-1 transition-all">
-                        <div
-                            class="w-14 h-14 bg-indigo-50 text-indigo-500 rounded-full flex items-center justify-center text-xl mx-auto mb-5">
-                            <i class="fa-solid fa-moon"></i> </div>
-                        <h3 class="text-base font-bold text-gray-800 mb-2">ใช้งานง่าย</h3>
-                        <p class="text-sm text-gray-500 leading-relaxed">อินเตอร์เฟซที่เป็นมิตรกับผู้ใช้
-                            ช่วยให้คุณเริ่มต้นได้ภายในไม่กี่นาที</p>
-                    </div>
-                    <div
-                        class="bg-white border border-gray-100 rounded-2xl p-8 text-center hover:shadow-xl hover:-translate-y-1 transition-all">
-                        <div
-                            class="w-14 h-14 bg-indigo-50 text-indigo-500 rounded-full flex items-center justify-center text-xl mx-auto mb-5">
-                            <i class="fa-solid fa-globe"></i> </div>
-                        <h3 class="text-base font-bold text-gray-800 mb-2">รองรับทุกแพลตฟอร์ม</h3>
-                        <p class="text-sm text-gray-500 leading-relaxed">ใช้งานได้ทั้งบนคอมพิวเตอร์ แท็บเล็ต และสมาร์ทโฟน
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="activities" class="py-16 sm:py-20 bg-white">
-            <div class="max-w-6xl mx-auto px-6">
-                <div class="text-center max-w-lg mx-auto mb-12">
-                    <span
-                        class="inline-flex items-center gap-1.5 bg-indigo-50 text-indigo-600 text-xs font-bold rounded-full px-3.5 py-1 mb-4 border border-indigo-100">กิจกรรม</span>
-                    <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-3">กิจกรรมล่าสุด</h2>
-                    <p class="text-gray-500 text-sm leading-relaxed">ดูข้อมูลกิจกรรมที่กำลังจะเกิดขึ้นและกิจกรรมยอดนิยม</p>
-                </div>
-                <div id="activities-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                    <div class="col-span-full text-center py-16">
-                        <div class="inline-flex items-center justify-center w-16 h-16 bg-indigo-50 rounded-full mb-4">
-                            <i class="fa-solid fa-circle-notch fa-spin text-xl text-indigo-400"></i>
+                <div class="row row-cols-2 row-cols-sm-4 g-3 fade-up-5" style="max-width:512px;">
+                    <div class="col">
+                        <div class="stat-card text-center d-block" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:1rem;padding:1.5rem 1rem;">
+                            <i class="fa-regular fa-calendar d-block mb-2" style="color:#818cf8;font-size:1.125rem;"></i>
+                            <p class="text-white mb-1" style="font-size:1.5rem;font-weight:900;line-height:1;" id="stat-activities">0</p>
+                            <p class="fw-medium" style="color:var(--gray-500);font-size:0.75rem;">กิจกรรม</p>
                         </div>
-                        <p class="text-gray-500">กำลังโหลดกิจกรรม...</p>
+                    </div>
+                    <div class="col">
+                        <div class="stat-card text-center d-block" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:1rem;padding:1.5rem 1rem;">
+                            <i class="fa-regular fa-rectangle-list d-block mb-2" style="color:#818cf8;font-size:1.125rem;"></i>
+                            <p class="text-white mb-1" style="font-size:1.5rem;font-weight:900;line-height:1;" id="stat-categories">0</p>
+                            <p class="fw-medium" style="color:var(--gray-500);font-size:0.75rem;">หมวดหมู่</p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="stat-card text-center d-block" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:1rem;padding:1.5rem 1rem;">
+                            <i class="fa-regular fa-file-lines d-block mb-2" style="color:#818cf8;font-size:1.125rem;"></i>
+                            <p class="text-white mb-1" style="font-size:1.5rem;font-weight:900;line-height:1;" id="stat-documents">0</p>
+                            <p class="fw-medium" style="color:var(--gray-500);font-size:0.75rem;">เอกสาร</p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="stat-card text-center d-block" id="stat-registered-wrap" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:1rem;padding:1.5rem 1rem;">
+                            <i class="fa-regular fa-user d-block mb-2" style="color:#818cf8;font-size:1.125rem;"></i>
+                            <p class="text-white mb-1" style="font-size:1.5rem;font-weight:900;line-height:1;" id="stat-registered">0</p>
+                            <p class="fw-medium" style="color:var(--gray-500);font-size:0.75rem;">ผู้เข้าร่วม</p>
+                        </div>
                     </div>
                 </div>
-                <div class="text-center mt-8">
+            </div>
+        </section>
+
+        <section id="about" class="py-section" style="background:#fff;border-bottom:1px solid var(--gray-100);">
+            <div class="mx-auto" style="max-width:1200px;padding-left:1.5rem;padding-right:1.5rem;">
+                <div class="text-center mx-auto mb-5" style="max-width:512px;">
+                    <span
+                        class="d-inline-flex align-items-center gap-1 rounded-pill fw-bold" style="padding:0.25rem 0.875rem;font-size:0.75rem;background:var(--gray-50, #f9fafb);color:#4f46e5;margin-bottom:1rem;border:1px solid #e0e7ff;">ฟีเจอร์</span>
+                    <h2 class="section-title mb-3" style="color:var(--gray-900);">ครบทุกความต้องการ</h2>
+                    <p class="fw-medium" style="color:var(--gray-500);font-size:0.875rem;line-height:1.625;">ระบบออกแบบมาเพื่อมหาวิทยาลัยโดยเฉพาะ</p>
+                </div>
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-5">
+                    <div class="col">
+                        <div class="feature-card" style="background:#fff;border:1px solid var(--gray-100, #f3f4f6);border-radius:1rem;padding:1.5rem;">
+                            <div
+                                class="d-flex align-items-center justify-content-center mb-4" style="width:2.75rem;height:2.75rem;background:var(--gray-50, #f9fafb);color:#6366F1;border-radius:0.75rem;font-size:1.125rem;">
+                                <i class="fa-solid fa-calendar-days"></i> </div>
+                            <h3 class="fw-bold mb-1" style="font-size:0.875rem;color:var(--gray-800);">จัดการกิจกรรม</h3>
+                            <p class="fw-medium" style="font-size:0.75rem;color:var(--gray-500);line-height:1.625;">สร้าง แก้ไข และติดตามกิจกรรมต่างๆ ได้อย่างมีระบบ</p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="feature-card feature-card-red" style="background:#fff;border:1px solid var(--gray-100, #f3f4f6);border-radius:1rem;padding:1.5rem;">
+                            <div
+                                class="d-flex align-items-center justify-content-center mb-4" style="width:2.75rem;height:2.75rem;background:#fef2f2;color:#ef4444;border-radius:0.75rem;font-size:1.125rem;">
+                                <i class="fa-solid fa-file-pdf"></i> </div>
+                            <h3 class="fw-bold mb-1" style="font-size:0.875rem;color:var(--gray-800);">จัดการเอกสาร PDF</h3>
+                            <p class="fw-medium" style="font-size:0.75rem;color:var(--gray-500);line-height:1.625;">อัปโหลดและแชร์เอกสาร PDF ประกอบกิจกรรมได้ทันที</p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="feature-card feature-card-emerald" style="background:#fff;border:1px solid var(--gray-100, #f3f4f6);border-radius:1rem;padding:1.5rem;">
+                            <div
+                                class="d-flex align-items-center justify-content-center mb-4" style="width:2.75rem;height:2.75rem;background:#ecfdf5;color:#10b981;border-radius:0.75rem;font-size:1.125rem;">
+                                <i class="fa-solid fa-users"></i> </div>
+                            <h3 class="fw-bold mb-1" style="font-size:0.875rem;color:var(--gray-800);">รองรับผู้เข้าร่วม</h3>
+                            <p class="fw-medium" style="font-size:0.75rem;color:var(--gray-500);line-height:1.625;">บริหารจัดการรายชื่อผู้เข้าร่วมกิจกรรมได้ง่าย</p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="feature-card feature-card-amber" style="background:#fff;border:1px solid var(--gray-100, #f3f4f6);border-radius:1rem;padding:1.5rem;">
+                            <div
+                                class="d-flex align-items-center justify-content-center mb-4" style="width:2.75rem;height:2.75rem;background:#fffbeb;color:#f59e0b;border-radius:0.75rem;font-size:1.125rem;">
+                                <i class="fa-solid fa-chart-bar"></i> </div>
+                            <h3 class="fw-bold mb-1" style="font-size:0.875rem;color:var(--gray-800);">สถิติและรายงาน</h3>
+                            <p class="fw-medium" style="font-size:0.75rem;color:var(--gray-500);line-height:1.625;">ดูภาพรวมและสร้างรายงานได้อย่างรวดเร็ว</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-section" style="background:var(--gray-50);">
+            <div class="mx-auto" style="max-width:1200px;padding-left:1.5rem;padding-right:1.5rem;">
+                <div class="text-center mx-auto mb-5" style="max-width:512px;">
+                    <span
+                        class="d-inline-flex align-items-center gap-1 rounded-pill fw-bold" style="padding:0.25rem 0.875rem;font-size:0.75rem;background:var(--gray-50, #f9fafb);color:#4f46e5;margin-bottom:1rem;border:1px solid #e0e7ff;">ไฮไลท์</span>
+                    <h2 class="section-title mb-3" style="color:var(--gray-900);">ทำไมต้องเลือกระบบของเรา?</h2>
+                    <p class="fw-medium" style="color:var(--gray-500);font-size:0.875rem;line-height:1.625;">ประสบการณ์การใช้งานที่ได้รับการพัฒนาอย่างต่อเนื่อง</p>
+                </div>
+                <div class="row row-cols-1 row-cols-sm-3 g-5">
+                    <div class="col">
+                        <div class="why-card text-center" style="background:#fff;border:1px solid var(--gray-100, #f3f4f6);border-radius:1rem;padding:2rem;">
+                            <div
+                                class="d-flex align-items-center justify-content-center mx-auto mb-5 rounded-circle" style="width:3.5rem;height:3.5rem;background:var(--gray-50, #f9fafb);color:#6366F1;font-size:1.25rem;">
+                                <i class="fa-solid fa-shield-halved"></i> </div>
+                            <h3 class="fw-bold mb-2" style="font-size:1rem;color:var(--gray-800);">ความปลอดภัยสูง</h3>
+                            <p class="fw-medium" style="font-size:0.875rem;color:var(--gray-500);line-height:1.625;">ข้อมูลของคุณได้รับการปกป้องด้วยมาตรฐานการรักษาความปลอดภัยระดับสากล</p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="why-card text-center" style="background:#fff;border:1px solid var(--gray-100, #f3f4f6);border-radius:1rem;padding:2rem;">
+                            <div
+                                class="d-flex align-items-center justify-content-center mx-auto mb-5 rounded-circle" style="width:3.5rem;height:3.5rem;background:var(--gray-50, #f9fafb);color:#6366F1;font-size:1.25rem;">
+                                <i class="fa-solid fa-moon"></i> </div>
+                            <h3 class="fw-bold mb-2" style="font-size:1rem;color:var(--gray-800);">ใช้งานง่าย</h3>
+                            <p class="fw-medium" style="font-size:0.875rem;color:var(--gray-500);line-height:1.625;">อินเตอร์เฟซที่เป็นมิตรกับผู้ใช้ ช่วยให้คุณเริ่มต้นได้ภายในไม่กี่นาที</p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="why-card text-center" style="background:#fff;border:1px solid var(--gray-100, #f3f4f6);border-radius:1rem;padding:2rem;">
+                            <div
+                                class="d-flex align-items-center justify-content-center mx-auto mb-5 rounded-circle" style="width:3.5rem;height:3.5rem;background:var(--gray-50, #f9fafb);color:#6366F1;font-size:1.25rem;">
+                                <i class="fa-solid fa-globe"></i> </div>
+                            <h3 class="fw-bold mb-2" style="font-size:1rem;color:var(--gray-800);">รองรับทุกแพลตฟอร์ม</h3>
+                            <p class="fw-medium" style="font-size:0.875rem;color:var(--gray-500);line-height:1.625;">ใช้งานได้ทั้งบนคอมพิวเตอร์ แท็บเล็ต และสมาร์ทโฟน</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="activities" class="py-section" style="background:#fff;">
+            <div class="mx-auto" style="max-width:1200px;padding-left:1.5rem;padding-right:1.5rem;">
+                <div class="text-center mx-auto mb-5" style="max-width:512px;">
+                    <span
+                        class="d-inline-flex align-items-center gap-1 rounded-pill fw-bold" style="padding:0.25rem 0.875rem;font-size:0.75rem;background:var(--gray-50, #f9fafb);color:#4f46e5;margin-bottom:1rem;border:1px solid #e0e7ff;">กิจกรรม</span>
+                    <h2 class="section-title mb-3" style="color:var(--gray-900);">กิจกรรมล่าสุด</h2>
+                    <p class="fw-medium" style="color:var(--gray-500);font-size:0.875rem;line-height:1.625;">ดูข้อมูลกิจกรรมที่กำลังจะเกิดขึ้นและกิจกรรมยอดนิยม</p>
+                </div>
+                <div id="activities-grid" class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-5">
+                    <div class="col">
+                        <div class="text-center" style="padding-top:4rem;padding-bottom:4rem;">
+                            <div class="d-inline-flex align-items-center justify-content-center rounded-circle mb-4" style="width:4rem;height:4rem;background:var(--gray-50, #f9fafb);">
+                                <i class="fa-solid fa-circle-notch fa-spin" style="font-size:1.25rem;color:#818cf8;"></i>
+                            </div>
+                            <p class="fw-medium" style="color:var(--gray-500);">กำลังโหลดกิจกรรม...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mt-5">
                     <a href="/activities"
-                        class="inline-flex items-center gap-2 px-6 py-3 text-sm font-bold text-white bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl shadow-md shadow-indigo-200 hover:shadow-lg hover:shadow-indigo-300 hover:-translate-y-0.5 transition-all no-underline">
+                        class="d-inline-flex align-items-center gap-2 text-decoration-none btn-gradient" style="padding:0.75rem 1.5rem;font-size:0.875rem;font-weight:700;color:#fff;border-radius:0.75rem;box-shadow:0 4px 6px -1px rgba(99,102,241,0.2);">
                         <i class="fa-solid fa-calendar-check"></i>
                         ดูทั้งหมด
                     </a>
@@ -259,19 +394,19 @@
             </div>
         </section>
 
-        <footer class="bg-gray-950 text-gray-400 py-12 px-6">
-            <div class="max-w-6xl mx-auto">
-                <div class="flex flex-wrap justify-between gap-8 pb-8 border-b border-white/10 mb-6">
+        <footer class="text-nowrap" style="background:#030712;color:var(--gray-400);padding:3rem 1.5rem;">
+            <div class="mx-auto" style="max-width:1200px;">
+                <div class="d-flex flex-wrap justify-content-between" style="gap:2rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,0.1);margin-bottom:1.5rem;">
                     <div>
-                        <div class="flex items-center gap-3 mb-3">
+                        <div class="d-flex align-items-center gap-3 mb-3">
                             <div
-                                class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center text-white shadow-lg shadow-indigo-500/30">
+                                class="d-flex align-items-center justify-content-center" style="width:2.5rem;height:2.5rem;border-radius:0.75rem;background:linear-gradient(135deg, #6366F1, #a855f7);color:#fff;box-shadow:0 10px 15px -3px rgba(99,102,241,0.3);">
                                 <i class="fa-solid fa-graduation-cap"></i> </div>
-                            <div class="text-white text-lg font-extrabold">{{ $siteName }}</div>
+                            <div class="text-white fw-bolder" style="font-size:1.125rem;">{{ $siteName }}</div>
                         </div>
-                        <p class="text-sm text-gray-400 max-w-xs leading-relaxed mb-4">{{ $siteDesc }}</p>
+                        <p class="fw-medium" style="font-size:0.875rem;color:var(--gray-400);max-width:320px;line-height:1.625;margin-bottom:1rem;">{{ $siteDesc }}</p>
                         @if ($fbUrl || $lineUrl || $ytUrl)
-                            <div class="flex gap-2">
+                            <div class="d-flex gap-2">
                                 @if ($fbUrl)
                                     <a href="{{ $fbUrl }}" class="social-link" target="_blank"><i
                                             class="fa-brands fa-facebook text-sm"></i></a>
@@ -287,19 +422,19 @@
                             </div>
                         @endif
                     </div>
-                    <nav class="flex flex-col gap-3 text-sm">
-                        <p class="text-white font-semibold mb-1">เมนู</p>
-                        <a href="/activities" class="text-gray-400 hover:text-white transition-colors no-underline"><i
-                                class="fa-regular fa-calendar mr-2"></i>กิจกรรมทั้งหมด</a>
-                        <a href="#about" class="text-gray-400 hover:text-white transition-colors no-underline"><i
-                                class="fa-regular fa-circle-info mr-2"></i>เกี่ยวกับระบบ</a>
-                        <a href="/login" class="text-gray-400 hover:text-white transition-colors no-underline"><i
-                                class="fa-solid fa-user-gear mr-2"></i>สำหรับผู้ดูแล</a>
+                    <nav class="d-flex flex-column gap-3" style="font-size:0.875rem;">
+                        <p class="text-white fw-semibold mb-1">เมนู</p>
+                        <a href="/activities" class="nav-link-footer" style="color:var(--gray-400);"><i
+                                class="fa-regular fa-calendar me-2"></i>กิจกรรมทั้งหมด</a>
+                        <a href="#about" class="nav-link-footer" style="color:var(--gray-400);"><i
+                                class="fa-regular fa-circle-info me-2"></i>เกี่ยวกับระบบ</a>
+                        <a href="/login" class="nav-link-footer" style="color:var(--gray-400);"><i
+                                class="fa-solid fa-user-gear me-2"></i>สำหรับผู้ดูแล</a>
                     </nav>
                 </div>
-                <div class="flex flex-wrap justify-between items-center gap-4">
-                    <p class="text-xs text-gray-500">{{ $footerText }}</p>
-                    <p class="text-xs text-gray-600">พัฒนาด้วย <i class="fa-solid fa-heart text-red-500 mx-1"></i>
+                <div class="d-flex flex-wrap justify-content-between align-items-center gap-4">
+                    <p style="font-size:0.75rem;color:var(--gray-500);">{{ $footerText }}</p>
+                    <p style="font-size:0.75rem;color:var(--gray-600);">พัฒนาด้วย <i class="fa-solid fa-heart mx-1" style="color:#ef4444;"></i>
                         สำหรับมหาวิทยาลัย</p>
                 </div>
             </div>
@@ -329,25 +464,25 @@
                     $grid.html($.map(json.data, function(a) {
                         var img = a.cover_image_url ?
                             '<img src="' + a.cover_image_url + '" alt="' + a.title +
-                            '" class="w-full h-full object-cover">' :
-                            '<div class="w-full h-full flex items-center justify-center text-3xl text-gray-300"><i class="fa-regular fa-image"></i></div>';
+                            '" class="w-100 h-100 object-cover">' :
+                            '<div class="w-100 h-100 d-flex align-items-center justify-content-center" style="font-size:1.875rem;color:var(--gray-300);"><i class="fa-regular fa-image"></i></div>';
                         var cat = a.category ?
-                            '<span class="absolute top-2.5 left-2.5 bg-gray-900/60 backdrop-blur-sm text-white text-[10px] font-bold px-2 py-0.5 rounded-full">' +
+                            '<span class="position-absolute fw-bold rounded-pill backdrop-blur" style="top:10px;left:10px;background:rgba(17,24,39,0.6);color:#fff;font-size:10px;padding:0.125rem 0.5rem;">' +
                             a.category.name + '</span>' :
                             '';
                         var date = a.activity_date || '';
-                        return '<div class="bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all group">' +
-                            '<div class="h-40 bg-gray-100 overflow-hidden relative">' + cat +
+                        return '<div class="col"><div class="activity-card" style="background:#fff;border:1px solid var(--gray-100, #f3f4f6);border-radius:1rem;overflow:hidden;">' +
+                            '<div class="position-relative overflow-hidden" style="height:10rem;background:var(--gray-100);">' + cat +
                             img + '</div>' +
-                            '<div class="p-4">' +
-                            '<div class="flex items-center gap-2 text-xs text-gray-400 mb-2"><i class="fa-regular fa-calendar"></i>' +
+                            '<div style="padding:1rem;">' +
+                            '<div class="d-flex align-items-center gap-2 mb-2" style="font-size:0.75rem;color:var(--gray-400);"><i class="fa-regular fa-calendar"></i>' +
                             date + '</div>' +
-                            '<h3 class="text-sm font-bold text-gray-800 leading-snug mb-2">' + a
+                            '<h3 class="fw-bold mb-2" style="font-size:0.875rem;color:var(--gray-800);line-height:1.4;">' + a
                             .title + '</h3>' +
-                            '<p class="text-xs text-gray-500 line-clamp-2 leading-relaxed">' + (
+                            '<p class="fw-medium line-clamp-2" style="font-size:0.75rem;color:var(--gray-500);line-height:1.625;">' + (
                                 a.description || '') + '</p>' +
                             '</div>' +
-                            '</div>';
+                            '</div></div>';
                     }).join(''));
                 }
             });

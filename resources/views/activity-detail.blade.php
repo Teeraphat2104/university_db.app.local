@@ -3,100 +3,93 @@
 @section('title', 'รายละเอียดกิจกรรม - University Activities')
 
 @section('content')
-    <div class="bg-gray-50 border-b border-gray-100">
-        <div class="max-w-6xl mx-auto px-6 py-4">
-            <div class="flex items-center gap-2 text-sm text-gray-500">
-                <a href="/" class="hover:text-indigo-600 transition-colors no-underline">หน้าหลัก</a>
-                <i class="fa-solid fa-chevron-right text-xs text-gray-300"></i>
-                <a href="/activities" class="hover:text-indigo-600 transition-colors no-underline">กิจกรรมทั้งหมด</a>
-                <i class="fa-solid fa-chevron-right text-xs text-gray-300"></i>
-                <span class="text-gray-800 font-medium" id="breadcrumb-title">โหลด...</span>
+<style>
+.hover-indigo-600:hover{color:#4f46e5!important}
+.hover-bg-red-100:hover{background-color:#fee2e2!important}
+.hover-bg-gray-100:hover{background-color:#f3f4f6!important}
+.hover-text-white:hover{color:#fff!important}
+.not-found-btn:hover{box-shadow:0 10px 15px -3px rgba(99,102,241,0.3)!important;transform:translateY(-0.125rem)!important}
+.hover-indigo-600,.hover-bg-red-100,.hover-bg-gray-100,.hover-text-white{transition:color .15s ease-in-out,background-color .15s ease-in-out}
+.not-found-btn{transition:all .15s ease-in-out}
+</style>
+    <div style="background-color:#f9fafb;border-bottom:1px solid #f3f4f6">
+        <div class="mx-auto" style="max-width:72rem;padding:1rem 1.5rem">
+            <div class="d-flex align-items-center" style="gap:0.5rem;font-size:0.875rem;color:#6b7280">
+                <a href="/" class="text-decoration-none hover-indigo-600" style="color:#6b7280">หน้าหลัก</a>
+                <i class="fa-solid fa-chevron-right" style="font-size:0.75rem;color:#d1d5db"></i>
+                <a href="/activities" class="text-decoration-none hover-indigo-600" style="color:#6b7280">กิจกรรมทั้งหมด</a>
+                <i class="fa-solid fa-chevron-right" style="font-size:0.75rem;color:#d1d5db"></i>
+                <span class="fw-medium" style="color:#1f2937" id="breadcrumb-title">โหลด...</span>
             </div>
         </div>
     </div>
 
-    <section class="py-10 bg-white">
-        <div class="max-w-6xl mx-auto px-6">
-            <div id="loading" class="text-center py-20">
-                <div class="inline-flex items-center justify-center w-20 h-20 bg-indigo-50 rounded-full mb-4">
-                    <i class="fa-solid fa-circle-notch fa-spin text-2xl text-indigo-400"></i>
+    <section class="bg-white" style="padding:2.5rem 0">
+        <div class="mx-auto" style="max-width:72rem;padding:0 1.5rem">
+            <div id="loading" class="text-center" style="padding:5rem 0">
+                <div class="d-inline-flex align-items-center justify-content-center rounded-circle" style="width:5rem;height:5rem;background-color:#eef2ff;margin-bottom:1rem">
+                    <i class="fa-solid fa-circle-notch fa-spin" style="font-size:1.5rem;color:#818cf8"></i>
                 </div>
-                <p class="text-gray-500 font-medium">กำลังโหลดข้อมูล...</p>
+                <p class="fw-medium" style="color:#6b7280">กำลังโหลดข้อมูล...</p>
             </div>
 
-            <div id="activity-content" class="hidden">
-                <div class="flex flex-col lg:flex-row gap-8">
-                    <div class="flex-1 min-w-0 space-y-6">
-                        <div id="cover-wrap" class="rounded-2xl overflow-hidden bg-gray-100 aspect-video relative">
-                            <img id="cover-img" src="" alt="" class="w-full h-full object-cover hidden">
-                            <div id="cover-placeholder"
-                                class="w-full h-full flex items-center justify-center text-5xl text-gray-300"><i
-                                    class="fa-regular fa-image"></i></div>
+            <div id="activity-content" class="d-none">
+                <div class="d-flex flex-column flex-lg-row" style="gap:2rem">
+                    <div class="flex-fill d-flex flex-column" style="min-width:0;gap:1.5rem">
+                        <div id="cover-wrap" class="overflow-hidden position-relative" style="border-radius:1rem;background-color:#f3f4f6;aspect-ratio:16/9">
+                            <img id="cover-img" src="" alt="" class="d-none" style="width:100%;height:100%;object-fit:cover">
+                            <div id="cover-placeholder" class="d-flex align-items-center justify-content-center" style="width:100%;height:100%;font-size:3rem;color:#d1d5db"><i class="fa-regular fa-image"></i></div>
                         </div>
 
                         <div>
-                            <h1 id="activity-title" class="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-4"></h1>
-                            <div id="activity-description" class="text-gray-600 text-base leading-relaxed"></div>
+                            <h1 id="activity-title" class="fw-bolder" style="font-size:1.875rem;color:#111827;margin-bottom:1.5rem"></h1>
+                            <div id="activity-description" style="color:#4b5563;font-size:1rem;line-height:1.625"></div>
                         </div>
 
-                        <div id="pdf-preview-wrap" class="hidden rounded-2xl overflow-hidden border border-gray-200">
-                            <div class="bg-gray-50 px-4 py-3 border-b border-gray-200 flex items-center justify-between">
-                                <span class="text-sm font-semibold text-gray-700"><i
-                                        class="fa-solid fa-file-pdf text-red-500 mr-2"></i>เอกสาร PDF</span>
-                                <a id="pdf-download-link" href="#" target="_blank"
-                                    class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-red-600 bg-red-50 rounded-lg hover:bg-red-100 transition-colors no-underline">
+                        <div id="pdf-preview-wrap" class="d-none overflow-hidden" style="border-radius:1rem;border:1px solid #e5e7eb">
+                            <div class="d-flex align-items-center justify-content-between" style="background-color:#f9fafb;padding:0.75rem 1rem;border-bottom:1px solid #e5e7eb">
+                                <span class="fw-semibold" style="font-size:0.875rem;color:#374151"><i class="fa-solid fa-file-pdf" style="color:#ef4444;margin-right:0.5rem"></i>เอกสาร PDF</span>
+                                <a id="pdf-download-link" href="#" target="_blank" class="d-inline-flex align-items-center text-decoration-none hover-bg-red-100" style="gap:0.375rem;padding:0.375rem 0.75rem;font-size:0.75rem;font-weight:600;color:#dc2626;background-color:#fef2f2;border-radius:0.5rem">
                                     <i class="fa-solid fa-download"></i> ดาวน์โหลด
                                 </a>
                             </div>
-                            <iframe id="pdf-preview" src="" class="w-full h-[500px] bg-gray-100"
-                                frameborder="0"></iframe>
+                            <iframe id="pdf-preview" src="" style="width:100%;height:500px;background-color:#f3f4f6" frameborder="0"></iframe>
                         </div>
                     </div>
 
-                    <div class="lg:w-80 flex-shrink-0">
-                        <div class="sticky top-24 space-y-4">
-                            <div
-                                class="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl p-5 space-y-4 border border-indigo-100">
+                    <div class="flex-shrink-0" style="flex:0 0 auto;width:20rem">
+                        <div class="d-flex flex-column" style="position:sticky;top:6rem;gap:1rem">
+                            <div class="d-flex flex-column" style="background:linear-gradient(135deg,#eef2ff,#faf5ff);border-radius:1rem;padding:1.25rem;gap:1rem;border:1px solid #e0e7ff">
                                 <div>
-                                    <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">
-                                        วันที่จัดกิจกรรม</p>
-                                    <p id="detail-date" class="text-sm font-bold text-gray-800 flex items-center gap-2"><i
-                                            class="fa-regular fa-calendar text-indigo-500"></i></p>
+                                    <p class="fw-semibold text-uppercase" style="font-size:0.75rem;color:#9ca3af;letter-spacing:0.05em;margin-bottom:0.25rem">วันที่จัดกิจกรรม</p>
+                                    <p id="detail-date" class="fw-bold d-flex align-items-center" style="font-size:0.875rem;color:#1f2937;gap:0.5rem"><i class="fa-regular fa-calendar" style="color:#6366f1"></i></p>
                                 </div>
                                 <div>
-                                    <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">สถานที่</p>
-                                    <p id="detail-location" class="text-sm font-bold text-gray-800 flex items-center gap-2">
-                                        <i class="fa-solid fa-location-dot text-indigo-500"></i></p>
+                                    <p class="fw-semibold text-uppercase" style="font-size:0.75rem;color:#9ca3af;letter-spacing:0.05em;margin-bottom:0.25rem">สถานที่</p>
+                                    <p id="detail-location" class="fw-bold d-flex align-items-center" style="font-size:0.875rem;color:#1f2937;gap:0.5rem"><i class="fa-solid fa-location-dot" style="color:#6366f1"></i></p>
                                 </div>
                                 <div>
-                                    <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">หมวดหมู่
-                                    </p>
-                                    <p id="detail-category" class="text-sm font-bold text-gray-800 flex items-center gap-2">
-                                        <i class="fa-regular fa-rectangle-list text-indigo-500"></i></p>
+                                    <p class="fw-semibold text-uppercase" style="font-size:0.75rem;color:#9ca3af;letter-spacing:0.05em;margin-bottom:0.25rem">หมวดหมู่</p>
+                                    <p id="detail-category" class="fw-bold d-flex align-items-center" style="font-size:0.875rem;color:#1f2937;gap:0.5rem"><i class="fa-regular fa-rectangle-list" style="color:#6366f1"></i></p>
                                 </div>
                                 <div>
-                                    <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">ผู้เข้าร่วม
-                                    </p>
-                                    <p id="detail-participants"
-                                        class="text-sm font-bold text-gray-800 flex items-center gap-2"><i
-                                            class="fa-solid fa-users text-indigo-500"></i></p>
+                                    <p class="fw-semibold text-uppercase" style="font-size:0.75rem;color:#9ca3af;letter-spacing:0.05em;margin-bottom:0.25rem">ผู้เข้าร่วม</p>
+                                    <p id="detail-participants" class="fw-bold d-flex align-items-center" style="font-size:0.875rem;color:#1f2937;gap:0.5rem"><i class="fa-solid fa-users" style="color:#6366f1"></i></p>
                                 </div>
                             </div>
 
-                            <div id="pdf-sidebar-wrap" class="hidden bg-white rounded-2xl p-5 border border-gray-200">
-                                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">ดาวน์โหลด</p>
-                                <a id="pdf-sidebar-link" href="#" target="_blank"
-                                    class="flex items-center gap-3 px-4 py-3 bg-red-50 text-red-700 rounded-xl hover:bg-red-100 transition-colors no-underline">
-                                    <i class="fa-solid fa-file-pdf text-lg"></i>
+                            <div id="pdf-sidebar-wrap" class="d-none bg-white" style="border-radius:1rem;padding:1.25rem;border:1px solid #e5e7eb">
+                                <p class="fw-semibold text-uppercase" style="font-size:0.75rem;color:#9ca3af;letter-spacing:0.05em;margin-bottom:0.75rem">ดาวน์โหลด</p>
+                                <a id="pdf-sidebar-link" href="#" target="_blank" class="d-flex align-items-center text-decoration-none hover-bg-red-100" style="gap:0.75rem;padding:0.75rem 1rem;background-color:#fef2f2;color:#b91c1c;border-radius:0.75rem">
+                                    <i class="fa-solid fa-file-pdf" style="font-size:1.125rem"></i>
                                     <div>
-                                        <p class="text-sm font-bold">ดาวน์โหลด PDF</p>
-                                        <p class="text-xs text-red-500">เอกสารประกอบกิจกรรม</p>
+                                        <p class="fw-bold" style="font-size:0.875rem">ดาวน์โหลด PDF</p>
+                                        <p style="font-size:0.75rem;color:#ef4444">เอกสารประกอบกิจกรรม</p>
                                     </div>
                                 </a>
                             </div>
 
-                            <a href="/activities"
-                                class="flex items-center justify-center gap-2 w-full px-4 py-3 text-sm font-semibold text-gray-600 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors no-underline border border-gray-200">
+                            <a href="/activities" class="d-flex align-items-center justify-content-center w-100 text-decoration-none hover-bg-gray-100" style="gap:0.5rem;padding:0.75rem 1rem;font-size:0.875rem;font-weight:600;color:#4b5563;background-color:#f9fafb;border-radius:0.75rem;border:1px solid #e5e7eb">
                                 <i class="fa-solid fa-arrow-left"></i>
                                 กลับไปหน้ากิจกรรมทั้งหมด
                             </a>
@@ -105,14 +98,13 @@
                 </div>
             </div>
 
-            <div id="not-found" class="hidden text-center py-20">
-                <div class="inline-flex items-center justify-center w-24 h-24 bg-red-50 rounded-full mb-4">
-                    <i class="fa-regular fa-circle-exclamation text-3xl text-red-400"></i>
+            <div id="not-found" class="d-none text-center" style="padding:5rem 0">
+                <div class="d-inline-flex align-items-center justify-content-center rounded-circle" style="width:6rem;height:6rem;background-color:#fef2f2;margin-bottom:1rem">
+                    <i class="fa-regular fa-circle-exclamation" style="font-size:1.875rem;color:#f87171"></i>
                 </div>
-                <h3 class="text-xl font-bold text-gray-800 mb-2">ไม่พบกิจกรรม</h3>
-                <p class="text-gray-500 mb-6">กิจกรรมที่คุณกำลังค้นหาอาจถูกลบหรือย้ายไปแล้ว</p>
-                <a href="/activities"
-                    class="inline-flex items-center gap-2 px-6 py-3 text-sm font-bold text-white bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl shadow-lg shadow-indigo-500/30 hover:shadow-xl hover:-translate-y-0.5 transition-all no-underline">
+                <h3 class="fw-bold" style="font-size:1.25rem;color:#1f2937;margin-bottom:0.5rem">ไม่พบกิจกรรม</h3>
+                <p style="color:#6b7280;margin-bottom:1.5rem">กิจกรรมที่คุณกำลังค้นหาอาจถูกลบหรือย้ายไปแล้ว</p>
+                <a href="/activities" class="d-inline-flex align-items-center text-decoration-none not-found-btn" style="gap:0.5rem;padding:0.75rem 1.5rem;font-size:0.875rem;font-weight:700;color:#fff;background:linear-gradient(to right,#6366f1,#a855f7);border-radius:0.75rem;box-shadow:0 10px 15px -3px rgba(99,102,241,0.3)">
                     <i class="fa-solid fa-arrow-left"></i> กลับไปหน้ากิจกรรมทั้งหมด
                 </a>
             </div>
@@ -127,32 +119,27 @@
         $lineUrl = setting('line_url');
         $ytUrl = setting('youtube_url');
     @endphp
-    <footer class="bg-gray-950 text-gray-400 py-12 px-6">
-        <div class="max-w-6xl mx-auto">
-            <div class="flex flex-wrap justify-between gap-8 pb-8 border-b border-white/10 mb-6">
+    <footer style="background-color:#030712;color:#9ca3af;padding:3rem 1.5rem">
+        <div class="mx-auto" style="max-width:72rem">
+            <div class="d-flex flex-wrap justify-content-between" style="gap:2rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,0.1);margin-bottom:1.5rem">
                 <div>
-                    <div class="flex items-center gap-3 mb-3">
-                        <div
-                            class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center text-white shadow-lg shadow-indigo-500/30">
+                    <div class="d-flex align-items-center" style="gap:0.75rem;margin-bottom:0.75rem">
+                        <div class="d-flex align-items-center justify-content-center" style="width:2.5rem;height:2.5rem;background:linear-gradient(135deg,#6366f1,#a855f7);border-radius:0.75rem;color:#fff;box-shadow:0 10px 15px -3px rgba(99,102,241,0.3)">
                             <i class="fa-solid fa-graduation-cap"></i> </div>
-                        <div class="text-white text-lg font-extrabold">{{ $siteName }}</div>
+                        <div class="fw-bolder" style="color:#fff;font-size:1.125rem">{{ $siteName }}</div>
                     </div>
-                    <p class="text-sm text-gray-400 max-w-xs leading-relaxed">{{ $siteDesc }}</p>
+                    <p style="font-size:0.875rem;color:#9ca3af;max-width:20rem;line-height:1.625">{{ $siteDesc }}</p>
                 </div>
-                <nav class="flex flex-col gap-3 text-sm">
-                    <p class="text-white font-semibold mb-1">เมนู</p>
-                    <a href="/activities" class="text-gray-400 hover:text-white transition-colors no-underline"><i
-                            class="fa-regular fa-calendar mr-2"></i>กิจกรรมทั้งหมด</a>
-                    <a href="/#about" class="text-gray-400 hover:text-white transition-colors no-underline"><i
-                            class="fa-regular fa-circle-info mr-2"></i>เกี่ยวกับระบบ</a>
-                    <a href="/login" class="text-gray-400 hover:text-white transition-colors no-underline"><i
-                            class="fa-solid fa-user-gear mr-2"></i>สำหรับผู้ดูแล</a>
+                <nav class="d-flex flex-column" style="gap:0.75rem;font-size:0.875rem">
+                    <p class="fw-semibold" style="color:#fff;margin-bottom:0.25rem">เมนู</p>
+                    <a href="/activities" class="text-decoration-none hover-text-white" style="color:#9ca3af"><i class="fa-regular fa-calendar me-2"></i>กิจกรรมทั้งหมด</a>
+                    <a href="/#about" class="text-decoration-none hover-text-white" style="color:#9ca3af"><i class="fa-regular fa-circle-info me-2"></i>เกี่ยวกับระบบ</a>
+                    <a href="/login" class="text-decoration-none hover-text-white" style="color:#9ca3af"><i class="fa-solid fa-user-gear me-2"></i>สำหรับผู้ดูแล</a>
                 </nav>
             </div>
-            <div class="flex flex-wrap justify-between items-center gap-4">
-                <p class="text-xs text-gray-500">{{ $footerText }}</p>
-                <p class="text-xs text-gray-600">พัฒนาด้วย <i class="fa-solid fa-heart text-red-500 mx-1"></i>
-                    สำหรับมหาวิทยาลัย</p>
+            <div class="d-flex flex-wrap justify-content-between align-items-center" style="gap:1rem">
+                <p style="font-size:0.75rem;color:#6b7280">{{ $footerText }}</p>
+                <p style="font-size:0.75rem;color:#4b5563">พัฒนาด้วย <i class="fa-solid fa-heart" style="color:#ef4444;margin:0 0.25rem"></i> สำหรับมหาวิทยาลัย</p>
             </div>
         </div>
     </footer>
@@ -175,15 +162,15 @@
         });
 
         function renderActivity(a) {
-            $('#loading').addClass('hidden');
-            $('#activity-content').removeClass('hidden');
+            $('#loading').addClass('d-none');
+            $('#activity-content').removeClass('d-none');
 
             document.title = a.title + ' - University Activities';
             $('#breadcrumb-title').text(a.title);
 
             if (a.cover_image_url) {
-                $('#cover-img').attr('src', a.cover_image_url).attr('alt', a.title).removeClass('hidden');
-                $('#cover-placeholder').addClass('hidden');
+                $('#cover-img').attr('src', a.cover_image_url).attr('alt', a.title).removeClass('d-none');
+                $('#cover-placeholder').addClass('d-none');
             }
 
             $('#activity-title').text(a.title);
@@ -208,17 +195,17 @@
             $('#detail-participants').append((a.participants_count ?? 0) + ' คน');
 
             if (a.pdf_url) {
-                $('#pdf-preview-wrap').removeClass('hidden');
+                $('#pdf-preview-wrap').removeClass('d-none');
                 $('#pdf-preview').attr('src', a.pdf_url);
                 $('#pdf-download-link').attr('href', a.pdf_url);
-                $('#pdf-sidebar-wrap').removeClass('hidden');
+                $('#pdf-sidebar-wrap').removeClass('d-none');
                 $('#pdf-sidebar-link').attr('href', a.pdf_url);
             }
         }
 
         function showNotFound() {
-            $('#loading').addClass('hidden');
-            $('#not-found').removeClass('hidden');
+            $('#loading').addClass('d-none');
+            $('#not-found').removeClass('d-none');
         }
     </script>
 @endsection

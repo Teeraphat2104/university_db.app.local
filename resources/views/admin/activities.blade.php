@@ -44,13 +44,13 @@
                 </tr>
             </thead>
             <tbody id="activities-tbody">
-                <tr><td colspan="8" class="loading-cell"><i class="fa-solid fa-arrows-rotate fa-spin text-2xl block mb-3"></i>กำลังโหลด...</td></tr>
+                <tr><td colspan="8" class="loading-cell"><i class="fa-solid fa-arrows-rotate fa-spin d-block" style="font-size:1.5rem;margin-bottom:.75rem"></i>กำลังโหลด...</td></tr>
             </tbody>
         </table>
     </div>
 </div>
 
-<div class="pag-bar">
+    <div class="pag-bar" style="margin-top:1rem">
     <p id="pagination-info" class="pag-info"></p>
     <div id="pagination-btns" class="pag-btns"></div>
 </div>
@@ -58,11 +58,11 @@
 <dialog id="view-modal" class="modal-lg">
     <div class="dialog-header">
         <h3>รายละเอียดกิจกรรม</h3>
-        <button type="button" class="btn btn-sm btn-muted py-1.5 px-2" onclick="closeViewModal()"><i class="fa-solid fa-xmark"></i></button>
+        <button type="button" class="btn btn-sm btn-muted" style="padding:.375rem .5rem" onclick="closeViewModal()"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="dialog-body">
         <div class="detail-grid">
-            <div id="view-cover-wrap" class="hidden"><img id="view-cover" src="" alt="cover" class="detail-cover"></div>
+            <div id="view-cover-wrap" class="d-none"><img id="view-cover" src="" alt="cover" class="detail-cover"></div>
             <div style="grid-column:1/-1">
                 <h3 id="view-title" style="font-size:1.25rem;font-weight:700;margin:0 0 .75rem"></h3>
                 <p id="view-desc" style="color:var(--text-secondary);line-height:1.6;margin:0 0 1rem;font-size:14px"></p>
@@ -87,7 +87,7 @@
     <form id="activity-form">
         <div class="dialog-header">
             <h3 id="form-modal-title">สร้างกิจกรรมใหม่</h3>
-            <button type="button" class="btn btn-sm btn-muted py-1.5 px-2" onclick="closeFormModal()"><i class="fa-solid fa-xmark"></i></button>
+            <button type="button" class="btn btn-sm btn-muted" style="padding:.375rem .5rem" onclick="closeFormModal()"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <div class="dialog-body form-grid">
             <input type="hidden" id="form-id">
@@ -114,10 +114,10 @@
             <div class="form-full">
                 <label class="field-label">รูปปก</label>
                 <input type="file" id="form-cover" name="cover_image" accept="image/*">
-                <div id="form-cover-existing" class="file-existing hidden mt-2">
+                <div id="form-cover-existing" class="file-existing d-none mt-2">
                     <div class="fe-img-thumb" onclick="previewImage($(this).find('img').attr('src'))">
                         <img id="form-cover-preview" src="" alt="" style="width:64px;height:64px;object-fit:cover;display:block;">
-                        <div class="fe-img-overlay"><i class="fa-solid fa-expand text-xs"></i></div>
+                        <div class="fe-img-overlay"><i class="fa-solid fa-expand" style="font-size:.75rem"></i></div>
                     </div>
                     <span class="fe-label">รูปปกปัจจุบัน</span>
                 </div>
@@ -125,7 +125,7 @@
             <div class="form-full">
                 <label class="field-label">ไฟล์ PDF</label>
                 <input type="file" id="form-pdf" name="pdf_file" accept=".pdf">
-                <div id="form-pdf-existing" class="file-existing hidden mt-2">
+                <div id="form-pdf-existing" class="file-existing d-none mt-2">
                     <div class="fe-pdf-chip" onclick="window.open($(this).data('url'), '_blank')">
                         <i class="fa-solid fa-file-pdf"></i>
                         <span>PDF ปัจจุบัน</span>
@@ -148,7 +148,7 @@
     </form>
 </dialog>
 
-<div id="empty-state" class="empty-state hidden">
+<div id="empty-state" class="empty-state d-none">
     <div class="empty-state-icon"><i class="fa-regular fa-calendar"></i></div>
     <h3>ยังไม่มีกิจกรรม</h3>
     <p>เริ่มสร้างกิจกรรมแรกของคุณ</p>
@@ -175,7 +175,7 @@
         $(function() {
             if (!token) {
                 $('#activities-tbody').html(
-                    '<tr><td colspan="8" class="loading-cell">กรุณา <a href="/login" class="text-indigo-600">เข้าสู่ระบบ</a> ก่อน</td></tr>'
+                    '<tr><td colspan="8" class="loading-cell">กรุณา <a href="/login" style="color:#4F46E5">เข้าสู่ระบบ</a> ก่อน</td></tr>'
                 );
                 return;
             }
@@ -245,19 +245,19 @@
                         var catSafe = $('<span>').text(catName).html();
                         tbody.append('<tr>' +
                             '<td><input type="checkbox" class="row-check table-checkbox"></td>' +
-                            '<td><div class="flex items-center gap-4"><div class="activity-avatar">' +
-                            initial + '</div><div><p class="font-semibold mb-0.5">' +
+                            '<td><div class="d-flex align-items-center" style="gap:1rem"><div class="activity-avatar">' +
+                            initial + '</div><div><p class="fw-semibold" style="margin-bottom:2px">' +
                             titleSafe + '</p></div></div></td>' +
                             '<td><span class="badge badge-primary">' + catSafe + '</span></td>' +
                             '<td>' + (act.activity_date || '-') + '</td>' +
                             '<td>' + (act.location || '-') + '</td>' +
-                            '<td><span class="font-semibold">' + (act.participants_count || 0) +
+                            '<td><span class="fw-semibold">' + (act.participants_count || 0) +
                             '</span></td>' +
                             '<td>' + statusHtml + '</td>' +
-                            '<td><div class="flex gap-2">' +
-                            '<button class="btn btn-sm btn-secondary p-1.5" onclick="viewActivity(' + act.id + ')" title="\u0e14\u0e39"><i class="fa-regular fa-eye"></i></button>' +
-                            '<button class="btn btn-sm btn-secondary p-1.5" onclick="openEditModal(' + act.id + ')" title="\u0e41\u0e01\u0e49\u0e44\u0e02"><i class="fa-solid fa-pen-to-square"></i></button>' +
-                            '<button class="btn btn-sm btn-secondary p-1.5 text-red-500" onclick="confirmDelete(' + act.id + ')" title="\u0e25\u0e1a"><i class="fa-solid fa-trash-can"></i></button>' +
+                            '<td><div class="d-flex" style="gap:.5rem">' +
+                            '<button class="btn btn-sm btn-secondary" style="padding:6px" onclick="viewActivity(' + act.id + ')" title="\u0e14\u0e39"><i class="fa-regular fa-eye"></i></button>' +
+                            '<button class="btn btn-sm btn-secondary" style="padding:6px" onclick="openEditModal(' + act.id + ')" title="\u0e41\u0e01\u0e49\u0e44\u0e02"><i class="fa-solid fa-pen-to-square"></i></button>' +
+                            '<button class="btn btn-sm btn-secondary" style="padding:6px;color:#EF4444" onclick="confirmDelete(' + act.id + ')" title="\u0e25\u0e1a"><i class="fa-solid fa-trash-can"></i></button>' +
                             '</div></td></tr>');
                     });
                     if (json.meta) {
@@ -269,11 +269,11 @@
                 error: function(xhr) {
                     if (xhr.status === 401) {
                         $('#activities-tbody').html(
-                            '<tr><td colspan="8" class="loading-cell">เซสชันหมดอายุ กรุณา <a href="/login" class="text-indigo-600">เข้าสู่ระบบ</a> อีกครั้ง</td></tr>'
+                            '<tr><td colspan="8" class="loading-cell">เซสชันหมดอายุ กรุณา <a href="/login" style="color:#4F46E5">เข้าสู่ระบบ</a> อีกครั้ง</td></tr>'
                         );
                     } else {
                         $('#activities-tbody').html(
-                            '<tr><td colspan="8" class="text-center p-12 text-red-500">เกิดข้อผิดพลาดในการโหลดข้อมูล</td></tr>'
+                            '<tr><td colspan="8" style="text-align:center;padding:3rem;color:#EF4444">เกิดข้อผิดพลาดในการโหลดข้อมูล</td></tr>'
                         );
                     }
                 }
@@ -327,9 +327,9 @@
                         '<span class="badge badge-warning">ปิดใช้งาน</span>');
                     if (act.cover_image_url) {
                         $('#view-cover').attr('src', act.cover_image_url);
-                        $('#view-cover-wrap').removeClass('hidden');
+                        $('#view-cover-wrap').removeClass('d-none');
                     } else {
-                        $('#view-cover-wrap').addClass('hidden');
+                        $('#view-cover-wrap').addClass('d-none');
                     }
                     if (act.pdf_url) {
                         $('#view-pdf').attr('src', act.pdf_url);
@@ -354,7 +354,7 @@
             $('#form-submit-btn').text('บันทึก');
             $('#form-id').val('');
             $('#activity-form')[0].reset();
-            $('#form-cover-existing, #form-pdf-existing').addClass('hidden');
+            $('#form-cover-existing, #form-pdf-existing').addClass('d-none');
             $('#form-cover, #form-pdf').val('');
             $('#activity-form').off('submit').on('submit', handleCreate);
             $('#form-modal')[0].showModal();
@@ -381,15 +381,15 @@
 
                     if (act.cover_image_url) {
                         $('#form-cover-preview').attr('src', act.cover_image_url);
-                        $('#form-cover-existing').removeClass('hidden');
+                        $('#form-cover-existing').removeClass('d-none');
                     } else {
-                        $('#form-cover-existing').addClass('hidden');
+                        $('#form-cover-existing').addClass('d-none');
                     }
                     if (act.pdf_url) {
                         $('#form-pdf-existing .fe-pdf-chip').data('url', act.pdf_url);
-                        $('#form-pdf-existing').removeClass('hidden');
+                        $('#form-pdf-existing').removeClass('d-none');
                     } else {
-                        $('#form-pdf-existing').addClass('hidden');
+                        $('#form-pdf-existing').addClass('d-none');
                     }
 
                     $('#activity-form').off('submit').on('submit', handleEdit);

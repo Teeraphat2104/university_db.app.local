@@ -3,29 +3,29 @@
 @section('title', 'กิจกรรมทั้งหมด - University Activities')
 
 @section('content')
-<div class="bg-gray-50 border-b border-gray-100">
-    <div class="max-w-6xl mx-auto px-6 py-4">
-        <div class="flex items-center gap-2 text-sm text-gray-500">
-            <a href="/" class="hover:text-indigo-600 transition-colors no-underline">หน้าหลัก</a>
-            <i class="fa-solid fa-chevron-right text-xs text-gray-300"></i>
-            <span class="text-gray-800 font-medium">กิจกรรมทั้งหมด</span>
+<div style="background: var(--gray-50); border-bottom: 1px solid var(--gray-100);">
+    <div class="px-4 py-3" style="max-width: 72rem; margin: 0 auto;">
+        <div class="d-flex align-items-center gap-2" style="font-size: 0.875rem; color: var(--gray-500);">
+            <a href="/" class="text-decoration-none" style="color: var(--gray-500);" onmouseover="this.style.color='#4F46E5'" onmouseout="this.style.color='var(--gray-500)'">หน้าหลัก</a>
+            <i class="fa-solid fa-chevron-right" style="font-size: 0.75rem; color: var(--gray-300);"></i>
+            <span class="fw-medium" style="color: var(--gray-800);">กิจกรรมทั้งหมด</span>
         </div>
     </div>
 </div>
 
-<div class="py-10 bg-white">
-    <div class="max-w-6xl mx-auto px-6">
-        <div class="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
-            <h1 class="text-2xl font-extrabold text-gray-900 whitespace-nowrap">กิจกรรมทั้งหมด</h1>
-            <div class="flex flex-col sm:flex-row gap-2 flex-1">
-                <div class="relative flex-1">
-                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
-                    <input type="text" id="search-input" placeholder="ค้นหากิจกรรม..." class="pl-10 pr-3.5 py-2.5 text-sm border border-gray-200 rounded-xl outline-none focus:border-indigo-400 w-full bg-gray-50 focus:bg-white transition-colors">
+<div class="bg-white" style="padding-top: 2.5rem; padding-bottom: 2.5rem;">
+    <div class="px-4" style="max-width: 72rem; margin: 0 auto;">
+        <div class="d-flex flex-column flex-sm-row align-items-sm-center gap-4 mb-4">
+            <h1 class="fs-4 fw-bolder text-nowrap" style="color: var(--gray-900);">กิจกรรมทั้งหมด</h1>
+            <div class="d-flex flex-column flex-sm-row gap-2 flex-grow-1">
+                <div class="position-relative flex-grow-1">
+                    <i class="fa-solid fa-magnifying-glass position-absolute top-50" style="left: 0.75rem; transform: translateY(-50%); color: var(--gray-400); font-size: 0.875rem;"></i>
+                    <input type="text" id="search-input" placeholder="ค้นหากิจกรรม..." class="border w-100" style="padding: 0.625rem 0.875rem 0.625rem 2.5rem; font-size: 0.875rem; border-color: var(--gray-200); border-radius: 0.75rem; outline: none; background: var(--gray-50);" onfocus="this.style.borderColor='#818CF8'; this.style.background='white'" onblur="this.style.borderColor='var(--gray-200)'; this.style.background='var(--gray-50)'">
                 </div>
-                <select id="filter-category" class="px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl bg-white text-gray-700 outline-none focus:border-indigo-400 sm:min-w-[140px]">
+                <select id="filter-category" class="border" style="padding: 0.625rem 0.875rem; font-size: 0.875rem; border-color: var(--gray-200); border-radius: 0.75rem; background: white; color: var(--gray-700); outline: none; min-width: 140px;" onfocus="this.style.borderColor='#818CF8'" onblur="this.style.borderColor='var(--gray-200)'">
                     <option value="">ทุกหมวดหมู่</option>
                 </select>
-                <select id="filter-year" class="px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl bg-white text-gray-700 outline-none focus:border-indigo-400 sm:min-w-[120px]">
+                <select id="filter-year" class="border" style="padding: 0.625rem 0.875rem; font-size: 0.875rem; border-color: var(--gray-200); border-radius: 0.75rem; background: white; color: var(--gray-700); outline: none; min-width: 120px;" onfocus="this.style.borderColor='#818CF8'" onblur="this.style.borderColor='var(--gray-200)'">
                     <option value="">ทุกปี</option>
                     @for ($y = date('Y') + 543; $y >= date('Y') + 543 - 5; $y--)
                         <option value="{{ $y - 543 }}">{{ $y }}</option>
@@ -33,46 +33,46 @@
                 </select>
             </div>
         </div>
-        <p class="text-sm text-gray-500 mb-8 flex items-center gap-2">
-            <i class="fa-regular fa-lightbulb text-amber-500"></i>
+        <p class="d-flex align-items-center gap-2" style="font-size: 0.875rem; color: var(--gray-500); margin-bottom: 2rem;">
+            <i class="fa-regular fa-lightbulb" style="color: #F59E0B;"></i>
             รวมกิจกรรมและเอกสารของมหาวิทยาลัย
         </p>
-        <div id="activities-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            <div class="col-span-full text-center py-20">
-                <div class="inline-flex items-center justify-center w-20 h-20 bg-indigo-50 rounded-full mb-4">
-                    <i class="fa-solid fa-circle-notch fa-spin text-2xl text-indigo-400"></i>
+        <div id="activities-grid" class="row g-4">
+            <div class="col-12 text-center" style="padding: 5rem 0;">
+                <div class="d-inline-flex align-items-center justify-content-center" style="width: 5rem; height: 5rem; background: #EEF2FF; border-radius: 50%; margin-bottom: 1rem;">
+                    <i class="fa-solid fa-circle-notch fa-spin fs-4" style="color: #818CF8;"></i>
                 </div>
-                <p class="text-gray-500 font-medium">กำลังโหลดข้อมูล...</p>
+                <p class="fw-medium" style="color: var(--gray-500);">กำลังโหลดข้อมูล...</p>
             </div>
         </div>
-        <div id="pagination" class="flex items-center justify-between gap-4 mt-8 flex-wrap">
-            <p id="pagination-info" class="text-sm text-gray-500"></p>
-            <div id="pagination-btns" class="flex gap-2"></div>
+        <div id="pagination" class="d-flex align-items-center justify-content-between gap-4 mt-4 flex-wrap">
+            <p id="pagination-info" style="font-size: 0.875rem; color: var(--gray-500);"></p>
+            <div id="pagination-btns" class="d-flex gap-2"></div>
         </div>
     </div>
 </div>
 
 @php $siteName = setting('site_name', 'University Activities'); $siteDesc = setting('site_description', 'ระบบจัดการกิจกรรมและเอกสารของมหาวิทยาลัย'); $footerText = setting('footer_text', '© ' . date('Y') . ' University Activities. สงวนลิขสิทธิ์ทั้งหมด'); $fbUrl = setting('facebook_url'); $lineUrl = setting('line_url'); $ytUrl = setting('youtube_url'); @endphp
-<footer class="bg-gray-950 text-gray-400 py-12 px-6">
-    <div class="max-w-6xl mx-auto">
-        <div class="flex flex-wrap justify-between gap-8 pb-8 border-b border-white/10 mb-6">
+<footer style="background: #111827; color: var(--gray-400); padding: 3rem 1.5rem;">
+    <div style="max-width: 72rem; margin: 0 auto;">
+        <div class="d-flex flex-wrap justify-content-between gap-4" style="padding-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 1.5rem;">
             <div>
-                <div class="flex items-center gap-3 mb-3">
-                    <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center text-white shadow-lg shadow-indigo-500/30"> <i class="fa-solid fa-graduation-cap"></i> </div>
-                    <div class="text-white text-lg font-extrabold">{{ $siteName }}</div>
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <div class="d-flex align-items-center justify-content-center" style="width: 2.5rem; height: 2.5rem; background: linear-gradient(135deg, #6366F1, #A855F7); border-radius: 0.75rem; color: white; box-shadow: 0 0.25rem 1rem rgba(99,102,241,0.3);"> <i class="fa-solid fa-graduation-cap"></i> </div>
+                    <div class="fw-bolder text-white" style="font-size: 1.125rem;">{{ $siteName }}</div>
                 </div>
-                <p class="text-sm text-gray-400 max-w-xs leading-relaxed">{{ $siteDesc }}</p>
+                <p style="font-size: 0.875rem; color: var(--gray-400); max-width: 20rem; line-height: 1.625;">{{ $siteDesc }}</p>
             </div>
-            <nav class="flex flex-col gap-3 text-sm">
-                <p class="text-white font-semibold mb-1">เมนู</p>
-                <a href="/activities" class="text-gray-400 hover:text-white transition-colors no-underline"><i class="fa-regular fa-calendar mr-2"></i>กิจกรรมทั้งหมด</a>
-                <a href="/#about" class="text-gray-400 hover:text-white transition-colors no-underline"><i class="fa-regular fa-circle-info mr-2"></i>เกี่ยวกับระบบ</a>
-                <a href="/login" class="text-gray-400 hover:text-white transition-colors no-underline"><i class="fa-solid fa-user-gear mr-2"></i>สำหรับผู้ดูแล</a>
+            <nav class="d-flex flex-column gap-3" style="font-size: 0.875rem;">
+                <p class="fw-semibold text-white mb-1">เมนู</p>
+                <a href="/activities" class="text-decoration-none" style="color: var(--gray-400);" onmouseover="this.style.color='white'" onmouseout="this.style.color='var(--gray-400)'"><i class="fa-regular fa-calendar me-2"></i>กิจกรรมทั้งหมด</a>
+                <a href="/#about" class="text-decoration-none" style="color: var(--gray-400);" onmouseover="this.style.color='white'" onmouseout="this.style.color='var(--gray-400)'"><i class="fa-regular fa-circle-info me-2"></i>เกี่ยวกับระบบ</a>
+                <a href="/login" class="text-decoration-none" style="color: var(--gray-400);" onmouseover="this.style.color='white'" onmouseout="this.style.color='var(--gray-400)'"><i class="fa-solid fa-user-gear me-2"></i>สำหรับผู้ดูแล</a>
             </nav>
         </div>
-        <div class="flex flex-wrap justify-between items-center gap-4">
-            <p class="text-xs text-gray-500">{{ $footerText }}</p>
-            <p class="text-xs text-gray-600">พัฒนาด้วย <i class="fa-solid fa-heart text-red-500 mx-1"></i> สำหรับมหาวิทยาลัย</p>
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-4">
+            <p style="font-size: 0.75rem; color: var(--gray-500);">{{ $footerText }}</p>
+            <p style="font-size: 0.75rem; color: var(--gray-600);">พัฒนาด้วย <i class="fa-solid fa-heart text-danger mx-1"></i> สำหรับมหาวิทยาลัย</p>
         </div>
     </div>
 </footer>
@@ -89,7 +89,7 @@ var currentKeyword = '';
 function loadActivities(page) {
     page = page || 1;
     var $grid = $('#activities-grid');
-    $grid.html('<div class="col-span-full text-center py-16 text-gray-400"><i class="fa-solid fa-circle-notch fa-spin text-2xl"></i><p class="mt-3 text-sm">กำลังโหลด...</p></div>');
+    $grid.html('<div class="col-12 text-center" style="padding: 4rem 0; color: var(--gray-400);"><i class="fa-solid fa-circle-notch fa-spin fs-4"></i><p class="mt-3" style="font-size: 0.875rem;">กำลังโหลด...</p></div>');
 
     var params = { per_page: 12, page: page };
     if (currentCategory) params.category_id = currentCategory;
@@ -100,33 +100,33 @@ function loadActivities(page) {
         var data = json.data || [];
 
         if (data.length === 0) {
-            $grid.html('<div class="col-span-full text-center py-20">' +
-                '<div class="inline-flex items-center justify-center w-20 h-20 bg-gray-100 rounded-full mb-4">' +
-                '<i class="fa-regular fa-inbox text-3xl text-gray-400"></i></div>' +
-                '<h3 class="text-lg font-bold text-gray-800 mb-2">ไม่พบกิจกรรม</h3>' +
-                '<p class="text-gray-500 mb-4">ลองค้นหาด้วยคำอื่นหรือเปลี่ยนตัวกรอง</p>' +
-                '<button onclick="$(\'#search-input\').val(\'\');$(\'#filter-category\').val(\'\');$(\'#filter-year\').val(\'\');loadActivities(1)" class="px-4 py-2 text-sm font-semibold text-indigo-600 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition-colors">' +
-                '<i class="fa-solid fa-rotate-left mr-1"></i> ล้างตัวกรอง</button></div>');
+            $grid.html('<div class="col-12 text-center" style="padding: 5rem 0;">' +
+                '<div class="d-inline-flex align-items-center justify-content-center" style="width: 5rem; height: 5rem; background: var(--gray-100); border-radius: 50%; margin-bottom: 1rem;">' +
+                '<i class="fa-regular fa-inbox" style="font-size: 1.875rem; color: var(--gray-400);"></i></div>' +
+                '<h3 class="fw-bold" style="font-size: 1.125rem; color: var(--gray-800); margin-bottom: 0.5rem;">ไม่พบกิจกรรม</h3>' +
+                '<p style="color: var(--gray-500); margin-bottom: 1rem;">ลองค้นหาด้วยคำอื่นหรือเปลี่ยนตัวกรอง</p>' +
+                '<button onclick="$(\'#search-input\').val(\'\');$(\'#filter-category\').val(\'\');$(\'#filter-year\').val(\'\');loadActivities(1)" style="padding: 0.5rem 1rem; font-size: 0.875rem; font-weight: 600; color: #4F46E5; background: #EEF2FF; border-radius: 0.5rem; border: none;" onmouseover="this.style.background=\'#E0E7FF\'" onmouseout="this.style.background=\'#EEF2FF\'">' +
+                '<i class="fa-solid fa-rotate-left me-1"></i> ล้างตัวกรอง</button></div>');
         } else {
             $grid.html($.map(data, function (a) {
                 var img = a.cover_image_url
-                    ? '<img src="' + a.cover_image_url + '" alt="' + a.title + '" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">'
-                    : '<div class="w-full h-full flex items-center justify-center text-3xl text-gray-300"><i class="fa-regular fa-image"></i></div>';
+                    ? '<img src="' + a.cover_image_url + '" alt="' + a.title + '" class="w-100 h-100" style="object-fit: cover;">'
+                    : '<div class="w-100 h-100 d-flex align-items-center justify-content-center" style="font-size: 1.875rem; color: var(--gray-300);"><i class="fa-regular fa-image"></i></div>';
                 var cat = a.category
-                    ? '<span class="absolute top-2.5 left-2.5 bg-gray-900/60 backdrop-blur-sm text-white text-[10px] font-bold px-2 py-0.5 rounded-full">' + a.category.name + '</span>'
+                    ? '<span class="position-absolute" style="top: 0.625rem; left: 0.625rem; background: rgba(17,24,39,0.6); backdrop-filter: blur(4px); color: white; font-size: 10px; font-weight: 700; padding: 0.125rem 0.5rem; border-radius: 50rem;">' + a.category.name + '</span>'
                     : '';
-                return '<a href="/activities/' + a.id + '" class="block bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all group no-underline">'
-                    + '<div class="h-40 bg-gray-100 overflow-hidden relative">' + cat + img + '</div>'
-                    + '<div class="p-4">'
-                    + '<div class="flex items-center gap-2 text-xs text-gray-400 mb-2"><i class="fa-regular fa-calendar"></i>' + (a.activity_date || '') + '</div>'
-                    + '<h3 class="text-sm font-bold text-gray-800 leading-snug mb-2">' + a.title + '</h3>'
-                    + '<p class="text-xs text-gray-500 line-clamp-2 leading-relaxed">' + (a.description || '') + '</p>'
-                    + '<div class="flex items-center gap-2 mt-3 text-xs text-gray-400">'
-                    + '<span><i class="fa-regular fa-location-dot mr-1"></i>' + (a.location || 'ไม่มีสถานที่') + '</span>'
-                    + '<span class="ml-auto">' + (a.participants_count ?? 0) + ' คน</span>'
+                return '<div class="col-sm-6 col-lg-4"><a href="/activities/' + a.id + '" class="d-block bg-white border text-decoration-none overflow-hidden" style="border-color: var(--gray-100); border-radius: 1rem;" onmouseover="this.style.boxShadow=\'0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04)\'; this.style.transform=\'translateY(-0.25rem)\'" onmouseout="this.style.boxShadow=\'none\'; this.style.transform=\'none\'">'
+                    + '<div class="position-relative" style="height: 10rem; background: var(--gray-100); overflow: hidden;">' + cat + img + '</div>'
+                    + '<div class="p-3">'
+                    + '<div class="d-flex align-items-center gap-2" style="font-size: 0.75rem; color: var(--gray-400); margin-bottom: 0.5rem;"><i class="fa-regular fa-calendar"></i>' + (a.activity_date || '') + '</div>'
+                    + '<h3 class="fw-bold" style="font-size: 0.875rem; color: var(--gray-800); line-height: 1.375; margin-bottom: 0.5rem;">' + a.title + '</h3>'
+                    + '<p style="font-size: 0.75rem; color: var(--gray-500); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.625;">' + (a.description || '') + '</p>'
+                    + '<div class="d-flex align-items-center gap-2 mt-3" style="font-size: 0.75rem; color: var(--gray-400);">'
+                    + '<span><i class="fa-regular fa-location-dot me-1"></i>' + (a.location || 'ไม่มีสถานที่') + '</span>'
+                    + '<span class="ms-auto">' + (a.participants_count ?? 0) + ' คน</span>'
                     + '</div>'
                     + '</div>'
-                    + '</a>';
+                    + '</a></div>';
             }).join(''));
         }
 
@@ -137,7 +137,7 @@ function loadActivities(page) {
             renderPagination(meta);
         }
     }).fail(function () {
-        $grid.html('<div class="col-span-full text-center py-16 text-gray-400"><i class="fa-regular fa-circle-exclamation text-3xl"></i><p class="mt-3 text-sm">เกิดข้อผิดพลาดในการโหลดข้อมูล</p></div>');
+        $grid.html('<div class="col-12 text-center" style="padding: 4rem 0; color: var(--gray-400);"><i class="fa-regular fa-circle-exclamation" style="font-size: 1.875rem;"></i><p class="mt-3" style="font-size: 0.875rem;">เกิดข้อผิดพลาดในการโหลดข้อมูล</p></div>');
     });
 }
 
@@ -145,34 +145,49 @@ function renderPagination(meta) {
     var $btns = $('#pagination-btns').empty();
     if (meta.last_page <= 1) return;
 
-    var prev = $('<button>').addClass('px-3 py-1.5 text-sm font-semibold rounded-xl border transition-all')
+    var prev = $('<button>').addClass('border rounded-2 fw-semibold')
+        .css({ padding: '0.375rem 0.75rem', fontSize: '0.875rem' })
         .html('<i class="fa-solid fa-chevron-left"></i>')
-        .prop('disabled', meta.current_page === 1)
-        .toggleClass('text-gray-300 border-gray-100 cursor-not-allowed', meta.current_page === 1)
-        .toggleClass('text-gray-600 border-gray-200 hover:bg-gray-50 hover:text-indigo-600 cursor-pointer', meta.current_page !== 1)
-        .on('click', function () {
-            if (meta.current_page > 1) loadActivities(meta.current_page - 1);
-        });
+        .prop('disabled', meta.current_page === 1);
+
+    if (meta.current_page === 1) {
+        prev.css({ color: 'var(--gray-300)', borderColor: 'var(--gray-100)', cursor: 'not-allowed' });
+    } else {
+        prev.css({ color: 'var(--gray-600)', borderColor: 'var(--gray-200)', cursor: 'pointer' });
+    }
+    prev.on('click', function () {
+        if (meta.current_page > 1) loadActivities(meta.current_page - 1);
+    });
     $btns.append(prev);
 
     for (var i = 1; i <= meta.last_page; i++) {
         (function (p) {
-            var btn = $('<button>').text(p).addClass('px-3 py-1.5 text-sm font-semibold rounded-xl border transition-all')
-                .toggleClass('bg-indigo-500 text-white border-indigo-500', p === meta.current_page)
-                .toggleClass('text-gray-600 border-gray-200 hover:bg-gray-50 hover:text-indigo-600 cursor-pointer', p !== meta.current_page)
+            var btn = $('<button>').text(p).addClass('border rounded-2 fw-semibold')
+                .css({ padding: '0.375rem 0.75rem', fontSize: '0.875rem' })
                 .on('click', function () { loadActivities(p); });
+
+            if (p === meta.current_page) {
+                btn.css({ background: '#6366F1', color: 'white', borderColor: '#6366F1' });
+            } else {
+                btn.css({ color: 'var(--gray-600)', borderColor: 'var(--gray-200)', cursor: 'pointer' });
+            }
             $btns.append(btn);
         })(i);
     }
 
-    var next = $('<button>').addClass('px-3 py-1.5 text-sm font-semibold rounded-xl border transition-all')
+    var next = $('<button>').addClass('border rounded-2 fw-semibold')
+        .css({ padding: '0.375rem 0.75rem', fontSize: '0.875rem' })
         .html('<i class="fa-solid fa-chevron-right"></i>')
-        .prop('disabled', meta.current_page === meta.last_page)
-        .toggleClass('text-gray-300 border-gray-100 cursor-not-allowed', meta.current_page === meta.last_page)
-        .toggleClass('text-gray-600 border-gray-200 hover:bg-gray-50 hover:text-indigo-600 cursor-pointer', meta.current_page !== meta.last_page)
-        .on('click', function () {
-            if (meta.current_page < meta.last_page) loadActivities(meta.current_page + 1);
-        });
+        .prop('disabled', meta.current_page === meta.last_page);
+
+    if (meta.current_page === meta.last_page) {
+        next.css({ color: 'var(--gray-300)', borderColor: 'var(--gray-100)', cursor: 'not-allowed' });
+    } else {
+        next.css({ color: 'var(--gray-600)', borderColor: 'var(--gray-200)', cursor: 'pointer' });
+    }
+    next.on('click', function () {
+        if (meta.current_page < meta.last_page) loadActivities(meta.current_page + 1);
+    });
     $btns.append(next);
 }
 

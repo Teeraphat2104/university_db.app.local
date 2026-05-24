@@ -9,7 +9,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     @php $favicon = setting('favicon'); @endphp
     @if ($favicon)
         <link rel="icon" type="image/png" href="{{ Storage::disk('public')->url($favicon) }}">
@@ -18,6 +17,15 @@
     @endif
     <style>
         :root { --primary-color: {{ setting('primary_color', '#6366F1') }}; }
+
+        body {
+            font-family: 'Noto Sans Thai', system-ui, sans-serif;
+            color: #1E293B;
+            background: #fff;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            margin: 0;
+        }
 
         .split-layout {
             display: flex;

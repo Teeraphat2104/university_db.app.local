@@ -10,12 +10,12 @@
     </div>
 </div>
 
-<div id="settings-loading" class="text-center p-12 text-gray-500">
-    <i class="fa-solid fa-arrows-rotate fa-spin text-2xl block mb-3"></i>
+<div id="settings-loading" class="text-center" style="padding:3rem;color:var(--gray-500)">
+    <i class="fa-solid fa-arrows-rotate fa-spin d-block" style="font-size:1.5rem;margin-bottom:.75rem"></i>
     กำลังโหลด...
 </div>
 
-<form id="settings-form" class="hidden">
+<form id="settings-form" class="d-none" style="display:none">
     <div id="settings-groups" style="display:flex;flex-direction:column;gap:1.5rem;"></div>
     <div class="save-bar">
         <button type="submit" class="btn btn-primary" id="save-btn">
@@ -85,7 +85,7 @@
         $(function() {
             if (!token) {
                 $('#settings-loading').html(
-                    'กรุณา <a href="/login" class="text-indigo-600">เข้าสู่ระบบ</a> ก่อน');
+                    'กรุณา <a href="/login" style="color:#4F46E5">เข้าสู่ระบบ</a> ก่อน');
                 return;
             }
             loadSettings();
@@ -103,7 +103,7 @@
                 error: function(xhr) {
                     if (xhr.status === 401) {
                         $('#settings-loading').html(
-                            'เซสชันหมดอายุ กรุณา <a href="/login" class="text-indigo-600">เข้าสู่ระบบ</a> อีกครั้ง'
+                            'เซสชันหมดอายุ กรุณา <a href="/login" style="color:#4F46E5">เข้าสู่ระบบ</a> อีกครั้ง'
                             );
                     } else {
                         $('#settings-loading').html('เกิดข้อผิดพลาดในการโหลดข้อมูล');
@@ -142,8 +142,8 @@
                 $container.append(html);
             });
 
-            $('#settings-loading').addClass('hidden');
-            $('#settings-form').removeClass('hidden');
+            $('#settings-loading').addClass('d-none');
+            $('#settings-form').removeClass('d-none');
             bindColorPreview();
         }
 
@@ -171,7 +171,7 @@
             var required = ['site_name', 'contact_email'].includes(key);
 
             var field = '<div class="field-row">';
-            field += '<label class="field-label">' + label + (required ? ' <span class="text-red-500">*</span>' :
+            field += '<label class="field-label">' + label + (required ? ' <span style="color:#EF4444">*</span>' :
                 '') + '</label>';
 
             switch (type) {
@@ -191,7 +191,7 @@
                 case 'image':
                     var hasFile = setting.url ? true : false;
                     field += '<input type="file" id="setting-' + key + '" name="settings[' + key +
-                        ']" accept="image/*" class="p-0 border-0">';
+                        ']" accept="image/*" style="padding:0;border:none">';
                     if (hasFile) {
                         field += '<div class="logo-preview-wrap">';
                         if (key === 'favicon') {
@@ -199,7 +199,7 @@
                         } else {
                             field += '<img src="' + setting.url + '" class="image-preview">';
                         }
-                        field += '<span class="text-xs text-gray-500">อัปโหลดใหม่เพื่อเปลี่ยน</span>';
+                        field += '<span style="font-size:.75rem;color:var(--gray-500)">อัปโหลดใหม่เพื่อเปลี่ยน</span>';
                         field += '</div>';
                     }
                     break;

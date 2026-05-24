@@ -1,13 +1,9 @@
 {
-    "$schema": "https://www.schemastore.org/package.json",
     "private": true,
     "scripts": {
-        "build:css": "tailwindcss -i resources/css/app.css -o public/css/app.css --minify && copy /y resources\\css\\admin.css public\\css\\admin.css >nul",
-        "build": "npm run build:css"
+        "build": "copy /y resources\\css\\admin.css public\\css\\admin.css >nul && echo Build complete"
     },
     "devDependencies": {
-        "@tailwindcss/cli": "^4.3.0",
-        "axios": "^1.11.0",
-        "tailwindcss": "^4.0.0"
+        "axios": "^1.11.0"
     }
 }
