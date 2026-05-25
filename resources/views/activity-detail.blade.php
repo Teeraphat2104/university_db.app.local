@@ -87,8 +87,6 @@
     </div>
 </div>
 
-<a href="javascript:history.back()" class="detail-back-btn" style="margin:1rem auto 0;max-width:72rem;display:inline-flex;margin-left:1.25rem"><i class="bx bx-arrow-back"></i> ย้อนกลับ</a>
-
 <div id="loading" class="text-center py-5" style="margin-top:2rem">
     <div class="spinner-border text-primary mb-3" style="width:3rem;height:3rem" role="status"></div>
     <p class="text-muted">กำลังโหลดข้อมูล...</p>
@@ -96,6 +94,7 @@
 
 <div id="activity-content" class="d-none">
     <div class="detail-body">
+        <a href="javascript:history.back()" class="detail-back-btn mb-3"><i class="bx bx-arrow-back"></i> ย้อนกลับ</a>
         <div class="row g-4">
             <div class="col-lg-6">
                 <div class="detail-cover mb-4">
