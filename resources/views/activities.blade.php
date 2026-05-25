@@ -66,28 +66,7 @@
     </div>
 </div>
 
-<footer style="background:#111827;color:#9ca3af;padding:3rem 1.5rem">
-    <div class="mx-auto" style="max-width:72rem">
-        <div class="d-flex flex-wrap justify-content-between gap-4" style="padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:1.5rem">
-            <div>
-                <div class="d-flex align-items-center gap-3 mb-3">
-                    <div class="d-flex align-items-center justify-content-center" style="width:2.5rem;height:2.5rem;background:linear-gradient(135deg,#696cff,#a855f7);border-radius:.75rem;color:#fff;box-shadow:0 4px 16px rgba(99,102,241,.3)"><i class="bx bx-graduation"></i></div>
-                    <div class="fw-bolder text-white" style="font-size:1.125rem">{{ $siteName }}</div>
-                </div>
-                <p style="font-size:.875rem;max-width:20rem;line-height:1.625">{{ $siteDesc }}</p>
-            </div>
-            <nav class="d-flex flex-column gap-2" style="font-size:.875rem">
-                <p class="fw-semibold text-white mb-1">เมนู</p>
-                <a href="/activities" class="text-decoration-none" style="color:#9ca3af;transition:color .15s" onmouseover="this.style.color='white'" onmouseout="this.style.color='#9ca3af'"><i class="bx bx-calendar me-2"></i>กิจกรรมทั้งหมด</a>
-                <a href="/login" class="text-decoration-none" style="color:#9ca3af;transition:color .15s" onmouseover="this.style.color='white'" onmouseout="this.style.color='#9ca3af'"><i class="bx bx-user-tie me-2"></i>สำหรับผู้ดูแล</a>
-            </nav>
-        </div>
-        <div class="d-flex flex-wrap justify-content-between align-items-center gap-4">
-            <p style="font-size:.75rem;color:#6b7280">{{ $footerText }}</p>
-            <p style="font-size:.75rem;color:#4b5563">พัฒนาด้วย <i class="bx bxs-heart text-danger mx-1"></i> สำหรับมหาวิทยาลัย</p>
-        </div>
-    </div>
-</footer>
+@include('layouts.footer')
 @endsection
 
 @section('script')

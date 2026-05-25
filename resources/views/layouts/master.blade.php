@@ -118,6 +118,46 @@
             box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
             transform: translateY(-4px);
         }
+        .detail-back-btn {
+            display: inline-flex; align-items: center; gap: .375rem;
+            padding: .375rem .875rem; font-size: .8125rem;
+            color: #64748b; border: 1px solid #e2e8f0; border-radius: 8px;
+            background: #fff; text-decoration: none; font-weight: 600;
+            transition: all .15s ease;
+        }
+        .detail-back-btn:hover { color: #1e293b; border-color: #cbd5e1; background: #f8fafc; }
+        .site-footer {
+            background: #030712; color: #9ca3af; padding: 3rem 1.5rem;
+        }
+        .site-footer-inner { max-width: 72rem; margin: 0 auto; }
+        .site-footer-top {
+            display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem;
+            padding-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,.1);
+            margin-bottom: 1.5rem;
+        }
+        .site-footer-brand {
+            display: flex; align-items: center; gap: .75rem; margin-bottom: .75rem;
+        }
+        .site-footer-icon {
+            display: flex; align-items: center; justify-content: center;
+            width: 2.5rem; height: 2.5rem;
+            background: linear-gradient(135deg,#696cff,#a855f7);
+            border-radius: .75rem; color: #fff;
+            box-shadow: 0 4px 16px rgba(99,102,241,.3);
+        }
+        .site-footer-name { font-weight: 700; color: #fff; font-size: 1.125rem; }
+        .site-footer-desc { font-size: .875rem; max-width: 20rem; line-height: 1.625; }
+        .site-footer-nav { display: flex; flex-direction: column; gap: .5rem; font-size: .875rem; }
+        .site-footer-nav-title { font-weight: 600; color: #fff; margin-bottom: .25rem; }
+        .site-footer-link {
+            color: #9ca3af; text-decoration: none; transition: color .15s;
+        }
+        .site-footer-link:hover { color: #fff; }
+        .site-footer-bottom {
+            display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem;
+        }
+        .site-footer-copy { font-size: .75rem; color: #6b7280; }
+        .site-footer-heart { font-size: .75rem; color: #4b5563; }
     </style>
     @yield('style')
     <script src="{{ asset('sneat-1.0.0/assets/vendor/js/helpers.js') }}"></script>

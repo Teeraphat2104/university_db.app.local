@@ -2,6 +2,111 @@
 
 @section('title', 'รายละเอียดกิจกรรม - University Activities')
 
+@section('style')
+<style>
+.detail-back-btn {
+    display: inline-flex; align-items: center; gap: .375rem;
+    padding: .375rem .875rem; font-size: .8125rem;
+    color: #64748b; border: 1px solid #e2e8f0; border-radius: 8px;
+    background: #fff; text-decoration: none; font-weight: 600;
+    transition: all .15s ease;
+}
+.detail-back-btn:hover { color: #1e293b; border-color: #cbd5e1; background: #f8fafc; }
+
+.detail-hero {
+    position: relative; width: 100%;
+    background: #f1f5f9; overflow: hidden;
+}
+.detail-hero-img { width: 100%; height: 100%; object-fit: cover; }
+.detail-hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,.7) 0%, rgba(0,0,0,.1) 60%, transparent 100%);
+}
+.detail-hero-content {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 3rem 1.25rem;
+}
+.detail-hero-title {
+    font-size: 1.75rem; font-weight: 700; color: #fff;
+    text-shadow: 0 2px 8px rgba(0,0,0,.25);
+    line-height: 1.3; max-width: 48rem;
+}
+.detail-hero-badge {
+    display: inline-flex; align-items: center; gap: .375rem;
+    align-self: flex-start;
+    padding: .25rem .75rem; border-radius: 50rem; font-size: .75rem; font-weight: 600;
+    background: rgba(255,255,255,.2); color: #fff;
+    backdrop-filter: blur(4px); margin-bottom: .75rem;
+}
+.detail-hero-fallback {
+    display: flex; align-items: center; justify-content: center;
+    width: 100%; min-height: 320px;
+    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+    color: #94a3b8; font-size: 4rem;
+}
+
+.detail-body { max-width: 72rem; margin: 0 auto; padding: 2.5rem 1.25rem; }
+
+.detail-description {
+    font-size: 1rem; line-height: 1.75; color: #334155;
+}
+.detail-description p { margin-bottom: 1.25rem; }
+
+.detail-card {
+    position: sticky; top: 6rem;
+    background: #fff; border: 1px solid #e2e8f0; border-radius: 1rem;
+    box-shadow: 0 4px 24px rgba(0,0,0,.04); overflow: hidden;
+}
+.detail-card-body { padding: 1.25rem; display: flex; flex-direction: column; gap: 1.25rem; }
+.detail-card-item {
+    display: flex; align-items: flex-start; gap: .75rem;
+}
+.detail-card-icon {
+    display: flex; align-items: center; justify-content: center;
+    width: 2.25rem; height: 2.25rem; border-radius: 10px;
+    background: #f0f0ff; color: #696cff; font-size: 1.125rem;
+    flex-shrink: 0;
+}
+.detail-card-label {
+    display: block; font-size: .6875rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: .05em; color: #94a3b8;
+    margin-bottom: .125rem;
+}
+.detail-card-value { font-weight: 600; color: #1e293b; font-size: .875rem; }
+.detail-card-divider { height: 1px; background: #f1f5f9; margin: 0; border: none; }
+
+.detail-pdf-wrap {
+    border: 1px solid #e2e8f0; border-radius: 1rem; overflow: hidden;
+}
+.detail-pdf-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: .75rem 1rem; background: #f8fafc;
+    font-size: .8125rem; font-weight: 600;
+}
+.detail-pdf-btn {
+    display: inline-flex; align-items: center; gap: .375rem;
+    padding: .375rem .875rem; font-size: .8125rem; font-weight: 600;
+    color: #dc2626; border: 1px solid #fecaca; border-radius: 8px;
+    background: #fff; text-decoration: none;
+    transition: all .15s ease;
+}
+.detail-pdf-btn:hover { background: #fef2f2; border-color: #fca5a5; }
+
+.detail-hero-card { margin-top: -3rem; position: relative; z-index: 1; }
+
+.detail-notfound {
+    text-align: center; padding: 5rem 1.25rem;
+}
+.detail-notfound-icon {
+    font-size: 4rem; color: #cbd5e1; margin-bottom: 1rem;
+}
+.detail-notfound-title { font-size: 1.5rem; font-weight: 700; color: #1e293b; margin-bottom: .5rem; }
+.detail-notfound-text { color: #64748b; margin-bottom: 1.5rem; }
+
+</style>
+@endsection
+
 @section('content')
 @php $siteName = setting('site_name', 'University Activities'); $siteDesc = setting('site_description', 'ระบบจัดการกิจกรรมและเอกสารของมหาวิทยาลัย'); $footerText = setting('footer_text', '© ' . date('Y') . ' University Activities. สงวนลิขสิทธิ์ทั้งหมด'); @endphp
 
@@ -17,97 +122,97 @@
     </div>
 </div>
 
-<section class="bg-white py-5">
-    <div class="mx-auto px-4" style="max-width:72rem">
-        <div id="loading" class="text-center py-5">
-            <div class="spinner-border text-primary mb-3" style="width:3rem;height:3rem" role="status"></div>
-            <p class="text-muted">กำลังโหลดข้อมูล...</p>
+<a href="javascript:history.back()" class="detail-back-btn" style="margin:1rem auto 0;max-width:72rem;display:inline-flex;margin-left:1.25rem"><i class="bx bx-arrow-back"></i> ย้อนกลับ</a>
+
+<div id="loading" class="text-center py-5" style="margin-top:2rem">
+    <div class="spinner-border text-primary mb-3" style="width:3rem;height:3rem" role="status"></div>
+    <p class="text-muted">กำลังโหลดข้อมูล...</p>
+</div>
+
+<div id="activity-content" class="d-none">
+    <div class="detail-hero" id="cover-section">
+        <img id="cover-img" src="" alt="" class="detail-hero-img d-none">
+        <div id="cover-placeholder" class="detail-hero-fallback">
+            <i class="bx bx-image"></i>
         </div>
-
-        <div id="activity-content" class="d-none">
-            <div class="row g-4">
-                <div class="col-lg-8">
-                    <div class="overflow-hidden rounded-3 bg-light mb-4" style="aspect-ratio:16/9">
-                        <img id="cover-img" src="" alt="" class="d-none w-100 h-100" style="object-fit:cover">
-                        <div id="cover-placeholder" class="d-flex align-items-center justify-content-center w-100 h-100 text-muted" style="font-size:3rem"><i class="bx bx-image"></i></div>
-                    </div>
-
-                    <h1 id="activity-title" class="fw-bold mb-3" style="font-size:1.75rem;color:#111827"></h1>
-                    <div id="activity-description" class="text-muted mb-4" style="font-size:1rem;line-height:1.625"></div>
-
-                    <div id="pdf-preview-wrap" class="d-none card">
-                        <div class="card-header d-flex align-items-center justify-content-between bg-light">
-                            <span class="fw-semibold small"><i class="bx bxs-file-pdf text-danger me-1"></i>เอกสาร PDF</span>
-                            <a id="pdf-download-link" href="#" target="_blank" class="btn btn-sm btn-outline-danger"><i class="bx bx-download me-1"></i>ดาวน์โหลด</a>
-                        </div>
-                        <iframe id="pdf-preview" src="" style="width:100%;height:500px;border:none"></iframe>
-                    </div>
-                </div>
-
-                <div class="col-lg-4">
-                    <div class="card" style="position:sticky;top:6rem">
-                        <div class="card-body d-flex flex-column gap-3">
-                            <div>
-                                <small class="text-muted text-uppercase fw-semibold d-block mb-1">วันที่จัดกิจกรรม</small>
-                                <p id="detail-date" class="fw-bold mb-0 d-flex align-items-center gap-2"><i class="bx bx-calendar text-primary"></i></p>
-                            </div>
-                            <div>
-                                <small class="text-muted text-uppercase fw-semibold d-block mb-1">สถานที่</small>
-                                <p id="detail-location" class="fw-bold mb-0 d-flex align-items-center gap-2"><i class="bx bx-map-pin text-primary"></i></p>
-                            </div>
-                            <div>
-                                <small class="text-muted text-uppercase fw-semibold d-block mb-1">หมวดหมู่</small>
-                                <p id="detail-category" class="fw-bold mb-0 d-flex align-items-center gap-2"><i class="bx bx-receipt text-primary"></i></p>
-                            </div>
-                            <div>
-                                <small class="text-muted text-uppercase fw-semibold d-block mb-1">ผู้เข้าร่วม</small>
-                                <p id="detail-participants" class="fw-bold mb-0 d-flex align-items-center gap-2"><i class="bx bx-user text-primary"></i></p>
-                            </div>
-                        </div>
-                        <div id="pdf-sidebar-wrap" class="d-none">
-                            <hr class="my-0">
-                            <div class="card-body">
-                                <p class="fw-semibold text-uppercase small text-muted mb-2">ดาวน์โหลด</p>
-                                <a id="pdf-sidebar-link" href="#" target="_blank" class="btn btn-outline-danger w-100 d-flex align-items-center gap-2"><i class="bx bxs-file-pdf"></i> ดาวน์โหลด PDF</a>
-                            </div>
-                        </div>
-                    </div>
-                    <a href="/activities" class="btn btn-outline-secondary w-100 mt-3 d-flex align-items-center justify-content-center gap-2"><i class="bx bx-arrow-back"></i>กลับไปหน้ากิจกรรมทั้งหมด</a>
-                </div>
-            </div>
-        </div>
-
-        <div id="not-found" class="d-none text-center py-5">
-            <div class="mb-3 text-muted" style="font-size:4rem"><i class="bx bx-error-circle"></i></div>
-            <h4 class="fw-bold mb-2">ไม่พบกิจกรรม</h4>
-            <p class="text-muted mb-4">กิจกรรมที่คุณกำลังค้นหาอาจถูกลบหรือย้ายไปแล้ว</p>
-            <a href="/activities" class="btn btn-primary btn-lg d-inline-flex align-items-center gap-2"><i class="bx bx-arrow-back"></i>กลับไปหน้ากิจกรรมทั้งหมด</a>
+        <div class="detail-hero-overlay"></div>
+        <div class="detail-hero-content">
+            <span class="detail-hero-badge" id="hero-badge"><i class="bx bx-calendar"></i> <span id="hero-date"></span></span>
+            <h1 id="activity-title" class="detail-hero-title"></h1>
         </div>
     </div>
-</section>
 
-<footer style="background:#030712;color:#9ca3af;padding:3rem 1.5rem">
-    <div class="mx-auto" style="max-width:72rem">
-        <div class="d-flex flex-wrap justify-content-between gap-4" style="padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:1.5rem">
-            <div>
-                <div class="d-flex align-items-center gap-3 mb-3">
-                    <div class="d-flex align-items-center justify-content-center" style="width:2.5rem;height:2.5rem;background:linear-gradient(135deg,#696cff,#a855f7);border-radius:.75rem;color:#fff;box-shadow:0 4px 16px rgba(99,102,241,.3)"><i class="bx bx-graduation"></i></div>
-                    <div class="fw-bolder text-white" style="font-size:1.125rem">{{ $siteName }}</div>
+    <div class="detail-body">
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <div id="activity-description" class="detail-description"></div>
+
+                <div id="pdf-preview-wrap" class="detail-pdf-wrap d-none mt-4">
+                    <div class="detail-pdf-header">
+                        <span><i class="bx bxs-file-pdf" style="color:#dc2626"></i> เอกสาร PDF</span>
+                        <a id="pdf-download-link" href="#" target="_blank" class="detail-pdf-btn"><i class="bx bx-download"></i> ดาวน์โหลด</a>
+                    </div>
+                    <iframe id="pdf-preview" src="" style="width:100%;height:500px;border:none"></iframe>
                 </div>
-                <p style="font-size:.875rem;max-width:20rem;line-height:1.625">{{ $siteDesc }}</p>
             </div>
-            <nav class="d-flex flex-column gap-2" style="font-size:.875rem">
-                <p class="fw-semibold text-white mb-1">เมนู</p>
-                <a href="/activities" class="text-decoration-none" style="color:#9ca3af;transition:color .15s" onmouseover="this.style.color='white'" onmouseout="this.style.color='#9ca3af'"><i class="bx bx-calendar me-2"></i>กิจกรรมทั้งหมด</a>
-                <a href="/login" class="text-decoration-none" style="color:#9ca3af;transition:color .15s" onmouseover="this.style.color='white'" onmouseout="this.style.color='#9ca3af'"><i class="bx bx-user-tie me-2"></i>สำหรับผู้ดูแล</a>
-            </nav>
-        </div>
-        <div class="d-flex flex-wrap justify-content-between align-items-center gap-4">
-            <p style="font-size:.75rem;color:#6b7280">{{ $footerText }}</p>
-            <p style="font-size:.75rem;color:#4b5563">พัฒนาด้วย <i class="bx bxs-heart text-danger mx-1"></i> สำหรับมหาวิทยาลัย</p>
+
+            <div class="col-lg-4">
+                <div class="detail-card">
+                    <div class="detail-card-body">
+                        <div class="detail-card-item">
+                            <div class="detail-card-icon"><i class="bx bx-calendar"></i></div>
+                            <div>
+                                <span class="detail-card-label">วันที่จัดกิจกรรม</span>
+                                <span class="detail-card-value" id="detail-date"></span>
+                            </div>
+                        </div>
+                        <hr class="detail-card-divider">
+                        <div class="detail-card-item">
+                            <div class="detail-card-icon"><i class="bx bx-map-pin"></i></div>
+                            <div>
+                                <span class="detail-card-label">สถานที่</span>
+                                <span class="detail-card-value" id="detail-location"></span>
+                            </div>
+                        </div>
+                        <hr class="detail-card-divider">
+                        <div class="detail-card-item">
+                            <div class="detail-card-icon"><i class="bx bx-receipt"></i></div>
+                            <div>
+                                <span class="detail-card-label">หมวดหมู่</span>
+                                <span class="detail-card-value" id="detail-category"></span>
+                            </div>
+                        </div>
+                        <hr class="detail-card-divider">
+                        <div class="detail-card-item">
+                            <div class="detail-card-icon"><i class="bx bx-user"></i></div>
+                            <div>
+                                <span class="detail-card-label">ผู้เข้าร่วม</span>
+                                <span class="detail-card-value" id="detail-participants"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="pdf-sidebar-wrap" class="d-none">
+                        <hr class="detail-card-divider">
+                        <div class="detail-card-body">
+                            <span class="detail-card-label">ดาวน์โหลด</span>
+                            <a id="pdf-sidebar-link" href="#" target="_blank" class="detail-pdf-btn w-100 justify-content-center"><i class="bx bxs-file-pdf"></i> ดาวน์โหลด PDF</a>
+                        </div>
+                    </div>
+                </div>
+                <a href="/activities" class="detail-back-btn w-100 justify-content-center mt-3"><i class="bx bx-arrow-back"></i> กลับไปหน้ากิจกรรมทั้งหมด</a>
+            </div>
         </div>
     </div>
-</footer>
+</div>
+
+<div id="not-found" class="detail-notfound d-none">
+    <div class="detail-notfound-icon"><i class="bx bx-error-circle"></i></div>
+    <h2 class="detail-notfound-title">ไม่พบกิจกรรม</h2>
+    <p class="detail-notfound-text">กิจกรรมที่คุณกำลังค้นหาอาจถูกลบหรือย้ายไปแล้ว</p>
+    <a href="/activities" class="detail-back-btn"><i class="bx bx-arrow-back"></i> กลับไปหน้ากิจกรรมทั้งหมด</a>
+</div>
+
+@include('layouts.footer')
 @endsection
 
 @section('script')
@@ -138,29 +243,32 @@
             $('#breadcrumb-title').text(a.title);
             track('view');
 
-            if (a.cover_image_url) {
-                $('#cover-img').attr('src', a.cover_image_url).attr('alt', a.title).removeClass('d-none');
-                $('#cover-placeholder').addClass('d-none');
-            }
-            $('#activity-title').text(a.title);
-            $('#activity-description').text(a.description || '');
-            var date = a.activity_date || '-';
             var months = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+            var date = '-';
             if (a.activity_date) {
                 var parts = a.activity_date.split('-');
                 if (parts.length === 3) date = parseInt(parts[2]) + ' ' + months[parseInt(parts[1]) - 1] + ' ' + (parseInt(parts[0]) + 543);
             }
-            $('#detail-date').append(date);
-            $('#detail-location').append(a.location || 'ไม่มีสถานที่');
-            if (a.category) $('#detail-category').append(a.category.name);
-            $('#detail-participants').append((a.participants_count ?? 0) + ' คน');
+
+            if (a.cover_image_url) {
+                $('#cover-img').attr('src', a.cover_image_url).attr('alt', a.title).removeClass('d-none');
+                $('#cover-placeholder').addClass('d-none');
+            }
+            $('#hero-date').text(date);
+            $('#activity-title').text(a.title);
+            $('#activity-description').text(a.description || '');
+            $('#detail-date').text(date);
+            $('#detail-location').text(a.location || 'ไม่มีสถานที่');
+            if (a.category) $('#detail-category').text(a.category.name);
+            $('#detail-participants').text((a.participants_count ?? 0) + ' คน');
+
             if (a.pdf_url) {
                 $('#pdf-preview-wrap').removeClass('d-none');
                 $('#pdf-preview').attr('src', a.pdf_url);
-                track('download');
-                $('#pdf-download-link').attr('href', a.pdf_url).on('click', function() { track('download'); });
+                $('#pdf-download-link').attr('href', a.pdf_url).off('click').on('click', function() { track('download'); });
                 $('#pdf-sidebar-wrap').removeClass('d-none');
-                $('#pdf-sidebar-link').attr('href', a.pdf_url).on('click', function() { track('download'); });
+                $('#pdf-sidebar-link').attr('href', a.pdf_url).off('click').on('click', function() { track('download'); });
+                track('download');
             }
         }
 
