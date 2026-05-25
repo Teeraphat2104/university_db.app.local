@@ -4,46 +4,21 @@
 
 @section('style')
 <style>
-.detail-back-btn {
-    display: inline-flex; align-items: center; gap: .375rem;
-    padding: .375rem .875rem; font-size: .8125rem;
-    color: #64748b; border: 1px solid #e2e8f0; border-radius: 8px;
-    background: #fff; text-decoration: none; font-weight: 600;
-    transition: all .15s ease;
+.detail-cover {
+    aspect-ratio: 16/9; border-radius: 1rem; overflow: hidden;
+    background: #f1f5f9;
 }
-.detail-back-btn:hover { color: #1e293b; border-color: #cbd5e1; background: #f8fafc; }
-
-.detail-hero {
-    position: relative; width: 100%;
-    background: #f1f5f9; overflow: hidden;
-}
-.detail-hero-img { width: 100%; height: 100%; object-fit: cover; }
-.detail-hero-overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(0,0,0,.7) 0%, rgba(0,0,0,.1) 60%, transparent 100%);
-}
-.detail-hero-content {
-    position: absolute; inset: 0;
-    display: flex; flex-direction: column; justify-content: flex-end;
-    padding: 3rem 1.25rem;
-}
-.detail-hero-title {
-    font-size: 1.75rem; font-weight: 700; color: #fff;
-    text-shadow: 0 2px 8px rgba(0,0,0,.25);
-    line-height: 1.3; max-width: 48rem;
-}
-.detail-hero-badge {
-    display: inline-flex; align-items: center; gap: .375rem;
-    align-self: flex-start;
-    padding: .25rem .75rem; border-radius: 50rem; font-size: .75rem; font-weight: 600;
-    background: rgba(255,255,255,.2); color: #fff;
-    backdrop-filter: blur(4px); margin-bottom: .75rem;
-}
-.detail-hero-fallback {
+.detail-cover-img { width: 100%; height: 100%; object-fit: cover; }
+.detail-cover-fallback {
     display: flex; align-items: center; justify-content: center;
-    width: 100%; min-height: 320px;
-    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
-    color: #94a3b8; font-size: 4rem;
+    width: 100%; height: 100%;
+    background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+    color: #94a3b8; font-size: 3rem;
+}
+
+.detail-cover-title {
+    font-size: 1.75rem; font-weight: 700; color: #0f172a;
+    line-height: 1.3;
 }
 
 .detail-body { max-width: 72rem; margin: 0 auto; padding: 2.5rem 1.25rem; }
@@ -51,7 +26,6 @@
 .detail-description {
     font-size: 1rem; line-height: 1.75; color: #334155;
 }
-.detail-description p { margin-bottom: 1.25rem; }
 
 .detail-card {
     position: sticky; top: 6rem;
@@ -59,9 +33,7 @@
     box-shadow: 0 4px 24px rgba(0,0,0,.04); overflow: hidden;
 }
 .detail-card-body { padding: 1.25rem; display: flex; flex-direction: column; gap: 1.25rem; }
-.detail-card-item {
-    display: flex; align-items: flex-start; gap: .75rem;
-}
+.detail-card-item { display: flex; align-items: flex-start; gap: .75rem; }
 .detail-card-icon {
     display: flex; align-items: center; justify-content: center;
     width: 2.25rem; height: 2.25rem; border-radius: 10px;
@@ -93,17 +65,10 @@
 }
 .detail-pdf-btn:hover { background: #fef2f2; border-color: #fca5a5; }
 
-.detail-hero-card { margin-top: -3rem; position: relative; z-index: 1; }
-
-.detail-notfound {
-    text-align: center; padding: 5rem 1.25rem;
-}
-.detail-notfound-icon {
-    font-size: 4rem; color: #cbd5e1; margin-bottom: 1rem;
-}
+.detail-notfound { text-align: center; padding: 5rem 1.25rem; }
+.detail-notfound-icon { font-size: 4rem; color: #cbd5e1; margin-bottom: 1rem; }
 .detail-notfound-title { font-size: 1.5rem; font-weight: 700; color: #1e293b; margin-bottom: .5rem; }
 .detail-notfound-text { color: #64748b; margin-bottom: 1.5rem; }
-
 </style>
 @endsection
 
@@ -130,24 +95,21 @@
 </div>
 
 <div id="activity-content" class="d-none">
-    <div class="detail-hero" id="cover-section">
-        <img id="cover-img" src="" alt="" class="detail-hero-img d-none">
-        <div id="cover-placeholder" class="detail-hero-fallback">
-            <i class="bx bx-image"></i>
-        </div>
-        <div class="detail-hero-overlay"></div>
-        <div class="detail-hero-content">
-            <span class="detail-hero-badge" id="hero-badge"><i class="bx bx-calendar"></i> <span id="hero-date"></span></span>
-            <h1 id="activity-title" class="detail-hero-title"></h1>
-        </div>
-    </div>
-
     <div class="detail-body">
         <div class="row g-4">
-            <div class="col-lg-8">
-                <div id="activity-description" class="detail-description"></div>
+            <div class="col-lg-6">
+                <div class="detail-cover mb-4">
+                    <img id="cover-img" src="" alt="" class="detail-cover-img d-none">
+                    <div id="cover-placeholder" class="detail-cover-fallback">
+                        <i class="bx bx-image"></i>
+                    </div>
+                </div>
 
-                <div id="pdf-preview-wrap" class="detail-pdf-wrap d-none mt-4">
+                <h1 id="activity-title" class="detail-cover-title mb-3"></h1>
+
+                <div id="activity-description" class="detail-description mb-4"></div>
+
+                <div id="pdf-preview-wrap" class="detail-pdf-wrap d-none">
                     <div class="detail-pdf-header">
                         <span><i class="bx bxs-file-pdf" style="color:#dc2626"></i> เอกสาร PDF</span>
                         <a id="pdf-download-link" href="#" target="_blank" class="detail-pdf-btn"><i class="bx bx-download"></i> ดาวน์โหลด</a>
@@ -156,7 +118,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-4">
+            <div class="col-lg-6">
                 <div class="detail-card">
                     <div class="detail-card-body">
                         <div class="detail-card-item">
@@ -254,7 +216,6 @@
                 $('#cover-img').attr('src', a.cover_image_url).attr('alt', a.title).removeClass('d-none');
                 $('#cover-placeholder').addClass('d-none');
             }
-            $('#hero-date').text(date);
             $('#activity-title').text(a.title);
             $('#activity-description').text(a.description || '');
             $('#detail-date').text(date);
