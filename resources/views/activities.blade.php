@@ -2,6 +2,19 @@
 
 @section('title', 'กิจกรรมทั้งหมด - University Activities')
 
+@section('style')
+<style>
+.site-back-btn {
+    display: inline-flex; align-items: center; gap: .375rem;
+    padding: .375rem .875rem; font-size: .8125rem; font-weight: 600;
+    color: #64748b; border: 1px solid #e2e8f0; border-radius: 8px;
+    background: #fff; text-decoration: none;
+    transition: all .15s ease;
+}
+.site-back-btn:hover { color: #1e293b; border-color: #cbd5e1; background: #f8fafc; }
+</style>
+@endsection
+
 @section('content')
 @php $siteName = setting('site_name', 'University Activities'); $siteDesc = setting('site_description', 'ระบบจัดการกิจกรรมและเอกสารของมหาวิทยาลัย'); $footerText = setting('footer_text', '© ' . date('Y') . ' University Activities. สงวนลิขสิทธิ์ทั้งหมด'); @endphp
 
@@ -18,6 +31,7 @@
 
 <div class="bg-white py-5">
     <div class="mx-auto px-4" style="max-width:72rem">
+        <a href="javascript:history.back()" class="site-back-btn mb-3"><i class="bx bx-arrow-back"></i> ย้อนกลับ</a>
         <div class="d-flex flex-column flex-sm-row align-items-sm-center gap-4 mb-4">
             <h1 class="h4 fw-bold flex-shrink-0 mb-0">กิจกรรมทั้งหมด</h1>
             <div class="d-flex flex-column flex-sm-row gap-2 flex-grow-1">
