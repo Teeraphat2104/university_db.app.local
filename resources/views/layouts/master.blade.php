@@ -36,12 +36,47 @@
             from { opacity: 0; transform: translateY(10px) scale(.96); }
             to { opacity: 1; transform: translateY(0) scale(1); }
         }
-        .public-nav {
-            background: rgba(255,255,255,.8);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(0,0,0,.04);
+        .site-header {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 40;
+            background: rgba(255,255,255,.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(0,0,0,.06);
         }
+        .site-header-inner {
+            max-width: 1200px; margin: 0 auto; padding: 0 1.25rem;
+            display: flex; align-items: center; justify-content: space-between;
+            height: 64px;
+        }
+        .site-logo {
+            display: flex; align-items: center; gap: .75rem;
+            text-decoration: none;
+        }
+        .site-logo-img { height: 36px; width: auto; }
+        .site-logo-fallback {
+            display: flex; align-items: center; justify-content: center;
+            width: 36px; height: 36px; border-radius: 8px;
+            background: linear-gradient(135deg,#696cff,#8b5cf6);
+            color: #fff; font-weight: 700; font-size: 1rem;
+            box-shadow: 0 2px 8px rgba(105,108,255,.25);
+        }
+        .site-logo-text { font-weight: 700; font-size: .875rem; color: #0f172a; line-height: 1.25; }
+        .site-nav { display: flex; align-items: center; gap: .25rem; }
+        .site-nav-link {
+            display: inline-flex; align-items: center; gap: .375rem;
+            padding: .5rem .875rem; font-size: .8125rem; font-weight: 600;
+            color: #64748b; text-decoration: none; border-radius: 8px;
+            transition: all .15s ease;
+        }
+        .site-nav-link:hover { color: #1e293b; background: #f1f5f9; }
+        .site-nav-link i { font-size: 1rem; }
+        .site-nav-btn {
+            display: inline-flex; align-items: center; gap: .375rem;
+            padding: .5rem 1rem; font-size: .8125rem; font-weight: 600;
+            color: #fff; background: #696cff; border: none; border-radius: 50rem;
+            text-decoration: none; transition: all .15s ease;
+        }
+        .site-nav-btn:hover { background: #5f5fdb; box-shadow: 0 4px 12px rgba(105,108,255,.35); }
         .public-hero {
             background: linear-gradient(145deg,#0f172a 0%,#1e1b4b 55%,#0f172a 100%);
             position: relative; overflow: hidden;
