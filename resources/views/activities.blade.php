@@ -78,7 +78,8 @@
 
 @section('script')
 <script>
-var API = '/api/public';
+var LIST_API = '/api/public/activities';
+var CAT_API = '/api/public/categories';
 var currentPage = 1;
 var currentCategory = '';
 var currentYear = '';
@@ -94,7 +95,7 @@ function loadActivities(page) {
     if (currentYear) params.year = currentYear;
     if (currentKeyword) params.keyword = currentKeyword;
 
-    $.getJSON(API + '/activities', params, function (json) {
+    $.ajax({ url: LIST_API, method: 'POST', data: params, success: function (json) {
         var data = json.data || [];
         if (data.length === 0) {
             $grid.html('<div class="col-12 text-center py-5"><div class="mb-3 text-muted" style="font-size:3rem"><i class="bx bx-inbox"></i></div><h5 class="fw-bold" style="color:#1f2937">ไม่พบกิจกรรม</h5><p class="text-muted mb-3">ลองค้นหาด้วยคำอื่นหรือเปลี่ยนตัวกรอง</p><button class="btn btn-outline-primary btn-sm" onclick="$(\'#search-input\').val(\'\');$(\'#filter-category\').val(\'\');$(\'#filter-year\').val(\'\');loadActivities(1)"><i class="bx bx-undo me-1"></i>ล้างตัวกรอง</button></div>');
@@ -124,9 +125,9 @@ function loadActivities(page) {
             $('#pagination-info').text('แสดง ' + ((meta.current_page - 1) * meta.per_page + 1) + '-' + Math.min(meta.current_page * meta.per_page, meta.total) + ' จาก ' + meta.total + ' รายการ');
             renderPagination(meta);
         }
-    }).fail(function () {
+    }, error: function () {
         $grid.html('<div class="col-12 text-center py-5 text-danger"><i class="bx bx-error-circle" style="font-size:2rem"></i><p class="mt-2">เกิดข้อผิดพลาดในการโหลดข้อมูล</p></div>');
-    });
+    }});
 }
 
 function renderPagination(meta) {
@@ -164,10 +165,10 @@ $(function () {
 });
 
 function loadCategories() {
-    $.getJSON(API + '/categories', function (json) {
+    $.ajax({ url: CAT_API, method: 'POST', success: function (json) {
         var $sel = $('#filter-category');
         $.each(json.data || [], function (_, c) { $sel.append($('<option>').val(c.id).text(c.name)); });
-    });
+    }});
 }
 </script>
 @endsection

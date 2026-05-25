@@ -125,7 +125,7 @@
         }
 
         $(function() {
-            $.getJSON('/api/public/activities/' + activityId, function(json) {
+            $.post('/api/public/activities/detail/' + activityId, function(json) {
                 if (json.data) renderActivity(json.data);
                 else showNotFound();
             }).fail(function() { showNotFound(); });

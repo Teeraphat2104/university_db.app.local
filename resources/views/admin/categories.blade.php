@@ -67,7 +67,10 @@ dialog::backdrop { background: rgba(0,0,0,.45); }
 
 @section('script')
     <script>
-        var API = '/api/admin/categories';
+        var LIST_API = '/api/admin/categories/list';
+        var STORE_API = '/api/admin/categories/store';
+        var UPDATE_API = '/api/admin/categories/update';
+        var DELETE_API = '/api/admin/categories/delete';
         var token = localStorage.getItem('admin_token');
 
         function getHeaders() {
@@ -84,7 +87,7 @@ dialog::backdrop { background: rgba(0,0,0,.45); }
 
         function loadCategories() {
             $.ajax({
-                url: API, method: 'GET', headers: getHeaders(),
+                url: LIST_API, method: 'POST', headers: getHeaders(),
                 success: function(json) {
                     var tbody = $('#categories-tbody');
                     tbody.empty();
@@ -140,7 +143,7 @@ dialog::backdrop { background: rgba(0,0,0,.45); }
             var btn = $('#modal-submit-btn');
             btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-1"></span>กำลังบันทึก...');
             $.ajax({
-                url: API, method: 'POST', headers: getHeaders(), data: { name: $('#category-name').val() },
+                url: STORE_API, method: 'POST', headers: getHeaders(), data: { name: $('#category-name').val() },
                 success: function() { closeModal(); loadCategories(); showToast('เพิ่มหมวดหมู่สำเร็จ', 'success'); },
                 error: function(xhr) { var msg = 'เกิดข้อผิดพลาด'; try { msg = JSON.parse(xhr.responseText).message || msg; } catch(e) {} showToast(msg, 'error'); btn.prop('disabled', false).text('บันทึก'); }
             });
@@ -152,7 +155,7 @@ dialog::backdrop { background: rgba(0,0,0,.45); }
             var btn = $('#modal-submit-btn');
             btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-1"></span>กำลังอัปเดต...');
             $.ajax({
-                url: API + '/' + id, method: 'PUT', headers: getHeaders(), data: { name: $('#category-name').val() },
+                url: UPDATE_API + '/' + id, method: 'POST', headers: getHeaders(), data: { name: $('#category-name').val() },
                 success: function() { closeModal(); loadCategories(); showToast('อัปเดตหมวดหมู่สำเร็จ', 'success'); },
                 error: function(xhr) { var msg = 'เกิดข้อผิดพลาด'; try { msg = JSON.parse(xhr.responseText).message || msg; } catch(e) {} showToast(msg, 'error'); btn.prop('disabled', false).text('อัปเดต'); }
             });
@@ -161,7 +164,7 @@ dialog::backdrop { background: rgba(0,0,0,.45); }
         function deleteCategory(id) {
             if (!confirm('คุณแน่ใจหรือไม่ที่จะลบหมวดหมู่นี้?')) return;
             $.ajax({
-                url: API + '/' + id, method: 'DELETE', headers: getHeaders(),
+                url: DELETE_API + '/' + id, method: 'POST', headers: getHeaders(),
                 success: function() { loadCategories(); showToast('ลบหมวดหมู่สำเร็จ', 'success'); },
                 error: function(xhr) { var msg = 'เกิดข้อผิดพลาด'; try { msg = JSON.parse(xhr.responseText).message || msg; } catch(e) {} showToast(msg, 'error'); }
             });

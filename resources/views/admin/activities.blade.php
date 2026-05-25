@@ -170,8 +170,12 @@ dialog::backdrop { background: rgba(0,0,0,.45); }
 
 @section('script')
     <script>
-        var API = '/api/admin/activities';
-        var CAT_API = '/api/admin/categories';
+        var API = '/api/admin/activities/list';
+        var CAT_API = '/api/admin/categories/list';
+        var DETAIL_API = '/api/admin/activities/detail';
+        var STORE_API = '/api/admin/activities/store';
+        var UPDATE_API = '/api/admin/activities/update';
+        var DELETE_API = '/api/admin/activities/delete';
         var token = localStorage.getItem('admin_token');
         var currentPage = 1;
         var lastPage = 1;
@@ -196,7 +200,7 @@ dialog::backdrop { background: rgba(0,0,0,.45); }
         function loadCategories() {
             $.ajax({
                 url: CAT_API,
-                method: 'GET',
+                method: 'POST',
                 headers: getHeaders(),
                 success: function(json) {
                     allCategories = json.data || [];
@@ -229,7 +233,7 @@ dialog::backdrop { background: rgba(0,0,0,.45); }
 
             $.ajax({
                 url: API,
-                method: 'GET',
+                method: 'POST',
                 headers: getHeaders(),
                 data: params,
                 success: function(json) {
@@ -300,8 +304,8 @@ dialog::backdrop { background: rgba(0,0,0,.45); }
 
         function viewActivity(id) {
             $.ajax({
-                url: API + '/' + id,
-                method: 'GET',
+                url: DETAIL_API + '/' + id,
+                method: 'POST',
                 headers: getHeaders(),
                 success: function(json) {
                     var act = json.data;
@@ -348,8 +352,8 @@ dialog::backdrop { background: rgba(0,0,0,.45); }
 
         function openEditModal(id) {
             $.ajax({
-                url: API + '/' + id,
-                method: 'GET',
+                url: DETAIL_API + '/' + id,
+                method: 'POST',
                 headers: getHeaders(),
                 success: function(json) {
                     var act = json.data;
@@ -405,7 +409,7 @@ dialog::backdrop { background: rgba(0,0,0,.45); }
             var btn = $('#form-submit-btn');
             btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-1"></span>กำลังบันทึก...');
             $.ajax({
-                url: API, method: 'POST',
+                url: STORE_API, method: 'POST',
                 headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/json' },
                 data: getFormData(), processData: false, contentType: false,
                 success: function() { closeFormModal(); loadActivities(1); showToast('สร้างกิจกรรมสำเร็จ', 'success'); },
@@ -428,9 +432,8 @@ dialog::backdrop { background: rgba(0,0,0,.45); }
             var btn = $('#form-submit-btn');
             btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-1"></span>กำลังอัปเดต...');
             var fd = getFormData();
-            fd.append('_method', 'PUT');
             $.ajax({
-                url: API + '/' + id, method: 'POST',
+                url: UPDATE_API + '/' + id, method: 'POST',
                 headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/json' },
                 data: fd, processData: false, contentType: false,
                 success: function() { closeFormModal(); loadActivities(currentPage); showToast('อัปเดตกิจกรรมสำเร็จ', 'success'); },
@@ -455,7 +458,7 @@ dialog::backdrop { background: rgba(0,0,0,.45); }
             }).then(function(result) {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: API + '/' + id, method: 'DELETE',
+                        url: DELETE_API + '/' + id, method: 'POST',
                         headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/json' },
                         success: function() { loadActivities(currentPage); Swal.fire('ลบแล้ว!', 'กิจกรรมถูกลบเรียบร้อย', 'success'); },
                         error: function(xhr) { var msg = 'เกิดข้อผิดพลาด'; try { msg = JSON.parse(xhr.responseText).message || msg; } catch(e) {} Swal.fire('ผิดพลาด!', msg, 'error'); }

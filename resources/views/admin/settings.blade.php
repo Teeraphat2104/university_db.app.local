@@ -34,7 +34,8 @@
 
 @section('script')
     <script>
-        var API = '/api/admin/settings';
+        var LIST_API = '/api/admin/settings';
+        var UPDATE_API = '/api/admin/settings/update';
         var token = localStorage.getItem('admin_token');
         var groupMeta = {
             general: { label: 'ทั่วไป', icon: 'bx bx-cog', bg: 'bg-label-primary' },
@@ -55,7 +56,7 @@
 
         function loadSettings() {
             $.ajax({
-                url: API, method: 'GET', headers: getHeaders(),
+                url: LIST_API, method: 'POST', headers: getHeaders(),
                 success: function(json) { if (json.data) renderSettings(json.data); },
                 error: function(xhr) {
                     if (xhr.status === 401) $('#settings-loading').html('เซสชันหมดอายุ กรุณา <a href="/login" class="text-primary">เข้าสู่ระบบ</a> อีกครั้ง');
@@ -141,7 +142,6 @@
             var btn = $('#save-btn');
             btn.addClass('saving').prop('disabled', true);
             var fd = new FormData();
-            fd.append('_method', 'PUT');
             $('.mb-3').each(function() {
                 var input = $(this).find('input, textarea, select');
                 if (input.length === 0) return;
@@ -151,7 +151,7 @@
                 else if (input.attr('type') !== 'color') { fd.append(name, input.val()); }
             });
             $.ajax({
-                url: API, method: 'POST',
+                url: UPDATE_API, method: 'POST',
                 headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/json' },
                 data: fd, processData: false, contentType: false,
                 success: function() { showToast('บันทึกการตั้งค่าสำเร็จ', 'success'); btn.removeClass('saving').prop('disabled', false); },

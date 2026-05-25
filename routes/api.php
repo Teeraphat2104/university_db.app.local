@@ -6,45 +6,43 @@ use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\DashboardController;
 
-/*
-|--------------------------------------------------------------------------
-| Public API Routes (No authentication required)
-|--------------------------------------------------------------------------
-*/
 Route::prefix('public')->group(function () {
-    Route::get('/home',            [PublicController::class, 'home']);
-    Route::get('/categories',      [PublicController::class, 'categories']);
-    Route::get('/activities',      [PublicController::class, 'activities']);
-    Route::get('/activities/{id}', [PublicController::class, 'activityDetail']);
-    Route::get('/search',          [PublicController::class, 'search']);
+    Route::post('/home',                [PublicController::class, 'home']);
+    Route::post('/categories',          [PublicController::class, 'categories']);
+    Route::post('/activities',          [PublicController::class, 'activities']);
+    Route::post('/activities/detail/{id}', [PublicController::class, 'activityDetail']);
+    Route::post('/search',              [PublicController::class, 'search']);
     Route::post('/activities/{id}/track', [PublicController::class, 'getViewDownload']);
 });
 
-/*
-|--------------------------------------------------------------------------
-| Admin API Routes
-|--------------------------------------------------------------------------
-*/
 Route::prefix('admin')->group(function () {
-    // Public admin route — login only
     Route::post('/login', [AdminAuthController::class, 'login']);
 
-    // Protected admin routes — require Sanctum token + Admin model check
     Route::middleware(['auth:sanctum', 'admin'])->group(function () {
         Route::post('/logout',  [AdminAuthController::class, 'logout']);
-        Route::get('/profile',  [AdminAuthController::class, 'profile']);
+        Route::post('/profile', [AdminAuthController::class, 'profile']);
 
-        Route::apiResource('categories', CategoryController::class);
-        Route::apiResource('activities', ActivityController::class);
+        Route::post('/categories/list',      [CategoryController::class, 'index']);
+        Route::post('/categories/store',      [CategoryController::class, 'store']);
+        Route::post('/categories/detail/{id}', [CategoryController::class, 'show']);
+        Route::post('/categories/update/{id}', [CategoryController::class, 'update']);
+        Route::post('/categories/delete/{id}', [CategoryController::class, 'destroy']);
 
-        // Settings management
-        Route::get('/settings',  [SettingController::class, 'index']);
-        Route::put('/settings',  [SettingController::class, 'update']);
+        Route::post('/activities/list',       [ActivityController::class, 'index']);
+        Route::post('/activities/store',       [ActivityController::class, 'store']);
+        Route::post('/activities/detail/{id}',  [ActivityController::class, 'show']);
+        Route::post('/activities/update/{id}',  [ActivityController::class, 'update']);
+        Route::post('/activities/delete/{id}',  [ActivityController::class, 'destroy']);
 
-        // Excel import & participants management
-        Route::post('/activities/{id}/import-excel',     [ActivityController::class, 'importExcel']);
-        Route::get('/activities/{id}/participants',      [ActivityController::class, 'participants']);
-        Route::delete('/activities/{id}/participants',   [ActivityController::class, 'clearParticipants']);
+        Route::post('/settings',        [SettingController::class, 'index']);
+        Route::post('/settings/update', [SettingController::class, 'update']);
+
+        Route::post('/activities/{id}/import-excel',      [ActivityController::class, 'importExcel']);
+        Route::post('/activities/{id}/participants',       [ActivityController::class, 'participants']);
+        Route::post('/activities/{id}/participants/clear',  [ActivityController::class, 'clearParticipants']);
+
+        Route::post('/dashboard', [DashboardController::class, 'index']);
     });
 });
